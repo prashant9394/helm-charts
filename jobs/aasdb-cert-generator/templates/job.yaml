@@ -38,21 +38,21 @@ spec:
           volumeMounts:
             - name: cert-volume
               mountPath: /tmp/certs
-        containers:
-          - name: aasdb-cert-generator-kubectl
-            image: bitnami/kubectl:1.22
-            imagePullPolicy: Always
-            securityContext:
-              {{- toYaml .Values.securityContext.aasdbCertGenerator | nindent 12 }}
-            command: ["/bin/sh", "-c"]
-            args:
+      containers:
+        - name: aasdb-cert-generator-kubectl
+          image: bitnami/kubectl:1.22
+          imagePullPolicy: Always
+          securityContext:
+            {{- toYaml .Values.securityContext.aasdbCertGenerator | nindent 12 }}
+          command: ["/bin/sh", "-c"]
+          args:
               - >
                 echo Storing SSL cert to k8s secrets &&
                 cd /tmp/certs &&
                 kubectl create secret generic aasdb-certs -n {{ .Release.Namespace }} --from-file=server.crt=aasdb-server.pem --from-file=server.key=aasdb-server-key.pem
-            volumeMounts:
-              - name: cert-volume
-                mountPath: /tmp/certs
-        volumes:
-          - name: cert-volume
-            emptyDir: {}
+          volumeMounts:
+            - name: cert-volume
+              mountPath: /tmp/certs
+      volumes:
+        - name: cert-volume
+          emptyDir: {}
