@@ -1,0 +1,14 @@
+{
+  "hosts": [
+    {{- if .Values.global }}
+    "{{ .Values.global.controlPlaneHostname }}"
+    {{- else }}
+    "{{ .Values.controlPlaneHostname }}"
+    {{- end }}
+  ],
+  "CN": "ISecl Self Sign Cert",
+  "key": {
+    "algo": "rsa",
+    "size": 4096
+  }
+}

@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ca-csr
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+data:
+  ca-csr.json: |-
+{{ tpl ( .Files.Get "ca-csr.json" ) . | indent 4 }}

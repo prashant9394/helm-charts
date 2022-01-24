@@ -1,0 +1,16 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  {{- if .Values.global }}
+  SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  AAS_TLS_SAN: {{ .Values.global.controlPlaneHostname }},{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  AAS_TLS_SAN: {{ .Values.controlPlaneHostname }},{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  AAS_API_URL: https://{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
