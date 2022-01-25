@@ -12,7 +12,7 @@ BASE_PATH=$EXPORT_DIRECTORY/isecl
 LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
-VERSION=${VERSION:-v4.1.0}
+VERSION=${VERSION:-v5.0.0}
 echo "Installing NFS Utils"
 dnf install -y nfs-utils
 echo "Making new directory to be: ${EXPORT_DIRECTORY}"

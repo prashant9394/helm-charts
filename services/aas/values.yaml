@@ -1,0 +1,75 @@
+# Default values for aas.
+
+nameOverride: "" # The name for AAS chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  Authentication and Authorization Service chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+
+config:
+  envVarPrefix: AAS
+  dbPort: 5432 # PostgreSQL DB port
+  dbSSL: on # PostgreSQL DB SSL<br> (Allowed: `on`/`off`)
+  #TODO: to remove the below values if hardcoding the path
+  dbSSLCert: /etc/postgresql/secrets/server.crt # PostgreSQL DB SSL Cert
+  dbSSLKey: /etc/postgresql/secrets/server.key # PostgreSQL DB SSL Key
+  dbSSLCiphers: ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256 # PostgreSQL DB SSL Ciphers
+  dbListenAddresses: "*" # PostgreSQL DB Listen Address
+  dbName: aasdb # AAS DB Name
+  dbSSLMode: verify-full # PostgreSQL DB SSL Mode
+
+secret:
+  dbUsername: aasdbuser # DB Username for AAS DB
+  dbPassword: aasdbpassword # DB Password for AAS DB
+  adminUsername: aasAdminUser # Admin Username for AAS
+  adminPassword: aasAdminPass # Admin Password for AAS
+    
+image:
+  db:
+    registry: dockerhub.io # The image registry where PostgreSQL image is pulled from
+    name: postgres:11.7 # The image name of PostgreSQL
+    pullPolicy: Always # The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`)
+  svc:
+    registry: <user input> # The image registry where AAS image is pushed<br> (**REQUIRED**)
+    name: <user input> # The image name with which AAS image is pushed to registry
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+
+storage:
+  nfs:
+    server: <user input> # The NFS Server IP/Hostname
+    reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    path: /mnt/nfs_share # The path for storing persistent data on NFS
+    dbSize: 1Gi # The DB size for storing DB data for AAS in NFS path
+    configSize: 10Mi # The configuration size for storing config for AAS in NFS path
+    logsSize: 1Gi # The logs size for storing logs for AAS in NFS path
+    baseSize: 2.1Gi # The base volume size (configSize + logSize + dbSize)
+
+securityContext:
+  aasdbInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+  aasdb: # The security content for AAS DB Service Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+  aasInit: # The fsGroup id for init containers for AAS
+    fsGroup: 1001
+  aas: # The security content for AAS Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+
+service: 
+  directoryName: authservice
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+    port: 30445 # The externally exposed NodePort on which CMS can listen to external traffic
+  aasdb:
+    containerPort: 5432 # The containerPort on which AAS DB can listen 
+  aas:
+    containerPort: 8444 # The containerPort on which AAS can listen
+    port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
