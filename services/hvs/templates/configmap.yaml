@@ -1,0 +1,27 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  {{- if .Values.global }}
+  SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  HVS_DB_HOSTNAME: {{ include "factory.name" . }}db.{{ .Release.Namespace }}.svc.cluster.local
+  HVS_DB_NAME: {{ .Values.config.dbName }}
+  HVS_DB_SSLCERT: {{ .Values.config.dbSSLCert }}
+  HVS_DB_PORT: {{ .Values.config.dbPort | quote }}
+  HVS_DB_SSLMODE: {{ .Values.config.dbSSLMode }}
+  {{- if .Values.global }}
+  {{- if .Values.global.config.nats.enabled }}
+  NATS_SERVERS: {{ .Values.global.config.nats.servers }}
+  {{- end }}
+  {{- else if .Values.config.nats.enabled }}
+  NATS_SERVERS: {{ .Values.config.nats.servers }}
+  {{- end }}
