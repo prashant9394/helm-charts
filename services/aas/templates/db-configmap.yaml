@@ -1,0 +1,18 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}db
+  namespace: {{ .Release.Namespace }}
+data:
+  pg_hba.conf: |
+    local  all  all trust
+    hostssl {{ .Values.config.dbName }} {{ .Values.secret.dbUsername }} 10.1.0.0/8 md5
+  postgresql.conf: |
+    listen_addresses = '{{ .Values.config.dbListenAddresses }}'
+    port = {{ .Values.config.dbPort }}
+    ssl = {{ .Values.config.dbSSL }}
+    ssl_cert_file = '{{ .Values.config.dbSSLCert }}'
+    ssl_key_file = '{{ .Values.config.dbSSLKey }}'
+    ssl_ciphers = '{{ .Values.config.dbSSLCiphers }}'
