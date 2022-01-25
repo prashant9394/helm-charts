@@ -1,0 +1,14 @@
+# Default values for hvsdb-cert-generator.
+
+nameOverride: "" # The name for HVS DB chart (Default: .Chart.Name)
+
+securityContext:
+  hvsdbCertGeneratorInit: # The fsGroup id for init containers for HVS DB
+    fsGroup: 1001
+  hvsdbCertGenerator: # The security content for HVS DB Service Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
