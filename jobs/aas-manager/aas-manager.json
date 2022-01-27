@@ -78,6 +78,11 @@
                  "service": "CMS",
                  "name": "CertApprover",
                  "context":"CN=FDS TLS Certificate;SAN=fds.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+            },
+	    {
+                 "service": "CMS",
+                 "name": "CertApprover",
+                 "context":"CN=QVS TLS Certificate;SAN=qvs.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
             }
          ]
       },

@@ -1,0 +1,16 @@
+{{- include "factory.headers" . }}
+{{- if .Values.global }}
+---
+{{ include "factory.pvConfigCommonSpec" . }}
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.global.storage.nfs.path }}/isecl/qvs/config
+    server: {{ .Values.global.storage.nfs.server }}
+{{- else }}
+---
+{{ include "factory.pvConfigCommonSpec" . }}
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.storage.nfs.path }}/isecl/qvs/config
+    server: {{ .Values.storage.nfs.server }}
+{{- end }}
