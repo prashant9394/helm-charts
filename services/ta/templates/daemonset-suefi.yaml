@@ -1,0 +1,127 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.daemonSetCommonHeaderSpec" . }}
+metadata:
+  name: {{ include "factory.name" . }}-suefi
+{{- include "factory.daemonSetCommonSpec" . }}
+    spec:
+      affinity:
+        {{- include "factory.affinityAgents" . | nindent 8 }}
+                  values:
+                  - "{{ .Values.nodeLabel.suefi }}"
+      serviceAccountName: isecl
+      initContainers:
+        - name: wait-for-hvs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+            {{- if .Values.global }}
+              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.hvs }}/hvs/v2/version
+            {{- else }}
+              value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.hvs.port }}/hvs/v2/version
+            {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.hvs }}
+            - name: COMPONENT
+              value: {{ .Values.dependentServices.hvs }}
+        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            privileged: true
+          ports:
+            - containerPort: {{ .Values.service.ta.containerPort }}
+              hostPort: {{ .Values.service.ta.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          env:
+            {{- include "factory.envBearerToken" . | nindent 12 }}
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          readinessProbe:
+            exec:
+              command:
+              - cat
+              - /opt/trustagent/configuration/.setup_done
+            initialDelaySeconds: 5
+            failureThreshold: 60
+            periodSeconds: 15
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /opt/trustagent/configuration
+            - name: {{ include "factory.name" . }}-hostname
+              mountPath: /etc/hostname
+              readOnly: true
+            - name: {{ include "factory.name" . }}-hosts
+              mountPath: /etc/hosts
+              readOnly: true
+            - name: {{ include "factory.name" . }}-host-os
+              mountPath: /etc/os-release
+              readOnly: true
+            - name: {{ include "factory.name" . }}-mem
+              mountPath: /dev/mem
+              readOnly: true
+            - name: {{ include "factory.name" . }}-acpi
+              mountPath: /sys/firmware/acpi/tables/TPM2
+              readOnly: true
+            - name: {{ include "factory.name" . }}-secrets
+              mountPath: /etc/secrets/
+              readOnly: true
+            - name: tpmrm
+              mountPath: /dev/tpmrm0
+            - name: uefi
+              mountPath: /sys/firmware/dmi/tables/DMI
+              readOnly: true
+            {{- if contains "Workload-Security" .Template.BasePath }}
+            - name: wla-config-volume
+              mountPath: /etc/workload-agent/
+            {{- end }}
+            - name: efi
+              mountPath: /sys/firmware/efi
+              readOnly: true  
+      volumes:
+        {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-config
+          hostPath:
+            path: /opt/trustagent/configuration
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-hostname
+          hostPath:
+            path: /etc/hostname
+            type: File
+        - name: {{ include "factory.name" . }}-hosts
+          hostPath:
+            path: /etc/hosts
+            type: File
+        - name: {{ include "factory.name" . }}-host-os
+          hostPath:
+            path: /etc/os-release
+            type: File
+        - name: {{ include "factory.name" . }}-mem
+          hostPath:
+            path: /dev/mem
+        - name: {{ include "factory.name" . }}-acpi
+          hostPath:
+            path: /sys/firmware/acpi/tables/TPM2
+        - name: tpmrm
+          hostPath:
+            path: /dev/tpmrm0
+        - name: uefi
+          hostPath:
+            path: /sys/firmware/dmi/tables/DMI
+        - name: wla-config-volume
+          hostPath:
+            path: /etc/workload-agent
+            type: DirectoryOrCreate
+        - name: efi
+          hostPath:
+            path: /sys/firmware/efi
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- if .Values.config.tpmOwnerSecret }}
+          {{- include "factory.volumeCredentials" . | nindent 12 }}
+        {{- end }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
