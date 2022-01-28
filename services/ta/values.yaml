@@ -1,0 +1,43 @@
+# Default values for TA.
+
+nameOverride: "" # The name for TA chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+nodeLabel: 
+  txt: "" # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
+  suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  TA chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  hvs: hvs
+  nats: nats
+  
+image:
+  svc:
+    registry: <user input> # The image registry where TA image is pushed<br> (**REQUIRED**)
+    name: <user input> # The image name with which TA image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always  # The pull policy for pulling from container registry for TA<br> (Allowed values: `Always`/`IfNotPresent`)
+
+config:
+  logLevel: info  # Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`)
+  provisionAttestation: "y" # TPM provisioning<br> (Allowed values: `y`\`n`)
+  tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
+  nats:
+    enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+    servers: <user input> # NATS Server IP/Hostname  
+    serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)
+    
+service:
+  directoryName: trustagent
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas: 
+    containerPort: 8444 # The containerPort on which AAS can listen
+  hvs:
+    containerPort: 8443 # The containerPort on which HVS can listen
+    port: 30443
+  ta:
+    containerPort: 1443 # The containerPort on which TA can listen
+    port: 31443 # The externally exposed NodePort on which TA can listen to external traffic
