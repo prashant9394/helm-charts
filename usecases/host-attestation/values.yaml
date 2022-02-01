@@ -1,0 +1,52 @@
+---
+# The below section can be used to override additional values defined under each of the dependent charts
+cms:
+  image:
+    name: <user input> # Certificate Management Service image name<br> (**REQUIRED**)
+
+aas:
+  image:
+    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+
+aas-manager:
+  image:
+    name: <user input>" # Authentication & Authorization Manager image name<br> (**REQUIRED**)
+
+hvs:
+  image:
+    name: <user input> # Host Verification Service image name<br> (**REQUIRED**)
+
+trustagent:
+  image:
+    name: <user input> # Trust Agent image name<br> (**REQUIRED**)
+
+  nodeLabel: 
+    txt: "" # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
+    suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
+
+  config:
+    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
+
+global:
+  controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+
+  image:
+    registry: <user input> # The image registry where isecl images are pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
+    
+  config:
+    nats:
+      enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+      servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)  
+      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)  
+
+  storage:
+    nfs:
+      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+      path: /mnt/nfs_share/  # The path for storing persistent data on NFS
+  
+  service:
+    cms: 30445 # The service port for Certificate Management Service
+    aas: 30444 # The service port for Authentication Authorization Service
+    hvs: 30443 # The service port for Host Verification Service
+    ta: 31443 # The service port for Trust Agent

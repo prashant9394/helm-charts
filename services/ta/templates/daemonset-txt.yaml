@@ -21,7 +21,7 @@ metadata:
               value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.hvs.port }}/hvs/v2/version
             {{- end }}
             - name: VERSION
-              value: {{ .Chart.AppVersion }}         
+              value: {{ .Chart.AppVersion }}
             - name: DEPEDENT_SERVICE_NAME
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT

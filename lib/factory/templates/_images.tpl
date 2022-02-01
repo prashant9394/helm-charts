@@ -17,7 +17,7 @@ Init container Image
 */}}
 {{- define "factory.imageInitContainer" }}
 {{- if .Values.global }}
-image: {{ .Values.image.svc.registry }}/init-wait:{{.Chart.AppVersion }}
+image: {{ .Values.global.image.registry }}/init-wait:{{.Chart.AppVersion }}
 {{- else }}
 image: {{ .Values.image.svc.registry }}/init-wait:{{.Chart.AppVersion }}
 {{- end }}
