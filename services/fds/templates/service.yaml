@@ -1,0 +1,12 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.serviceCommonSpec" . }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.service.fds.containerPort }}
+      targetPort: {{ .Values.service.fds.containerPort }}
+      {{- if .Values.global }}
+      nodePort: {{ .Values.global.service.fds }}
+      {{- else }}
+      nodePort: {{ .Values.service.fds.port }}
+      {{- end }}

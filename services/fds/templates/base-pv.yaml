@@ -1,0 +1,16 @@
+{{- include "factory.headers" . }}
+{{- if .Values.global }}
+---
+{{ include "factory.pvBaseCommonSpec" . }}
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.global.storage.nfs.path }}/isecl/fds/
+    server: {{ .Values.global.storage.nfs.server }}
+{{- else }}
+---
+{{ include "factory.pvBaseCommonSpec" . }}
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.storage.nfs.path }}/isecl/fds/
+    server: {{ .Values.storage.nfs.server }}
+{{- end }}

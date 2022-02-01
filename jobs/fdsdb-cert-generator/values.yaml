@@ -1,0 +1,14 @@
+# Default values for fdsdb-cert-generator.
+
+nameOverride: "" # The name for FDS database chart (Default: .Chart.Name)
+
+securityContext:
+  fdsdbCertGeneratorInit: # The fsGroup id for init containers for FDS DB
+    fsGroup: 1001
+  fdsdbCertGenerator: # The security content for FDS DB Service Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false

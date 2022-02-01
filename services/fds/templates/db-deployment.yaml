@@ -1,0 +1,28 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.deploymentDbCommonSpec" . }}
+    spec:
+      securityContext:
+        fsGroup: {{ .Values.securityContext.fdsdbInit.fsGroup }}
+        {{- toYaml .Values.securityContext.fdsdbInit | nindent 8 }}
+      initContainers:
+        {{- include "factory.initCommonSpecLinkDBVolumes" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.fdsdb | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+      containers:
+        - name: {{ include "factory.name" . }}db
+          {{-  include "factory.imageDb" . | indent 10 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.fdsdb | nindent 12 }}
+          args:
+            {{- include "factory.argsDb" . | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.service.fdsdb.containerPort }}
+          env:
+            {{- include "factory.envPostgresWithoutPrefix" . | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountsDb" . | nindent 12 }}
+      volumes:
+        {{- include "factory.volumesDb" . | nindent 8 }}
