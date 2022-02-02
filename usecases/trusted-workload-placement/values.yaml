@@ -50,6 +50,7 @@ global:
   image:
     registry: <user input> # The image registry where isecl images are pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
   config:
     nats:

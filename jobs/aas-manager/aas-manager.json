@@ -82,8 +82,8 @@
          ]
       },
       {
-         "username":"admin@vs",
-         "password":"vsAdminPass",
+         "username":"hvsAdminUser",
+         "password":"hvsAdminPass",
          "print_bearer_token":false,
          "roles":[
             {

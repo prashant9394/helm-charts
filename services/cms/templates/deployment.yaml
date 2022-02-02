@@ -2,6 +2,12 @@
 ---
 {{- include "factory.deploymentCommonSpec" . }}
     spec:
+      imagePullSecrets:
+      {{- if .Values.global }}
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- else }}
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
       initContainers:
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:

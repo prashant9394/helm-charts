@@ -35,6 +35,7 @@ image:
     registry: <user input> # The image registry where AAS image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which AAS image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
   nfs:

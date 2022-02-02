@@ -19,6 +19,7 @@ image:
     registry: <user input> # The image registry where TA image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which TA image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for TA<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   logLevel: info  # Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`)

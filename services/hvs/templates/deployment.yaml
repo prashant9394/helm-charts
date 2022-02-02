@@ -2,6 +2,12 @@
 ---
 {{- include "factory.deploymentCommonSpec" . }}
     spec:
+      imagePullSecrets:
+      {{- if .Values.global }}
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- else }}
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.hvsInit | nindent 8 }}
       serviceAccountName: isecl
