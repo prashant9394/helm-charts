@@ -33,7 +33,7 @@ spec:
               readOnly: true
       containers:
         - name: create-ihub-cert-config
-          image: gcr.io/cloud-builders/kubectl:latest
+          image: bitnami/kubectl:1.22
           securityContext:
             {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
           command: ["/bin/sh", "-c"]

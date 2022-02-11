@@ -16,7 +16,7 @@ spec:
       serviceAccountName: isecl
       containers:
         - name: create-custom-controller-token
-          image: gcr.io/cloud-builders/kubectl:latest
+          image: bitnami/kubectl:1.22
           securityContext:
             {{- toYaml .Values.securityContext.ihub | nindent 12 }}
           command: ["/bin/sh", "-c"]

@@ -28,7 +28,7 @@ spec:
               value: {{ .Values.dependentServices.cms }}-init
       containers:
         - name: cms-tls-digest-aas-bootstrap-token
-          image: gcr.io/cloud-builders/kubectl:latest
+          image: bitnami/kubectl:1.22
           command: ["/bin/sh", "-c"]
           args:
             - >
