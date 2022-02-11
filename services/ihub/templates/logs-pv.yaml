@@ -4,13 +4,13 @@
 {{- include "factory.pvLogsCommonSpec" . }}
   storageClassName: nfs
   nfs:
-    path: {{ .Values.global.storage.nfs.path }}/isecl/ihub/{{ .Chart.AppVersion }}/logs
+    path: {{ .Values.global.storage.nfs.path }}/isecl/ihub/logs
     server: {{ .Values.global.storage.nfs.server }}
 {{- else }}
 ---
 {{- include "factory.pvLogsCommonSpec" . }}
   storageClassName: nfs
   nfs:
-    path: {{ .Values.storage.nfs.path }}/isecl/ihub/{{ .Chart.AppVersion }}/logs
+    path: {{ .Values.storage.nfs.path }}/isecl/ihub/logs
     server: {{ .Values.storage.nfs.server }}
 {{- end }}
