@@ -17,3 +17,4 @@ data:
    {{- else }}
    SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
    {{- end }}
+   CREATE_CREDENTIALS: true

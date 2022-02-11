@@ -1,0 +1,14 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.serviceCommonSpec" . }}
+  type: NodePort
+  ports:
+    - name: {{ .Values.service.natsClient.name }}
+      port: {{ .Values.service.natsClient.containerPort }}
+    {{- if .Values.global }}
+      nodePort: {{ .Values.global.service.natsClient }}
+    {{- else }}
+      nodePort: {{ .Values.service.natsClient.port }}
+    {{- end }}
+    - name: {{ .Values.service.natsCluster.name }}
+      port: {{ .Values.service.natsCluster.containerPort }}

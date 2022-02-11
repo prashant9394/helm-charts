@@ -1,0 +1,39 @@
+# Default values for nats.
+
+nameOverride: "" # The name for AAS-MANAGER chart (Default: .Chart.Name)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying NATS chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+
+config:
+  CertCn: NATS TLS Certificate # NATS TLS Common Name
+  accountName: ISecL-account # NATS Account Name
+
+image:
+  registry: <user input> # The image registry where NATS image is pushed
+  name: <user input> # The image name with which NATS image is pushed to registry
+  pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
+
+securityContext:
+  init: # The fsGroup id for init containers for NATS
+    fsGroup: 1001
+
+  nats: # The security content for NATS Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+
+service:
+  directoryName: nats
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas:
+    containerPort: 8444 # The containerPort on which AAS can listen
+    port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
