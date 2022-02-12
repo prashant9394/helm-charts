@@ -1,0 +1,27 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: {{ include "factory.name" . }}
+webhooks:
+  - name: admission-controller.{{ .Release.Namespace }}.svc.cluster.local
+    admissionReviewVersions:
+      - "v1beta1"
+    sideEffects: "None"
+    timeoutSeconds: 30
+    clientConfig:
+      service:
+        name: {{ include "factory.name" . }}
+        namespace: {{ .Release.Namespace }}
+        path: "/mutate"
+      {{- if .Values.global }}
+      caBundle: "{{ .Values.caBundle }}"
+      {{- else }}
+      caBundle: "{{ .Values.webhook.caBundle }}"
+      {{- end }}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: [""]
+        apiVersions: ["v1"]
+        resources: ["nodes"]

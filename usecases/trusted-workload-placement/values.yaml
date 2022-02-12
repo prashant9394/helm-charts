@@ -38,10 +38,11 @@ ihub:
   k8sApiServerPort: 16443
 
 isecl-scheduler:
-  scheduler-certs: # ISecL Scheduler secrets with tls keypair(server.key and server.crt)
   image:
     name: <user input> # ISecL Scheduler image name<br> (**REQUIRED**)
 
+admission-controller:
+  caBundle:
   
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)

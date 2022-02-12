@@ -33,6 +33,10 @@
               value: "INFO"
             - name: TAG_PREFIX
               value: "isecl."
+            - name: TAINT_REGISTERED_NODES
+              value: "true"
+            - name: TAINT_REBOOTED_NODES
+              value: "true"
           volumeMounts:
             {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
       volumes:
