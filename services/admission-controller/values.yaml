@@ -21,10 +21,15 @@ securityContext:
     allowPrivilegeEscalation: false
 
 webhook:
-  caBundle: <user input>
+  caBundle: <user input> #CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
 
 service:
   directoryName: admission-controller
+  admissionController:
+    containerPort: 8889 # The containerPort on which admission controller can listen to traffic
+    port: 30445 # The externally exposed NodePort on which admission controller can listen to external traffic
+    targetPort: 443
+    httpPort: 80
 
 storage:
   nfs:

@@ -34,9 +34,9 @@
             - name: TAG_PREFIX
               value: "isecl."
             - name: TAINT_REGISTERED_NODES
-              value: "true"
+              value: "{{ .Values.nodeTainting.taintRegisteredNodes }}"
             - name: TAINT_REBOOTED_NODES
-              value: "true"
+              value: "{{ .Values.nodeTainting.taintRebootedNodes }}"
           volumeMounts:
             {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
       volumes:

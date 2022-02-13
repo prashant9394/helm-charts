@@ -19,6 +19,8 @@ config:
   dbListenAddresses: "*" # PostgreSQL DB Listen Address
   dbName: hvsdb # HVS DB Name
   dbSSLMode: verify-full # PostgreSQL DB SSL Mode
+  requireEKCertForHostProvision: <user input> # If set to true, worker node EK certificate should be registered in HVS DB, for AIK provisioning step of TA. (Allowed values: `true`\`false`)
+  verifyQuoteForHostRegistration: <user input> # If set to true, when the worker node is being registered to HVS, quote verification will be done. Default value is false. (Allowed values: `true`\`false`)
   nats:
     enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
     servers: ""  # NATS Server IP/Hostname  

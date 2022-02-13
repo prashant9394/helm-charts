@@ -2,9 +2,9 @@
 ---
 {{- include "factory.serviceCommonSpec" . }}
   ports:
-    - port: 443
+    - port: {{ .Values.service.admissionController.targetPort }}
       targetPort: tls
       name: application
-    - port: 80
+    - port: {{ .Values.service.admissionController.httpPort }}
       targetPort: metrics
       name: metrics

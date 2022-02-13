@@ -23,6 +23,8 @@ The following table lists the configurable parameters of the Hvs chart and their
 | `config.dbListenAddresses` | PostgreSQL DB Listen Address | `"*"` |
 | `config.dbName` | HVS DB Name | `"hvsdb"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
+| `config.requireEKCertForHostProvision` | If set to true, worker node EK certificate should be registered in HVS DB, for AIK provisioning step of TA. (Allowed values: `true`\`false`) | `"<user input>"` |
+| `config.verifyQuoteForHostRegistration` | If set to true, when the worker node is being registered to HVS, quote verification will be done. Default value is false. (Allowed values: `true`\`false`) | `"<user input>"` |
 | `secret.dbUsername` | DB Username for HVS DB | `"hvsdbuser"` |
 | `secret.dbPassword` | DB Password for HVS DB | `"hvsdbpassword"` |
 | `secret.adminUsername` | Admin Username for HVS | `"hvsAdminUser"` |

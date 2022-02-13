@@ -1,6 +1,6 @@
 apiVersion: v2
 name: admission-controller
-description: A Helm chart for Installing ISecL-DC Custom Controller
+description: A Helm chart for Installing ISecL-DC Admision Controller
 
 # A chart can be either an 'application' or a 'library' chart.
 #
