@@ -1,0 +1,68 @@
+
+
+
+User needs to update cluster-issuer and secretName for TLS
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: <user input> # user has to provide cluster Issuer name
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  name: isecl-ing
+  namespace: isecl
+spec:
+  rules:
+  - host: intel-isecl.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: cms
+            port:
+              number: 8445
+        path: /
+        pathType: Prefix
+  
+  - host: intel-isecl.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: aas
+            port:
+              number: 8444
+        path: /
+        pathType: Prefix
+  
+   - host: intel-isecl.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: hvs
+            port:
+              number: 8443
+        path: /
+        pathType: Prefix 
+   
+   - host: intel-isecl.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: nats
+            port:
+              number: 6222
+        path: /
+        pathType: Prefix 
+
+  tls:
+  - hosts:
+    - intel-isecl.com
+    secretName: <input data> # The seceret name needs to be provided for SSL verification
+```

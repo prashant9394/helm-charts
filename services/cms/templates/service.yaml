@@ -1,6 +1,12 @@
 {{- include "factory.headers" . }}
 ---
 {{- include "factory.serviceCommonSpec" . }}
+  {{ if .Values.global.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.cms.containerPort }}
+      targetPort: {{ .Values.service.cms.containerPort }}
+  {{ else }}
   type: NodePort
   ports:
     - port: {{ .Values.service.cms.containerPort }}
@@ -10,3 +16,4 @@
       {{- else }}
       nodePort: {{ .Values.service.cms.port }}
       {{- end }}
+  {{- end }}

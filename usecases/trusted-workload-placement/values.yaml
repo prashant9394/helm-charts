@@ -63,9 +63,13 @@ global:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
       path: /mnt/nfs_share/  # The path for storing persistent data on NFS
-
+  
   service:
     cms: 30445 # The service port for Certificate Management Service
     aas: 30444 # The service port for Authentication Authorization Service
     hvs: 30443 # The service port for SGX Host Verification Service
     ta: 31443 # The service port for Trust Agent
+  
+    ingress:
+    enable: <user input> # Except true or false to notify ingress rules are enable or disabled
+    ingress-dns: <user input> # The DNS host name needs to be provided

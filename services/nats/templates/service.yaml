@@ -1,6 +1,13 @@
 {{- include "factory.headers" . }}
 ---
 {{- include "factory.serviceCommonSpec" . }}
+  {{ if .Values.global.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - name: {{ .Values.service.natsClient.name }}
+      port: {{ .Values.service.natsCluster.containerPort }}
+      targetPort: {{ .Values.service.natsCluster.containerPort }}
+  {{ else }}
   type: NodePort
   ports:
     - name: {{ .Values.service.natsClient.name }}
@@ -12,3 +19,4 @@
     {{- end }}
     - name: {{ .Values.service.natsCluster.name }}
       port: {{ .Values.service.natsCluster.containerPort }}
+  {{ end }}
