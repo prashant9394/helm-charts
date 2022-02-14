@@ -40,8 +40,6 @@ helm repo update
 helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --set installCRDs=true
 ```
 
-- 
-
 ### Setup Ingress Rule ###
 Ingress rule needs to be applied within same name space where we are planning to installed all Isecl releated helm charts.
 

@@ -17,7 +17,7 @@ metadata:
   namespace: isecl
 spec:
   rules:
-  - host: intel-isecl.com
+  - host: <user input>   # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
       - backend:
@@ -27,42 +27,42 @@ spec:
               number: 8445
         path: /
         pathType: Prefix
-  
-  - host: intel-isecl.com
+
+  - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-      - backend:
-          service:
-            name: aas
+        - backend:
+            service:
+              name: aas
             port:
               number: 8444
         path: /
         pathType: Prefix
-  
-   - host: intel-isecl.com
+
+  - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-      - backend:
-          service:
-            name: hvs
-            port:
-              number: 8443
-        path: /
-        pathType: Prefix 
+        - backend:
+            service:
+              name: hvs
+              port:
+                number: 8443
+          path: /
+          pathType: Prefix 
    
-   - host: intel-isecl.com
+  - host: intel-isecl.com
     http:
       paths:
-      - backend:
-          service:
-            name: nats
-            port:
-              number: 6222
+        - backend:
+            service:
+              name: nats
+              port:
+                number: 6222
         path: /
         pathType: Prefix 
 
   tls:
   - hosts:
-    - intel-isecl.com
+    - <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     secretName: <input data> # The seceret name needs to be provided for SSL verification
 ```
