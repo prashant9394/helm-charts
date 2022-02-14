@@ -15,7 +15,7 @@ config:
 
 image:
   registry: <user input> # The image registry where NATS image is pushed
-  name: <user input> # The image name with which NATS image is pushed to registry
+  name: nats-init # The image name with which NATS image is pushed to registry
   pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
 
 securityContext:

@@ -13,7 +13,7 @@ spec:
       labels:
         {{- include "cms-init.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
         - name: wait-for-cms
           {{- include "factory.imageInitContainer" . | indent 10 }}

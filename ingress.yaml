@@ -56,7 +56,7 @@ spec:
           service:
             name: nats
             port:
-              number: 6222
+              number: 4222
   tls:
   - hosts:
     - <user input> # User needs to provide a domain name to access the service. for example: abcd.com

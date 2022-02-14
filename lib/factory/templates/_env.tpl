@@ -22,6 +22,19 @@ Env for BEARER_TOKEN
       key: BEARER_TOKEN
 {{- end }}
 
+{{/*
+Env for Proxy
+*/}}
+{{- define "factory.proxy" -}}
+- name: http_proxy
+  value: {{ .Values.global.httpProxy }}
+- name: https_proxy
+  value: {{ .Values.global.httpsProxy }}
+- name: no_proxy
+  value: {{ .Values.global.noProxy }}
+- name: all_proxy
+  value: {{ .Values.global.allProxy }}
+{{- end }}
 
 {{/*
 Env for PostgresDB

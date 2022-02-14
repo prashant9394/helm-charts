@@ -18,7 +18,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.cleanupSecretsInit | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       restartPolicy: Never
       containers:
         - name: cleanup-secrets
@@ -30,4 +30,4 @@ spec:
           args:
             - >
               echo starting &&
-              kubectl delete secrets --all -n {{ .Release.Namespace }}
+              kubectl delete secrets --all -n {{ .Release.Namespace }} && kubectl delete cm --all -n {{ .Release.Namespace }}

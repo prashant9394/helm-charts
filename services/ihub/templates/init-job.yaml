@@ -13,7 +13,7 @@ spec:
       labels:
         {{- include "iseclController-init.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       containers:
         - name: create-custom-controller-token
           image: bitnami/kubectl:1.22
@@ -24,7 +24,7 @@ spec:
             - >
               echo starting &&
               echo "Bootstrapping secrets" &&
-              kubernetes_token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='isecl')].data.token}" -n isecl | base64 --decode) &&
+              kubernetes_token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='{{ .Release.Namespace }}')].data.token}" -n {{ .Release.Namespace }} | base64 --decode) &&
               kubectl create secret generic k8s-token -n {{ .Release.Namespace }} --from-literal=KUBERNETES_TOKEN=$kubernetes_token
       restartPolicy: Never
   backoffLimit: 4

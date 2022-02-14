@@ -1,0 +1,73 @@
+---
+aas-manager:
+  image:
+    name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
+  aas:
+    url: <user input> # Authservice Base Url
+
+trustagent:
+  image:
+    name: tagent # Trust Agent image name<br> (**REQUIRED**)
+
+  nodeLabel:
+    txt: TXT-ENABLED # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
+    suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
+
+  config:
+    tpmOwnerSecret: <user input>  # The TPM owner secret if TPM is already owned
+
+isecl-controller:
+  image:
+    name: isecl-k8s-controller # ISecL Controller Service image name<br> (**REQUIRED**)
+  nodeTainting:
+    taintRegisteredNodes: true # If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`)
+    taintRebootedNodes: false # If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`) 
+    taintUntrustedNode: true # If set to true, taints the node which has trust tag set to false in node labels. (Allowed values: `true`\`false`)
+
+ihub:
+  image:
+    name: ihub # Integration Hub Service image name<br> (**REQUIRED**)
+
+  k8sApiServerPort: 6443
+
+isecl-scheduler:
+  image:
+    name: isecl-k8s-scheduler # ISecL Scheduler image name<br> (**REQUIRED**)
+
+admission-controller:
+  image:
+    name: admission-controller
+  caBundle: <user input>
+
+global:
+  controlPlaneHostname: <user input>  # K8s control plane IP/Hostname<br> (**REQUIRED**)
+  controlPlaneLabel: node-role.kubernetes.io/master #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
+
+  image:
+    registry: <registry-IP>:<registry-Port> # The image registry where isecl images are pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+
+  config:
+    nats:
+      enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+      servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) ie "nats://<hostname>:30222"
+      serviceMode: outbound # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
+
+  hvsUrl: <user input> # Hvs Base Url
+  cmsUrl: <user input> # CMS Base Url
+  aasUrl: <user input> # Authservice Base Url
+  cmsTlsSha384: <user input>
+  storage:
+    nfs:
+      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+      path: /mnt/nfs_share/test  # The path for storing persistent data on NFS
+
+  service:
+    ta: 31443 # The service port for Trust Agent
+
+  proxyEnabled: false # Set to true when running deploying behind corporate proxy
+  httpProxy: <user input> # Set http_proxy url
+  httpsProxy: <user input> # Set https_proxy url
+  allProxy: <user input>  # Set all_proxy url
+  noProxy: <user input> # Set no_proxy

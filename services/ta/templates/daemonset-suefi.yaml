@@ -15,8 +15,9 @@ metadata:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
                   - "{{ .Values.nodeLabel.suefi }}"
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
+        {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
@@ -32,7 +33,17 @@ metadata:
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ .Values.dependentServices.hvs }}
+        {{- end }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+      tolerations:
+        - key: "untrusted"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "untrusted"
+          operator: "Equal"
+          value: "true"
+          effect: "NoExecute"
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -45,6 +56,11 @@ metadata:
             - configMapRef:
                 name: {{ include "factory.name" . }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.proxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             {{- include "factory.envBearerToken" . | nindent 12 }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}
           readinessProbe:

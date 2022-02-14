@@ -8,7 +8,7 @@
       {{- else }}
       - name: {{ .Values.image.svc.imagePullSecret }}
       {{- end }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
       initContainers:

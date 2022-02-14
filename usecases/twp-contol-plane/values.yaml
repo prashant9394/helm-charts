@@ -1,0 +1,55 @@
+---
+# The below section can be used to override additional values defined under each of the dependent charts
+cms:
+  image:
+    name: cms # Certificate Management Service image name<br> (**REQUIRED**)
+
+aas:
+  image:
+    name: aas # Authentication & Authorization Service image name<br> (**REQUIRED**)
+
+aas-manager:
+  image:
+    name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
+  aas:
+    url:  <user input> # AAS Base url
+
+hvs:
+  image:
+    name: hvs # Host Verification Service image name<br> (**REQUIRED**)
+
+nats:
+  clientPort: 30222
+
+global:
+  controlPlaneHostname:  <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+
+  image:
+    registry: <registry-IP>:<registry-port> # The image registry where isecl images are pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+
+  config:
+    nats:
+      enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+      servers: "nats://10.80.245.105:30222"   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
+
+  storage:
+    nfs:
+      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+      path: /mnt/nfs_share/  # The path for storing persistent data on NFS
+
+  service:
+    cms: 30445 # The service port for Certificate Management Service
+    aas: 30444 # The service port for Authentication Authorization Service
+    hvs: 30443 # The service port for SGX Host Verification Service
+
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled, Default value: false
+    ingress-dns: <user input> # The DNS host name needs to be provided
+
+  proxyEnabled: false # Set to true when running deploying behind corporate proxy
+  httpProxy: <user input> # Set http_proxy url
+  httpsProxy: <user input> # Set https_proxy url
+  allProxy: <user input>  # Set all_proxy url
+  noProxy: <user input> # Set no_proxy

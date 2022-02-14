@@ -12,7 +12,7 @@ image:
 securityContext:
   init: # The fsGroup id for init containers
     fsGroup: 1001 
-  iseclController: # The security context for ADMISSION-CONTROLLER Pod
+  admissionController: # The security context for ADMISSION-CONTROLLER Pod
     runAsUser: 1001
     runAsGroup: 1001
     capabilities:
@@ -39,3 +39,4 @@ storage:
     path: /mnt/nfs_share # The path for storing persistent data on NFS
     logsSize: 1Gi # The logs size for storing logs for KBS in NFS path
     baseSize: 1Gi # The base volume size (configSize + logSize)
+

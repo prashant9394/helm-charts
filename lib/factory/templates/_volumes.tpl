@@ -42,7 +42,6 @@ AAS Bearer Token Volume
     name: bearer-token
 {{- end }}
 
-
 {{/*
 AAS Bootstrap token Volume
 */}}

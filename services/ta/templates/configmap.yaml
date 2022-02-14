@@ -6,10 +6,16 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
 data:
+  {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
   AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
-  LOG_LEVEL: {{ .Values.config.logLevel }}
   HVS_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  {{- else }}
+  HVS_URL: {{ .Values.global.hvsUrl }}
+  AAS_API_URL: {{ .Values.global.aasUrl }}
+  CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- end}}
+  LOG_LEVEL: {{ .Values.config.logLevel }}
   PROVISION_ATTESTATION: "{{ .Values.config.provisionAttestation }}"
   TRUSTAGENT_PORT: "{{ .Values.service.ta.containerPort }}"
   TA_ENABLE_CONSOLE_LOG: "true"

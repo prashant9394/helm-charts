@@ -19,7 +19,7 @@ config:
   dbListenAddresses: "*" # PostgreSQL DB Listen Address
   dbName: aasdb # AAS DB Name
   dbSSLMode: verify-full # PostgreSQL DB SSL Mode
-  createCredentials: false # Trigger to run create-credentials setup task when set to True. Default is False
+  createCredentials: true # Trigger to run create-credentials setup task when set to True. Default is False
 
 secret:
   dbUsername: aasdbuser # DB Username for AAS DB

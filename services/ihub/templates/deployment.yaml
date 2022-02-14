@@ -10,8 +10,9 @@
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
+        {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
@@ -23,6 +24,7 @@
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ include "factory.name" . }}
+        {{- end }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:
@@ -35,6 +37,11 @@
           securityContext:
              {{- toYaml .Values.securityContext.ihub | nindent 12 }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.proxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}
           envFrom:
             - configMapRef:

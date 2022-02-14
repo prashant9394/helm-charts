@@ -13,7 +13,7 @@ spec:
       labels:
         {{- include "nats.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       restartPolicy: Never
       initContainers:
         - name: wait-for-aas
@@ -47,9 +47,9 @@ spec:
               value: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
             - name: NATS_CERT_SAN_LIST
             {{- if .Values.global }}
-              value: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ .Values.global.controlPlaneHostname }},nats.{{ .Release.Namespace }}.svc.cluster.local
             {{- else }}
-              value: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+              value: {{ .Values.controlPlaneHostname }},nats.{{ .Release.Namespace }}.svc.cluster.local
             {{- end }}
             - name: NATS_ACCOUNT_NAME
               value: {{ .Values.config.accountName }}

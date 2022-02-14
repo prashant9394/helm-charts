@@ -1,7 +1,12 @@
 {
+   {{- if .Values.aas }}
+   "aas_api_url": "{{ .Values.aas.url }}",
+   {{- else }}
    "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
+   {{- end }}
    "aas_admin_username":"aasAdminUser",
    "aas_admin_password":"aasAdminPass",
+
    "users_and_roles":[
       {
          "username":"superAdmin",
@@ -82,7 +87,11 @@
             {
                "service": "CMS",
                "name": "CertApprover",
-               "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+               {{- if .Values.global }}
+               "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.global.controlPlaneHostname }};certType=TLS"
+               {{- else }}
+               "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.controlPlaneHostname }};certType=TLS"
+               {{- end }}
             }
          ]
       },
@@ -129,18 +138,34 @@
          ]
       },
       {
-         "username":"cspAdminUser",
-         "password":"cspAdminPass",
-         "print_bearer_token":true,
-         "roles":[
+         "username": "aasAdminUser",
+         "password": "aasAdminPass",
+         "print_bearer_token": true,
+         "roles": [
             {
-               "service":"AAS",
-               "name":"CustomClaimsCreator",
-               "permissions":[
+               "service": "AAS",
+               "name": "CustomClaimsCreator",
+               "permissions": [
                   "custom_claims:create"
                ]
             }
          ]
-      }
+      },
+        {
+            "username": "ihubAdminUser",
+            "password": "ihubAdminPass",
+            "print_bearer_token": false,
+            "roles": [
+                {
+                    "service": "HVS",
+                    "name": "ReportSearcher",
+                    "permissions": [
+                        "reports:search:*"
+                    ]
+                }
+            ]
+        }
+
    ]
 }
+

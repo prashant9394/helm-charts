@@ -10,7 +10,7 @@
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.hvsInit | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
         {{- include "factory.initWaitForDb" . | nindent 8 }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}

@@ -22,8 +22,9 @@ securityContext:
     allowPrivilegeEscalation: false
 
 nodeTainting:
-  taintRegisteredNodes: <user input> # If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`)
-  taintRebootedNodes: <user input> # If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`)
+  taintRegisteredNodes: false # If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`)
+  taintRebootedNodes: false # If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`)
+  taintUntrustedNode: false # If set to true, taints the node which has trust tag set to false in node labels. (Allowed values: `true`\`false`)
 
 service:
   directoryName: isecl-k8s-controller

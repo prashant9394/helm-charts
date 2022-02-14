@@ -13,9 +13,9 @@
     - name: {{ .Values.service.natsClient.name }}
       port: {{ .Values.service.natsClient.containerPort }}
     {{- if .Values.global }}
-      nodePort: {{ .Values.global.service.natsClient }}
+      nodePort: {{ .Values.clientPort }}
     {{- else }}
-      nodePort: {{ .Values.service.natsClient.port }}
+      nodePort: {{ .Values.service.natsClient.containerPort }}
     {{- end }}
     - name: {{ .Values.service.natsCluster.name }}
       port: {{ .Values.service.natsCluster.containerPort }}

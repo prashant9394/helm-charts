@@ -13,10 +13,11 @@ spec:
       labels:
         {{- include "aas-manager.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
       restartPolicy: Never
+      {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
       initContainers:
         - name: wait-for-aas
         {{- if .Values.global }}
@@ -28,11 +29,12 @@ spec:
             - name: URL
               value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version
             - name: VERSION
-              value: {{.Chart.AppVersion }}         
+              value: {{.Chart.AppVersion }}
             - name: DEPEDENT_SERVICE_NAME
               value: {{ .Values.dependentServices.aas }}
             - name: COMPONENT
               value: {{ include "aas-manager.name" . }}
+      {{- end }}
       containers:
         - name: aas-manager
         {{- if .Values.global }}
@@ -49,7 +51,7 @@ spec:
           args:
             - >
               echo starting &&
-              BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep "Token for User: superAdmin" -A 2 | grep BEARER_TOKEN | cut -d '=' -f2) &&
+              BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep "Token for User: superAdmin" -A 2 | grep BEARER_TOKEN | cut -d '=' -f2) && populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json &&
               if [ -z "$BEARER_TOKEN" ]; then exit 1; fi  &&
               echo $BEARER_TOKEN &&
               ./kubectl create secret generic bearer-token -n {{ .Release.Namespace }} --from-literal=BEARER_TOKEN=$BEARER_TOKEN

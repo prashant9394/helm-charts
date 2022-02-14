@@ -1,6 +1,6 @@
 apiVersion: v2
-name: nats-init
-description: A Helm chart for creating TLS certificates and updating config for NATS
+name: Trusted-Workload-Placement-Cloud-Service-Provider
+description: A Helm chart for Deploying ISecL-DC Trusted Workload Placement - Cloud Service Provider Use case
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -26,5 +26,35 @@ appVersion: "v4.2.0"
 
 dependencies:
   - name: factory
-    repository: file://../../lib/factory/
+    repository: file://../../lib/factory/ 
     version: 0.1.0
+  - name: cleanup-secrets
+    repository: file://../../jobs/cleanup-secrets/
+    version: 0.1.0
+  - name: aas-manager
+    repository: file://../../jobs/aas-manager/ 
+    version: 0.1.0
+  - name: trustagent
+    repository: file://../../services/ta/
+    version: 0.1.0
+  - name: isecl-controller
+    repository: file://../../services/isecl-controller/ 
+    version: 0.1.0
+  - name: ihub
+    repository: file://../../services/ihub/ 
+    version: 0.1.0
+  - name: isecl-scheduler
+    repository: file://../../services/isecl-scheduler/ 
+    version: 0.1.0
+  - name: admission-controller
+    repository: file://../../services/admission-controller/
+    version: 0.1.0
+  
+maintainers:
+- name: JJ
+  email: johnny.jacob@intel.com
+- name: PraveenRaj R
+  email: praveenrajr@intel.com
+- name: rana19
+  email: raghavender.nagarajan@intel.com
+
