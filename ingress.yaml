@@ -17,7 +17,7 @@ metadata:
   namespace: isecl
 spec:
   rules:
-  - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
+  - host: <user input>   # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
       - pathType: Prefix
