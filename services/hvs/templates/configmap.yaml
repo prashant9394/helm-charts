@@ -18,8 +18,8 @@ data:
   HVS_DB_SSLCERT: {{ .Values.config.dbSSLCert }}
   HVS_DB_PORT: {{ .Values.config.dbPort | quote }}
   HVS_DB_SSLMODE: {{ .Values.config.dbSSLMode }}
-  REQUIRE_EK_CERT_FOR_HOST_PROVISION: {{ .Values.config.requireEKCertForHostProvision }}
-  VERIFY_QUOTE_FOR_HOST_REGISTRATION: {{ .Values.config.verifyQuoteForHostRegistration }}
+  REQUIRE_EK_CERT_FOR_HOST_PROVISION: "{{ .Values.config.requireEKCertForHostProvision }}"
+  VERIFY_QUOTE_FOR_HOST_REGISTRATION: "{{ .Values.config.verifyQuoteForHostRegistration }}"
   {{- if .Values.global }}
   {{- if .Values.global.config.nats.enabled }}
   NATS_SERVERS: {{ .Values.global.config.nats.servers }}
