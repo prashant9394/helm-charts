@@ -20,47 +20,43 @@ spec:
   - host: <user input>   # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-      - backend:
+      - pathType: Prefix
+        path: "/"
+        backend:
           service:
             name: cms
             port:
               number: 8445
-        path: /
-        pathType: Prefix
-
   - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-        - backend:
-            service:
-              name: aas
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: aas
             port:
-              number: 8444
-        path: /
-        pathType: Prefix
-
+              number: 8444  
   - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-        - backend:
-            service:
-              name: hvs
-              port:
-                number: 8443
-          path: /
-          pathType: Prefix 
-   
-  - host: intel-isecl.com
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: hvs
+            port:
+              number: 8443
+  - host: <user input> # User needs to provide a domain name to access the service. for example: abcd.com
     http:
       paths:
-        - backend:
-            service:
-              name: nats
-              port:
-                number: 6222
-        path: /
-        pathType: Prefix 
-
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: nats
+            port:
+              number: 6222
   tls:
   - hosts:
     - <user input> # User needs to provide a domain name to access the service. for example: abcd.com
