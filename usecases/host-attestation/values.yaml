@@ -54,4 +54,3 @@ global:
 
   ingress:
     enable: <user input> # Accept true or false to notify ingress rules are enable or disabled
-    ingress-dns: <user input> # The DNS host name needs to be provided

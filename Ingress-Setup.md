@@ -5,6 +5,30 @@
 Ingress offer flexible way of routing traffic from beyond your cluster to internal Kubernetes Services.
 Ingress Resources are objects in Kubernetes that define rules for routing HTTP and HTTPS traffic to Services
 
+### Install MetaLLB load Balancer 
+
+Perform the steps as shown in link for setting up metallb load balancer
+https://metallb.universe.tf/installation/
+
+Create a configmap
+
+```shell script
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: metallb-system
+  name: config
+data:
+  config: |
+    address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+      - <192.0.1.1-192.0.1.4> # IP range within worker nodes, MetalLB takes ownership of one of the IP addresses in the pool and updates the loadBalancer IP field of the ingress-nginx Service accordingly.
+```
+ 
+ Ref: https://kubernetes.github.io/ingress-nginx/deploy/baremetal/#a-pure-software-solution-metallb
+      
 ### Setup Ingress Controller ###
 1. To install the Nginx Ingress Controller to your cluster, first need to add below repository to Helm by running below commands:
 
@@ -25,19 +49,12 @@ To enable it user has to include below rule to the deployment of ingress-nginx-c
 Note: Ingress controller will be installed and running under ingress-nginx namespace.
 
 
-2.	Securing the Ingress using cert-Manger
+3.	Create ingress tls certificate for ingress as shown below.
 
-cert-manager adds certificates and certificate issuers as resource types in Kubernetes clusters, and simplifies the process of obtaining, renewing and using those certificates.
-
-It can issue certificates from a variety of supported sources, including Let’s Encrypt, HashiCorp Vault, and Venafi as well as private PKI.
-
--   cert-manager installation steps:
 
 ```
-kubectl create namespace cert-manager
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --set installCRDs=true
+openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes   -keyout tls.key -out tls.crt -subj "/CN=ISecl Ingress TLS Certificate"   -addext "subjectAltName=DNS:isecl.com"
+kubectl create secret tls tls-ingress --cert=tls.crt --key=tls.key -n isecl
 ```
 
 ### Setup Ingress Rule ###

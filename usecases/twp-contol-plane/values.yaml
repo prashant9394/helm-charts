@@ -35,7 +35,7 @@ global:
   config:
     nats:
       enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: "nats://10.80.245.105:30222"   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
+      servers: "nats://<DNS>:<Node-Port>"   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) e.g nats://192.1.2.4:30222
 
   storage:
     nfs:
@@ -49,7 +49,6 @@ global:
 
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled, Default value: false
-    ingress-dns: <user input> # The DNS host name needs to be provided
 
   proxyEnabled: false # Set to true when running deploying behind corporate proxy
   httpProxy: <user input> # Set http_proxy url
