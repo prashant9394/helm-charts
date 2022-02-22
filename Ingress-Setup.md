@@ -53,7 +53,7 @@ Note: Ingress controller will be installed and running under ingress-nginx names
 
 
 ```
-openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes   -keyout tls.key -out tls.crt -subj "/CN=ISecl Ingress TLS Certificate"   -addext "subjectAltName=DNS:isecl.com"
+openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes   -keyout tls.key -out tls.crt -subj "/CN=ISecl Ingress TLS Certificate"   -addext "subjectAltName=DNS:*.isecl.com"
 kubectl create secret tls tls-ingress --cert=tls.crt --key=tls.key -n isecl
 ```
 

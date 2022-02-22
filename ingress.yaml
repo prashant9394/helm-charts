@@ -9,7 +9,7 @@ metadata:
   namespace: isecl
 spec:
   rules:
-    - host:  <user input> # User needs to provide a domain name to access the service. for example: example.com
+    - host:  cms.isecl.com # User needs to provide a domain name to access the service. for example: example.com
       http:
         paths:
           - pathType: Prefix
@@ -19,7 +19,7 @@ spec:
                 name: cms
                 port:
                   number: 8445
-    - host:  <user input> # User needs to provide a domain name to access the service. for example: example.com
+    - host:  aas.isecl.com # User needs to provide a domain name to access the service. for example: example.com
       http:
         paths:
           - pathType: Prefix
@@ -29,7 +29,7 @@ spec:
                 name: aas
                 port:
                   number: 8444
-    - host:  <user input> # User needs to provide a domain name to access the service. for example: example.com
+    - host:  hvs.isecl.com # User needs to provide a domain name to access the service. for example: example.com
       http:
         paths:
           - pathType: Prefix
@@ -41,5 +41,7 @@ spec:
                   number: 8443
   tls:
     - hosts:
-        -  <user input> # User needs to provide a domain name to access the service. for example: example.com
+        - cms.isecl.com # User needs to provide a domain name to access the service. for example: example.com
+        - aas.isecl.com
+        - hvs.isecl.com
       secretName: tls-ingress
