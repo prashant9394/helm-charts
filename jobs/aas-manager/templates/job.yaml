@@ -35,6 +35,9 @@ spec:
             - name: COMPONENT
               value: {{ include "aas-manager.name" . }}
       {{- end }}
+      {{- if .Values.hostAliasEnabled }}
+        {{- toYaml .Values.aliases | nindent 6 }}
+      {{- end }}
       containers:
         - name: aas-manager
         {{- if .Values.global }}

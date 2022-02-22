@@ -13,6 +13,13 @@ aas-manager:
     name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
   aas:
     url:  <user input> # AAS Base url
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
 
 hvs:
   image:

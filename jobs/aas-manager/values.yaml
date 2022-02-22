@@ -13,6 +13,14 @@ image:
   name: <user input> # The image name with which AAS-MANAGER image is pushed to registry
   pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
 
+hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+aliases:
+  hostAliases:
+    - ip: ""
+      hostnames:
+        - ""
+        - ""
+
 securityContext:
   init: # The fsGroup id for init containers for AAS-MANAGER
     fsGroup: 1001

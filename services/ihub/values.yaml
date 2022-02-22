@@ -23,6 +23,14 @@ secret:
   serviceUsername: ihubAdminUser # Admin Username for IHUB
   servicePassword: ihubAdminPass # Admin Password for IHUB
 
+hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+aliases:
+  hostAliases:
+    - ip: ""
+      hostnames:
+        - ""
+        - ""
+
 storage:
   nfs:
     server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)

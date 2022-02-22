@@ -44,6 +44,9 @@ metadata:
           operator: "Equal"
           value: "true"
           effect: "NoExecute"
+      {{- if .Values.hostAliasEnabled }}
+        {{- toYaml .Values.aliases | nindent 6 }}
+      {{- end }}
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}

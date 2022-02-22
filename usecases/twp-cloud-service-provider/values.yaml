@@ -4,6 +4,13 @@ aas-manager:
     name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
   aas:
     url: <user input> # Authservice Base Url
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
 
 trustagent:
   image:
@@ -15,6 +22,14 @@ trustagent:
 
   config:
     tpmOwnerSecret: <user input>  # The TPM owner secret if TPM is already owned
+
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
 
 isecl-controller:
   image:
@@ -29,6 +44,13 @@ ihub:
     name: ihub # Integration Hub Service image name<br> (**REQUIRED**)
 
   k8sApiServerPort: 6443
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
 
 isecl-scheduler:
   image:

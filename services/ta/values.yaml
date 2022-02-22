@@ -29,7 +29,15 @@ config:
     enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
     servers: <user input> # NATS Server IP/Hostname  
     serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)
-    
+
+hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+aliases:
+  hostAliases:
+    - ip: ""
+      hostnames:
+        - ""
+        - ""
+
 service:
   directoryName: trustagent
   cms:
