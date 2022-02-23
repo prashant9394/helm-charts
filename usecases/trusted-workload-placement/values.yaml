@@ -57,7 +57,11 @@ global:
     nats:
       enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
       servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)  
-      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)  
+      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
+
+  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end
       
   storage:
     nfs:

@@ -7,14 +7,14 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   TLS_SAN_LIST: {{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
-  {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
-  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
-  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
-  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
-  {{- else }}
+  {{- if .Values.global }}
   HVS_BASE_URL: {{ .Values.global.hvsUrl }}
   AAS_API_URL: {{ .Values.global.aasUrl }}
   CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- else }}
+  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
   {{- end}}
   TENANT: KUBERNETES
   {{- if .Values.global }}

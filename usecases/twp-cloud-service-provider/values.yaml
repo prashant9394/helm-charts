@@ -76,9 +76,10 @@ global:
       servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) ie "nats://<hostname>:30222"
       serviceMode: outbound # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
 
-  hvsUrl: <user input> # Hvs Base Url
-  cmsUrl: <user input> # CMS Base Url
-  aasUrl: <user input> # Authservice Base Url
+  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end
+
   cmsTlsSha384: <user input>
   storage:
     nfs:

@@ -12,19 +12,21 @@
         {{- toYaml .Values.securityContext.init | nindent 8 }}
       serviceAccountName: {{ .Release.Namespace }}
       initContainers:
-        {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
             - name: URL
+              {{- if .Values.global }}
+              value: {{ .Values.global.hvsUrl }}/version
+              {{- else }}
               value: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/version
+              {{- end }}
             - name: VERSION
               value: {{ .Chart.AppVersion }}         
             - name: DEPEDENT_SERVICE_NAME
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ include "factory.name" . }}
-        {{- end }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:

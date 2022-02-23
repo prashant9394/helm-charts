@@ -27,6 +27,14 @@ trustagent:
   config:
     tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
 
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
+          -
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
@@ -41,11 +49,15 @@ global:
       servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)  
       serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)  
 
+  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end
+
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
       path: /mnt/nfs_share/  # The path for storing persistent data on NFS
-  
+
   service:
     cms: 30445 # The service port for Certificate Management Service
     aas: 30444 # The service port for Authentication Authorization Service

@@ -17,13 +17,12 @@ metadata:
                   - "{{ .Values.nodeLabel.suefi }}"
       serviceAccountName: {{ .Release.Namespace }}
       initContainers:
-        {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
             - name: URL
             {{- if .Values.global }}
-              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.hvs }}/hvs/v2/version
+              value: {{ .Values.global.hvsUrl }}/version
             {{- else }}
               value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.hvs.port }}/hvs/v2/version
             {{- end }}
@@ -33,8 +32,6 @@ metadata:
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ .Values.dependentServices.hvs }}
-        {{- end }}
-        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
       tolerations:
         - key: "untrusted"
           operator: "Equal"
