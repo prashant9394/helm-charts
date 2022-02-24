@@ -300,7 +300,7 @@ helm install <helm release name> <use case chart folder>/ --create-namespace -n 
 
 #### In case of Trusted workload placement usecase chart deployment, configure kube-scheduler to establish communication with isecl-scheduler after successful deployment.
 
-* Create a file called kube-scheduler-configuration.yaml
+* Create a file called kube-scheduler-configuration.yml
 ```yaml
 ---
 apiVersion: kubescheduler.config.k8s.io/v1beta2
@@ -319,8 +319,6 @@ profiles:
       score:
         enabled:
           - name: "NodeResourcesBalancedAllocation"
-            weight: 1
-          - name: "SelectorSpread"
             weight: 1
 extenders:
   - urlPrefix: "https://127.0.0.1:30888/"
