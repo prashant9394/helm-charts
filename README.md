@@ -335,7 +335,7 @@ extenders:
           containers:
 	  - command:
             - kube-scheduler
-              --config: "/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml"
+            - --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
 ```
 
 * Add mount path for isecl extended scheduler under container section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
