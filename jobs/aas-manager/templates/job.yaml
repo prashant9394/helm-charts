@@ -26,6 +26,11 @@ spec:
           image: {{ .Values.image.registry }}/init-wait:{{.Chart.AppVersion }}
         {{- end }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.proxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             - name: URL
               value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version
             - name: VERSION
@@ -49,6 +54,12 @@ spec:
         {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext.aasManager | nindent 12 }}
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.proxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
           command: ["/bin/sh", "-c"]
           #TODO: superAdmin in below command for getting bearer token should be made as template variable should be same as user mention in values.yml for install admin token
           args:
