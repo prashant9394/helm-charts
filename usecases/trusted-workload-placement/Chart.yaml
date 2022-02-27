@@ -46,17 +46,11 @@ dependencies:
   - name: aas-manager
     repository: file://../../jobs/aas-manager/ 
     version: 0.1.0
-  - name: nats-init
-    repository: file://../../jobs/nats/
-    version: 0.1.0
   - name: hvs
     repository: file://../../services/hvs/ 
     version: 0.1.0
   - name: trustagent
     repository: file://../../services/ta/
-    version: 0.1.0
-  - name: nats
-    repository: file://../../services/nats/
     version: 0.1.0
   - name: isecl-controller
     repository: file://../../services/isecl-controller/ 
