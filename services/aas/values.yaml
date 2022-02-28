@@ -75,3 +75,5 @@ service:
   aas:
     containerPort: 8444 # The containerPort on which AAS can listen
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

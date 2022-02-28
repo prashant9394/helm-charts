@@ -43,4 +43,5 @@ service:
     port: 30445 # The externally exposed NodePort on which CMS can listen to external traffic
   aas:
     containerPort: 8444 # The containerPort on which CMS can listen to traffic
-    
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

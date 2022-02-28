@@ -75,4 +75,4 @@ global:
     ta: 31443 # The service port for Trust Agent
   
   ingress:
-    enable: <user input> # Accept true or false to notify ingress rules are enable or disabled
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

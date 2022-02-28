@@ -82,3 +82,5 @@ service:
   hvs:
     containerPort: 8443 # The containerPort on which HVS can listen 
     port: 30443 # The externally exposed NodePort on which HVS can listen to external traffic
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled
