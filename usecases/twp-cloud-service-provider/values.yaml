@@ -66,7 +66,6 @@ global:
   controlPlaneLabel: node-role.kubernetes.io/master #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
 
   image:
-    registry: <registry-IP>:<registry-Port> # The image registry where isecl images are pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
@@ -84,7 +83,7 @@ global:
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share/test  # The path for storing persistent data on NFS
+      path: /mnt/nfs_share  # The path for storing persistent data on NFS
 
   service:
     ta: 31443 # The service port for Trust Agent

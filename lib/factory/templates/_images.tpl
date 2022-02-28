@@ -3,10 +3,10 @@ Service container Image
 */}}
 {{- define "factory.imageContainer" }}
 {{- if .Values.global }}
-image: {{ .Values.global.image.registry }}/{{ .Values.image.name }}:{{.Chart.AppVersion }}
+image: {{ .Values.image.name }}:{{.Chart.AppVersion }}
 imagePullPolicy: {{ .Values.global.image.pullPolicy }}
 {{- else }}
-image: {{ .Values.image.svc.registry }}/{{ .Values.image.svc.name }}:{{.Chart.AppVersion }}
+image: {{ .Values.image.svc.name }}:{{.Chart.AppVersion }}
 imagePullPolicy: {{ .Values.image.svc.pullPolicy }}
 {{- end }}
 {{- end }}
@@ -17,9 +17,9 @@ Init container Image
 */}}
 {{- define "factory.imageInitContainer" }}
 {{- if .Values.global }}
-image: {{ .Values.global.image.registry }}/init-wait:{{.Chart.AppVersion }}
+image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
 {{- else }}
-image: {{ .Values.image.svc.registry }}/init-wait:{{.Chart.AppVersion }}
+image: {{ .Values.image.svc.initName }}:{{.Chart.AppVersion }}
 {{- end }}
 {{- end }}
 

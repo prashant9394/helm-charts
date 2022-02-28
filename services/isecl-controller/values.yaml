@@ -4,8 +4,7 @@ nameOverride: "" # The name for ISECL-CONTROLLER chart<br> (Default: `.Chart.Nam
 controlPlaneLabel: <user input> #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
 
 image:
-  svc: 
-    registry: <user input> # The image registry where ISECL-CONTROLLER image is pushed<br> (**REQUIRED**)
+  svc:
     name: <user input> # The image name with which ISECL-CONTROLLER image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for ISECL-CONTROLLER<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication

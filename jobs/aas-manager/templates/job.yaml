@@ -20,11 +20,7 @@ spec:
       {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
       initContainers:
         - name: wait-for-aas
-        {{- if .Values.global }}
-          image: {{ .Values.global.image.registry }}/init-wait:{{.Chart.AppVersion }}
-        {{- else }}
-          image: {{ .Values.image.registry }}/init-wait:{{.Chart.AppVersion }}
-        {{- end }}
+          image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
@@ -45,11 +41,10 @@ spec:
       {{- end }}
       containers:
         - name: aas-manager
+          image: {{ .Values.image.name }}:{{.Chart.AppVersion }}
         {{- if .Values.global }}
-          image: {{ .Values.global.image.registry }}/{{ .Values.image.name }}:{{.Chart.AppVersion }}
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         {{- else }}
-          image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- end }}
           securityContext:
