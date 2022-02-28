@@ -11,7 +11,7 @@ dependentServices: # The dependent Service Name for deploying NATS chart, defaul
 
 image:
   svc:
-    name: nats:2.2.4-alpine3.13 # The name of the NATS image <br> (**REQUIRED**)
+    name: nats:2.7.2-alpine3.15 # The name of the NATS image <br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for NATS<br> (Allowed values: `Always`/`IfNotPresent`)
 
 securityContext:
