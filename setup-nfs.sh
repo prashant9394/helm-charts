@@ -2,10 +2,10 @@
 
 # This script should be executed on Linux RHEL Virtual Machine
 
-EXPORT_DIRECTORY=${1:-/mnt/nfs_share/}
-USER_ID=${2:-1001}
+EXPORT_DIRECTORY=${1}
+USER_ID=${2}
 CURR_DIR=`pwd`
-WORKER_NODE_SUBNET=${3:-*}
+WORKER_NODE_SUBNET=${3}
 SERVICES="cms ihub kbs qvs isecl-k8s-scheduler isecl-k8s-controller admission-controller"
 SERVICES_WITH_DB="wls hvs authservice"
 BASE_PATH=$EXPORT_DIRECTORY/isecl
@@ -13,8 +13,37 @@ LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
 VERSION=${VERSION:-v4.2.0}
-echo "Installing NFS Utils"
-dnf install -y nfs-utils
+
+if [ -z "$EXPORT_DIRECTORY" ]; then
+  echo "Error: missing export directory. Aborting..."
+  exit 1
+fi
+
+if [ -z "$USER_ID" ]; then
+  echo "Error: missing user id. Aborting..."
+  exit 1
+fi
+
+if [ -z "$WORKER_NODE_SUBNET" ]; then
+  echo "Error: missing worker node subnet/ip. Aborting..."
+  exit 1
+fi
+
+# Check OS
+OS=$(cat /etc/os-release | grep ^ID= | cut -d'=' -f2)
+temp="${OS%\"}"
+temp="${temp#\"}"
+OS="$temp"
+
+if [ "$OS" == "rhel" ]
+then
+  echo "Installing NFS Utils"
+  dnf install -y nfs-utils
+elif [ "$OS" == "ubuntu" ]
+then
+  apt-get install -y nfs-common
+fi
+
 echo "Making new directory to be: ${EXPORT_DIRECTORY}"
 mkdir -p ${EXPORT_DIRECTORY}
 
