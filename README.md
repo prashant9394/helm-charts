@@ -18,9 +18,9 @@ A collection of helm charts for ISecL-DC usecases
 
 | Kubernetes        | Details                                                      |
 | ----------------- | ------------------------------------------------------------ |
-| Cluster OS        | *RedHat Enterprise Linux 8.x* <br/>*Ubuntu 18.04*            |
+| Cluster OS        | *RedHat Enterprise Linux 8.x* <br/>*Ubuntu 20.04*            |
 | Distributions     | Any non-managed K8s cluster                                  |
-| Versions          | v1.21                                                        |
+| Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
 | Container Runtime | Foundational Security: *docker*,*CRI-O*<br/> |
 

@@ -40,9 +40,9 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 | Kubernetes        | Details                                                      |
 | ----------------- | ------------------------------------------------------------ |
-| Cluster OS        | *RedHat Enterprise Linux 8.x* <br/>*Ubuntu 18.04*            |
+| Cluster OS        | *RedHat Enterprise Linux 8.x* <br/>*Ubuntu 20.04*            |
 | Distributions     | Any non-managed K8s cluster                                  |
-| Versions          | v1.21                                                        |
+| Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
 | Container Runtime | *docker*,*CRI-O*|
 
@@ -56,6 +56,9 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 
 ### Setting up for Helm deployment
+
+Create a namespace or use the namespace used for helm deployment.
+```kubectl create ns isecl```
 
 ##### Create Secrets for ISecL Scheduler TLS Key-pair
 ISecl Scheduler runs as https service, therefore it needs TLS Keypair and tls certificate needs to be signed by K8s CA, inorder to have secure communication between K8s base scheduler and ISecl K8s Scheduler.
@@ -123,8 +126,8 @@ Add the output base64 encoded string to value in caBundle sub field of admission
 
 * Clone the repo
 ```shell
-<repo clone>
-cd <repo path>
+git clone https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts.git
+cd applications.security.isecl.engineering.helm-charts/
 ```
 
 ### Individual helm chart deployment (using service/job charts)
@@ -132,7 +135,7 @@ cd <repo path>
 The helm chart support Nodeports for services, to support ingress model. 
 
 #### Update `values.yaml` for Use Case chart deployments
-* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.0.0) as version for each image
+* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.2.0) as version for each image
 * The NFS server and setup either using sample script or by the user itself
 * The K8s non-managed cluster is up and running
 * Helm 3 is installed
@@ -159,6 +162,8 @@ aasdb-cert-generator
 
 hvsdb-cert-generator
 
+By default Nodeport is supported for all ISecl services deployed on K8s, ingress can be enabled by setting the *enable* to true under ingress in values.yaml of
+individual services
 
 #### Individual chart deployment and along with sequence to be followed
 Helm deployment commands: 
@@ -173,7 +178,7 @@ needs to be up and running before deploying any individual services. AAS manager
 
 Services which has database deployment associated with it needs db ssl certificates to be generated as secrets, this is done by deploying \<service\>db-cert-generator job.
 
-Below are the common/mandatory steps need to be performed for deploying individual charts except ISecl K8s Extensions.
+Below are the common/mandatory steps need to be performed for deploying individual charts.
 ```shell script
 helm dependency update jobs/cleanup-secrets/
 helm install cleanup-secrets jobs/cleanup-secrets/ -n isecl --create-namespace
@@ -229,6 +234,7 @@ To re-run aas-manager job for getting latest bearer-token as a secret.
 ```shell script
        kubectl delete secret -n isecl bearer-token
        kubectl get job aas-manager -o json -n isecl | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > aas-manager.json
+       kubectl delete job aas-manager -n isecl
        kubectl apply -f aas-manager.json
 ```    
 
@@ -250,7 +256,7 @@ Enable NATS in Chart.yaml file by adding following lines
 #### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
-* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.0.0) as version for each image
+* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.2.0) as version for each image
 * The NFS server and setup either using sample script or by the user itself
 * The K8s non-managed cluster is up and running
 * Helm 3 is installed
