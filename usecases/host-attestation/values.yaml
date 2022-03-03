@@ -39,7 +39,6 @@ global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
   image:
-    registry: <user input> # The image registry where isecl images are pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
@@ -56,7 +55,7 @@ global:
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share/  # The path for storing persistent data on NFS
+      path: /mnt/nfs_share  # The path for storing persistent data on NFS
 
   service:
     cms: 30445 # The service port for Certificate Management Service
@@ -65,4 +64,4 @@ global:
     ta: 31443 # The service port for Trust Agent
 
   ingress:
-    enable: <user input> # Accept true or false to notify ingress rules are enable or disabled
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

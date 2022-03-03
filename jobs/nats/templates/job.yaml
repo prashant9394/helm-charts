@@ -17,11 +17,7 @@ spec:
       restartPolicy: Never
       initContainers:
         - name: wait-for-aas
-        {{- if .Values.global }}
-          image: {{ .Values.global.image.registry }}/init-wait:{{.Chart.AppVersion }}
-        {{- else }}
-          image: {{ .Values.image.registry }}/init-wait:{{.Chart.AppVersion }}
-        {{- end }}
+          image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
           env:
             - name: URL
               value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version
@@ -33,11 +29,10 @@ spec:
               value: {{ include "nats.name" . }}
       containers:
         - name: nats
+          image: {{ .Values.image.name }}:{{.Chart.AppVersion }}
         {{- if .Values.global }}
-          image: {{ .Values.global.image.registry }}/{{ .Values.image.name }}:{{.Chart.AppVersion }}
           imagePullPolicy: {{ .Values.global.image.pullPolicy }}
         {{- else }}
-          image: {{ .Values.image.registry }}/{{ .Values.image.name }}:{{ .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
         {{- end }}
           env:

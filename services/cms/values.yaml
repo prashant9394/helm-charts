@@ -10,7 +10,6 @@ dependentServices: # The dependent Service Name for deploying  Certificate Manag
 
 image:
   svc:
-    registry: <user input> # The image registry where CMS image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which CMS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for CMS<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
@@ -43,4 +42,5 @@ service:
     port: 30445 # The externally exposed NodePort on which CMS can listen to external traffic
   aas:
     containerPort: 8444 # The containerPort on which CMS can listen to traffic
-    
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

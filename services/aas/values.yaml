@@ -33,10 +33,10 @@ image:
     name: postgres:11.7 # The image name of PostgreSQL
     pullPolicy: Always # The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`)
   svc:
-    registry: <user input> # The image registry where AAS image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which AAS image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: init-wait # The image name of init container
 
 storage:
   nfs:
@@ -75,3 +75,5 @@ service:
   aas:
     containerPort: 8444 # The containerPort on which AAS can listen
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled
