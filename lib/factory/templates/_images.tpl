@@ -17,7 +17,7 @@ Init container Image
 */}}
 {{- define "factory.imageInitContainer" }}
 {{- if .Values.global }}
-image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
+image: {{ .Values.global.image.initName }}:{{.Chart.AppVersion }}
 {{- else }}
 image: {{ .Values.image.svc.initName }}:{{.Chart.AppVersion }}
 {{- end }}

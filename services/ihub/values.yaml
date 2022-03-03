@@ -17,7 +17,7 @@ image:
     name: <user input> # The image name with which IHUB image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for IHUB<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
-    initName: init-wait # The image name of init container
+    initName: <user input> # The image name of init container
 
 secret:
   serviceUsername: ihubAdminUser # Admin Username for IHUB

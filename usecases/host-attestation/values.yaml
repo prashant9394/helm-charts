@@ -35,12 +35,18 @@ trustagent:
           - ""
           - ""
           -
+
+nats-init:
+  image:
+    name: <user input> # The image name of nats-init container
+
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
   image:
     pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
 
   config:
     nats:

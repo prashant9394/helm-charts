@@ -61,6 +61,10 @@ admission-controller:
     name: admission-controller
   caBundle: <user input>
 
+nats-init:
+  image:
+    name: <user input> # The image name of nats-init container
+
 global:
   controlPlaneHostname: <user input>  # K8s control plane IP/Hostname<br> (**REQUIRED**)
   controlPlaneLabel: node-role.kubernetes.io/master #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
@@ -68,6 +72,7 @@ global:
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
 
   config:
     nats:
