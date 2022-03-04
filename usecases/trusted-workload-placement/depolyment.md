@@ -201,7 +201,7 @@ helm install isecl-controller services/isecl-controller -n isecl
 helm dependency update services/ihub
 helm install ihub services/ihub -n isecl
 helm dependency update services/isecl-scheduler
-helm install isecl-scheduler services/isecl-scheduler-n isecl
+helm install isecl-scheduler services/isecl-scheduler -n isecl
 helm dependency update services/admission-controller
 helm install isecl-scheduler services/admission-controller -n isecl
 ```
