@@ -41,7 +41,7 @@ then
   dnf install -y nfs-utils
 elif [ "$OS" == "ubuntu" ]
 then
-  apt-get install -y nfs-common
+  apt install -y nfs-kernel-server
 fi
 
 echo "Making new directory to be: ${EXPORT_DIRECTORY}"
@@ -96,3 +96,7 @@ grep -qx "${BASE_PATH}/        ${WORKER_NODE_SUBNET}(rw,sync,no_all_squash,root_
 echo "Restarting nfs-utils & exporting"
 nohup service nfs-utils restart
 exportfs -arv
+if [ "$OS" == "ubuntu" ]; then
+  nohup service nfs-kernel-server restart
+fi
+
