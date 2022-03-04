@@ -79,12 +79,27 @@
                  "name": "CertApprover",
                  "context":"CN=FDS TLS Certificate;SAN=fds.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
             },
-	    {
+	      {
                  "service": "CMS",
                  "name": "CertApprover",
                  "context":"CN=QVS TLS Certificate;SAN=qvs.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
-            }
-         ]
+         },
+         {
+               "service": "CMS",
+               "name": "CertApprover",
+               "context":"CN=APS TLS Certificate;SAN=aps.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+         },
+         {
+            "service": "CMS",
+            "name": "CertApprover",
+            "context":"CN=APS JWT Signing Certificate;SAN=aps.{{ .Release.Namespace }}.svc.cluster.local;certType=JWT"
+         },
+         {
+         "service": "CMS",
+         "name": "CertApprover",
+         "context":"CN=APS Nonce Signing Certificate;SAN=aps.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+         }
+      ]
       },
       {
          "username":"admin@vs",
@@ -121,6 +136,20 @@
             },
             {
                "service":"TA",
+               "name":"Administrator",
+               "permissions":[
+                  "*:*:*"
+               ]
+            },
+            {
+               "service":"TA",
+               "name":"Administrator",
+               "permissions":[
+                  "*:*:*"
+               ]
+            },
+            {
+               "service":"APS",
                "name":"Administrator",
                "permissions":[
                   "*:*:*"
