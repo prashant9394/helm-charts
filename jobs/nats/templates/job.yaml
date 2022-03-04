@@ -17,7 +17,11 @@ spec:
       restartPolicy: Never
       initContainers:
         - name: wait-for-aas
+        {{- if .Values.global }}
+          image: {{ .Values.global.image.initName }}:{{.Chart.AppVersion }}
+        {{- else }}
           image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
+        {{- end }}
           env:
             - name: URL
               value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version

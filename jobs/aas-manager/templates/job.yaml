@@ -20,7 +20,11 @@ spec:
       {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
       initContainers:
         - name: wait-for-aas
+        {{- if .Values.global }}
+          image: {{ .Values.global.image.initName }}:{{.Chart.AppVersion }}
+        {{- else }}
           image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
+        {{- end }}
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}

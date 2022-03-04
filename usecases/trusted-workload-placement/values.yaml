@@ -26,7 +26,11 @@ trustagent:
 
   config:
     tpmOwnerSecret: <user input> # The TPM owner secret if TPM is already owned
-    
+
+nats-init:
+  image:
+    name: <user input> # The image name of nats-init container
+
 isecl-controller:
   image:
     name: <user input> # ISecL Controller Service image name<br> (**REQUIRED**)
@@ -51,6 +55,7 @@ global:
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
 
   config:
     nats:
