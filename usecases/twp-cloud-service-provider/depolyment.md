@@ -306,7 +306,7 @@ extenders:
 ## Setup task workflow.
 
 Check this document for available setup tasks for each of the services  [Setup tasks](../../setup-tasks.md) 
-1. Edit the configmap of respective service where we want to run setup task, ```kubectl edit cms -n isecl```
+1. Edit the configmap of respective service where we want to run setup task. ```kubectl edit cm cms -n isecl```
 2. Add or Update all the variables required for setup tasks refer [here](../../setup-tasks.md)  for more details
 3. Add *SETUP_TASK* variable in config map with one or more setup task names e.g ```SETUP_TASK: "download-ca-cert,download-tls-cert"```
 4. Save the configmap
