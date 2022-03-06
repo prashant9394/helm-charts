@@ -1,78 +1,82 @@
 {{- include "factory.headers" . }}
 ---
 apiVersion: batch/v1
-kind: Job
+kind: CronJob
 metadata:
   name: {{ include "aas-manager.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "aas-manager.labels" . | nindent 4 }}
 spec:
-  template:
-    metadata:
-      labels:
-        {{- include "aas-manager.labels" . | nindent 8 }}
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 0
+  jobTemplate:
     spec:
-      serviceAccountName: {{ .Release.Namespace }}
-      securityContext:
-        {{- toYaml .Values.securityContext.init | nindent 8 }}
-      restartPolicy: Never
-      {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
-      initContainers:
-        - name: wait-for-aas
-        {{- if .Values.global }}
-          image: {{ .Values.global.image.initName }}:{{.Chart.AppVersion }}
-        {{- else }}
-          image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
-        {{- end }}
-          env:
-            {{- if .Values.global }}
-              {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
-              {{- end }}
-            {{- end }}
-            - name: URL
-              value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version
-            - name: VERSION
-              value: {{.Chart.AppVersion }}
-            - name: DEPEDENT_SERVICE_NAME
-              value: {{ .Values.dependentServices.aas }}
-            - name: COMPONENT
-              value: {{ include "aas-manager.name" . }}
-      {{- end }}
-      {{- if .Values.hostAliasEnabled }}
-        {{- toYaml .Values.aliases | nindent 6 }}
-      {{- end }}
-      containers:
-        - name: aas-manager
-          image: {{ .Values.image.name }}:{{.Chart.AppVersion }}
-        {{- if .Values.global }}
-          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
-        {{- else }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-        {{- end }}
+      template:
+        metadata:
+          labels:
+            {{- include "aas-manager.labels" . | nindent 12 }}
+        spec:
+          serviceAccountName: {{ .Release.Namespace }}
           securityContext:
-            {{- toYaml .Values.securityContext.aasManager | nindent 12 }}
-          env:
+            {{- toYaml .Values.securityContext.init | nindent 12 }}
+          restartPolicy: Never
+          {{- if not (contains "Trusted-Workload-Placement-Cloud-Service-Provider" .Template.BasePath) }}
+          initContainers:
+            - name: wait-for-aas
             {{- if .Values.global }}
-              {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
-              {{- end }}
+              image: {{ .Values.global.image.initName }}:{{.Chart.AppVersion }}
+            {{- else }}
+              image: {{ .Values.image.initName }}:{{.Chart.AppVersion }}
             {{- end }}
-          command: ["/bin/sh", "-c"]
-          #TODO: superAdmin in below command for getting bearer token should be made as template variable should be same as user mention in values.yml for install admin token
-          args:
-            - >
-              echo starting &&
-              BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep "Token for User: superAdmin" -A 2 | grep BEARER_TOKEN | cut -d '=' -f2) && populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json &&
-              if [ -z "$BEARER_TOKEN" ]; then exit 1; fi  &&
-              echo $BEARER_TOKEN &&
-              ./kubectl create secret generic bearer-token -n {{ .Release.Namespace }} --from-literal=BEARER_TOKEN=$BEARER_TOKEN
-          volumeMounts:
+              env:
+                {{- if .Values.global }}
+                  {{- if .Values.global.proxyEnabled }}
+                  {{- include "factory.proxy" . | nindent 16 }}
+                  {{- end }}
+                {{- end }}
+                - name: URL
+                  value: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/version
+                - name: VERSION
+                  value: {{.Chart.AppVersion }}
+                - name: DEPEDENT_SERVICE_NAME
+                  value: {{ .Values.dependentServices.aas }}
+                - name: COMPONENT
+                  value: {{ include "aas-manager.name" . }}
+          {{- end }}
+          {{- if .Values.hostAliasEnabled }}
+            {{- toYaml .Values.aliases | nindent 10 }}
+          {{- end }}
+          containers:
+            - name: aas-manager
+              image: {{ .Values.image.name }}:{{.Chart.AppVersion }}
+            {{- if .Values.global }}
+              imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+            {{- else }}
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- end }}
+              securityContext:
+                {{- toYaml .Values.securityContext.aasManager | nindent 16 }}
+              env:
+                {{- if .Values.global }}
+                  {{- if .Values.global.proxyEnabled }}
+                  {{- include "factory.proxy" . | nindent 16 }}
+                  {{- end }}
+                {{- end }}
+              command: ["/bin/sh", "-c"]
+              #TODO: superAdmin in below command for getting bearer token should be made as template variable should be same as user mention in values.yml for install admin token
+              args:
+                - >
+                  echo starting && ./kubectl delete secret -n {{ .Release.Namespace }} bearer-token --ignore-not-found &&
+                  BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep "Token for User: superAdmin" -A 2 | grep BEARER_TOKEN | cut -d '=' -f2) && populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json &&
+                  if [ -z "$BEARER_TOKEN" ]; then exit 1; fi  &&
+                  echo $BEARER_TOKEN &&
+                  ./kubectl create secret generic bearer-token -n {{ .Release.Namespace }} --from-literal=BEARER_TOKEN=$BEARER_TOKEN
+              volumeMounts:
+                - name: {{ include "aas-manager.name" . }}
+                  mountPath: /etc/secrets/
+                  readOnly: true
+          volumes:
             - name: {{ include "aas-manager.name" . }}
-              mountPath: /etc/secrets/
-              readOnly: true
-      volumes:
-        - name: {{ include "aas-manager.name" . }}
-          secret:
-            secretName: {{ include "aas-manager.name" . }}
+              secret:
+                secretName: {{ include "aas-manager.name" . }}

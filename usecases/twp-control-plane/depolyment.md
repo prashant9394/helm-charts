@@ -16,6 +16,7 @@ A collection of helm charts for Trusted Workload Placement - Control Plane Useca
       - [Update `values.yaml` for Use Case chart deployments](#update-valuesyaml-for-use-case-chart-deployments)
       - [Use Case charts Deployment](#use-case-charts-deployment)
       - [Individual Service/Agent Charts Deployment](#individual-serviceagent-charts-deployment)
+      - [Setup task workflow](#setup-task-workflow)
 
 <!-- /code_chunk_output -->
 
@@ -159,15 +160,6 @@ Cleanup steps that needs to be done for a fresh deployment
     
     helm uninstall command wont remove secrets by itself, one has to manually delete secrets or use cleanup-secrets to cleanup all the secrets.
     
-
-To re-run aas-manager job for getting latest bearer-token as a secret.   
-```shell script
-       kubectl delete secret -n isecl bearer-token
-       kubectl get job aas-manager -o json -n isecl | jq 'del(.spec.selector)' | jq 'del(.spec.template.metadata.labels)' > aas-manager.json
-       kubectl delete job aas-manager -n isecl
-       kubectl apply -f aas-manager.json
-```    
-
 ### Usecase based chart deployment (using umbrella charts)
 
 #### Update `values.yaml` for Use Case chart deployments
@@ -193,3 +185,28 @@ helm dependency update twp-control-plane/
 helm install <helm release name> twp-control-plane/ --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
+
+
+## Setup task workflow.
+
+Check this document for available setup tasks for each of the services  [Setup tasks](../../setup-tasks.md) 
+1. Edit the configmap of respective service where we want to run setup task, ```kubectl edit cms -n isecl```
+2. Add or Update all the variables required for setup tasks refer [here](../../setup-tasks.md)  for more details
+3. Add *SETUP_TASK* variable in config map with one or more setup task names e.g ```SETUP_TASK: "download-ca-cert,download-tls-cert"```
+4. Save the configmap
+5. Some of the sensitive variables such as credentials, db credentials, tpm-owner-secret can be updated in secrets with the command 
+
+    ```kubectl get secret -n <namespace> <secret-name> -o json | jq --arg val "$(echo <value> > | base64)" '.data["<variable-name>"]=$val' | kubectl apply -f -```
+    
+    e.g For updating the AAS_ADMIN_USERNAME in aas-credentials 
+    
+    ```kubectl get secret -n isecl aas-credentials -o json | jq --arg val "$(echo aaspassword | base64)" '.data["AAS_ADMIN_USERNAME"]=$val' | kubectl apply -f -``` 
+   
+6. Restart the pod by deleting it ```kubectl delete pod -n <namespace> <podname>```
+7. Reset the configmap by removing SETUP_TASK variable 
+
+      ```kubectl patch configmap -n <namespace> <configmap name> --type=json -p='[{"op": "remove", "path": "/data/SETUP_TASK"}]'```
+        
+        e.g For clearing SETUP_TASK variable in cms configmap
+        
+      ```kubectl patch configmap -n isecl cms --type=json -p='[{"op": "remove", "path": "/data/SETUP_TASK"}]'```
