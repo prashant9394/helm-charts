@@ -1,0 +1,55 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.deploymentCommonSpec" . }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.wlsInit | nindent 8 }}
+      initContainers:
+        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+        {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.wls | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+        - name: wait-for-hvs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+              value: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/version
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.hvs }}
+            - name: COMPONENT
+              value: {{ include "factory.name" . }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.wls | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          env:
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.service.wls.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /wls/v2/version
+              port: {{ .Values.service.wls.containerPort }}
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            failureThreshold: 60
+            periodSeconds: 15
+          volumeMounts:
+            {{- include "factory.volumeMountSvcConfig" . | nindent 12 }}
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            {{- include "factory.volumeMountSecrets" . | nindent 12 }}
+      volumes:
+        {{- include "factory.volumeSvcConfig" . | nindent 8 }}
+        {{- include "factory.volumeSvcLogs" . | nindent 8 }}
+        {{- include "factory.volumeBaseSecrets" . | nindent 8 }}
+        {{- include "factory.volumeCredentials" . | nindent 8 }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 8 }}
+        {{- include "factory.volumesBasePV" . | nindent 8 }}

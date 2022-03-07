@@ -1,0 +1,22 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  WLS_DB_HOSTNAME: {{ include "factory.name" . }}db.{{ .Release.Namespace }}.svc.cluster.local
+  WLS_DB_PORT: {{ .Values.config.dbPort | quote }}
+  WLS_DB: {{ .Values.config.dbName }}
+  WLS_DB_SSLMODE:  {{ .Values.config.dbSSLMode }}
+  WLS_DB_SSLCERT: /etc/postgresql/server.crt
+  HVS_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas
+  {{- if .Values.global }}
+  SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  WLS_ENABLE_CONSOLE_LOG: "true"
