@@ -21,3 +21,14 @@ Note: If using a seprarate .kubeconfig file, ensure to provide the path using --
   
 To check the status of the different k8s objects deployed, try:
   $ kubectl get all --namespace {{ .Release.Namespace }}
+
+Once deployment is complete, below endpoints can be hit to check on the services & Agents of {{ .Chart.Name }} use case
+
+Certificate Management Service (CMS):
+  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.cms }}/cms/v1/version' -k
+
+Authentication Authorization Service (AAS):
+  $ curl --location --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.aas }}/aas/v1/version' -k
+
+Host Verification Service (HVS):
+  $ curl --location --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.hvs }}/hvs/v2/version' -k

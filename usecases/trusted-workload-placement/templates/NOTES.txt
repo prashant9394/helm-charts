@@ -32,6 +32,3 @@ Once deployment is complete, below endpoints can be hit to check on the services
 
   Host Verification Service (HVS):
   $ curl --location --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.hvs }}/hvs/v2/version' -k
-  
-  Trust Agent (TA):
-  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.ta }}/v2/version' -k
