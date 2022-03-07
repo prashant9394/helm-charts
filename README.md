@@ -39,8 +39,6 @@ To get certificate Issuer
 openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
 ```
 
-tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
-
 ### Use Case Helm Charts 
 
 #### Foundational Security Usecases
