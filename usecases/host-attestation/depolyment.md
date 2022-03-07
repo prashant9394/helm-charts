@@ -51,7 +51,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
-| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*ta*<br />*nats(optional)*<br />*ta* |
+| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*ta*<br />*nats(optional) |
 
 
 ### Setting up for Helm deployment
@@ -99,6 +99,10 @@ aasdb-cert-generator
 
 hvsdb-cert-generator
 
+aas-manager
+
+nats
+
 
 #### Individual chart deployment and along with sequence to be followed
 Helm deployment commands: 
@@ -131,7 +135,6 @@ helm dependency update services/hvs
 helm install hvs services/hvs -n isecl
 helm dependency update services/ta 
 helm install ta services/ta -n isecl
-helm dependency update services/isecl-controller
 ```
 
 To uninstall a chart
@@ -145,8 +148,8 @@ helm list -A
 ```
 
 Cleanup steps that needs to be done for a fresh deployment
-* Uninstall all the chart deployments
-* Cleanup the data at NFS mount
+* Uninstall all the chart deployments.
+* Cleanup the data at NFS mount and TA nodes.
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 
