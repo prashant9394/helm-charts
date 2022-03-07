@@ -53,7 +53,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
-| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*k8s-extensions*<br />*ihub*<br />*ta* |
+| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*isecl-controller*<br />*isecl-scheduler*<br />*admission-controller*<br />*ihub*<br />*ta* |
 
 
 ### Setting up for Helm deployment
