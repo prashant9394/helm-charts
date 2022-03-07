@@ -27,7 +27,7 @@ A collection of helm charts for ISecL-DC usecases
 ### Commands to fetch EK certicate and Issuer
 
 The below obtained EK certificate can be used to upload to HVS DB, for allow registration of specific nodes use case.
-If a specific host has to be allowed to register for HVS, then, that host EK certificate should be upload to HVS using /hvs/tpm-endorsements API
+If a specific host has to be allowed to register to HVS, then, that host EK certificate should be uploaded to HVS using /hvs/tpm-endorsements API
 
 For RHEL OS
 ```
