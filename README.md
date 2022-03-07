@@ -24,6 +24,23 @@ A collection of helm charts for ISecL-DC usecases
 | Storage           | NFS                                                          |
 | Container Runtime | Foundational Security: *docker*,*CRI-O*<br/> |
 
+### Commands to fetch EK certicate and Issuer
+
+The below obtained EK certificate can be used to upload to HVS DB, for allow registration of specific nodes use case.
+If a specific host has to be allowed to register for HVS, then, that host EK certificate should be upload to HVS using /hvs/tpm-endorsements API
+
+For RHEL OS
+```
+yum install tpm2-tools
+tpm2_nvread -P hex:<owner secret> -x 0x1c00002 -a 0x40000001 -f ekcert.der or tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
+openssl x509 -inform der -in ekcert.der | base64
+
+To get certificate Issuer
+openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
+```
+
+tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
+
 ### Use Case Helm Charts 
 
 #### Foundational Security Usecases
