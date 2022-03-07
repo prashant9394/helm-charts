@@ -163,6 +163,10 @@ aasdb-cert-generator
 
 hvsdb-cert-generator
 
+aas-manager
+
+nats
+
 By default Nodeport is supported for all ISecl services deployed on K8s, ingress can be enabled by setting the *enable* to true under ingress in values.yaml of
 individual services
 
@@ -219,7 +223,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
-* Cleanup the data at NFS mount
+* Cleanup the data at NFS mount and TA nodes.
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 
