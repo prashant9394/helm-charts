@@ -1,6 +1,6 @@
 # Helm Chart Deployment steps for Host Attestation Usecase
 
-A collection of helm charts for Trusted Workload Placement Usecase
+A collection of helm charts for Host-Attestation Usecase
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
