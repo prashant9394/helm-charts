@@ -15,6 +15,9 @@ aas-manager:
 hvs:
   image:
     name: <user input> # Host Verification Service image name<br> (**REQUIRED**)
+  config:
+    requireEKCertForHostProvision: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+    verifyQuoteForHostRegistration: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
 
 trustagent:
   image:

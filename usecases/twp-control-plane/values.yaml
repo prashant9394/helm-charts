@@ -25,8 +25,8 @@ hvs:
   image:
     name: hvs # Host Verification Service image name<br> (**REQUIRED**)
   config:
-    requireEKCertForHostProvision: true # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
-    verifyQuoteForHostRegistration: true # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+    requireEKCertForHostProvision: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+    verifyQuoteForHostRegistration: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
 
 nats:
   clientPort: 30222
