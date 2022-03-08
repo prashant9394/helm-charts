@@ -4,13 +4,13 @@
 {{ include "factory.pvBaseCommonSpec" . }}
   storageClassName: nfs
   nfs:
-    path: {{ .Values.global.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/
+    path: {{ .Values.global.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}
     server: {{ .Values.global.storage.nfs.server }}
 {{- else }}
 ---
 {{ include "factory.pvBaseCommonSpec" . }}
   storageClassName: nfs
   nfs:
-    path: {{ .Values.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/
+    path: {{ .Values.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}
     server: {{ .Values.storage.nfs.server }}
 {{- end }}

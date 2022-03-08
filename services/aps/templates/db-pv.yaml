@@ -4,7 +4,7 @@
 {{ include "factory.pvDbCommonSpec" . }}
   storageClassName: nfs
   nfs:
-    path: {{ .Values.global.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/db/
+    path: {{ .Values.global.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/db
     server: {{ .Values.global.storage.nfs.server }}
 {{- else }}
 ---
