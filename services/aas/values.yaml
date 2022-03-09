@@ -19,6 +19,7 @@ config:
   dbListenAddresses: "*" # PostgreSQL DB Listen Address
   dbName: aasdb # AAS DB Name
   dbSSLMode: verify-full # PostgreSQL DB SSL Mode
+  dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
   createCredentials: true # Trigger to run create-credentials setup task when set to True. Default is False
 
 secret:
