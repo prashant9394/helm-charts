@@ -1,0 +1,7 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.serviceDbCommonSpec" . }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.tcsdb.containerPort }}
+      targetPort: {{ .Values.service.tcsdb.containerPort }}
