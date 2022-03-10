@@ -117,6 +117,13 @@
                "permissions":[
                   "*:*:*"
                ]
+            },
+            {
+              "service":"FDS",
+              "name":"Administrator",
+              "permissions":[
+                 "*:*:*"
+             ]
             }
          ]
       },
