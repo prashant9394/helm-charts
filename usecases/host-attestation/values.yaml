@@ -39,6 +39,9 @@ trustagent:
           - ""
           -
 
+nats:
+  clientPort: 30222
+
 nats-init:
   image:
     name: <user input> # The image name of nats-init container
