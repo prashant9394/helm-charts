@@ -30,4 +30,4 @@ spec:
           args:
             - >
               echo starting &&
-              kubectl delete secrets -n {{ .Release.Namespace }} --field-selector type=Opaque --field-selector type=kubernetes.io/tls && kubectl delete cm --all -n {{ .Release.Namespace }}
+              kubectl delete secrets -n {{ .Release.Namespace }} --field-selector type=Opaque && kubectl delete secrets -n {{ .Release.Namespace }} --field-selector type=kubernetes.io/tls && kubectl delete cm --all -n {{ .Release.Namespace }}
