@@ -21,7 +21,7 @@ spec:
         {{- toYaml .Values.securityContext.tcsdbCertGeneratorInit | nindent 8 }}
       serviceAccountName: isecl
       restartPolicy: Never
-      containers:
+      initContainers:
         - name: tcsdb-cert-generator-cfssl
           image: cfssl/cfssl:1.6.1
           imagePullPolicy: Always
@@ -33,11 +33,12 @@ spec:
               echo Creating Database SSL Cert &&
               cd /tmp/certs/ &&
               echo '{ "hosts": [{{- if .Values.global }}"{{ .Values.global.controlPlaneHostname }}"{{- else }}"{{ .Values.controlPlaneHostname }}"{{- end }}],"CN": "ISecl Self Sign Cert","key": {"algo": "rsa", "size": 4096}}' > ca-csr.json &&
-              cfssl gencert -initca /tmp/certs/ca-csr.json | cfssljson -bare ca - &&
+              cfssl gencert -initca ca-csr.json | cfssljson -bare ca - &&
               echo '{"CN":"tcsdb TLS Certificate","hosts":["tcsdb.{{ .Release.Namespace }}.svc.cluster.local  "],"key":{"algo":"rsa","size":4096}}' | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -profile=server -hostname="tcsdb.{{ .Release.Namespace }}.svc.cluster.local" - | cfssljson -bare tcsdb-server
           volumeMounts:
             - name: cert-volume
               mountPath: /tmp/certs
+      containers:
         - name: tcsdb-cert-generator-kubectl
           image: bitnami/kubectl:1.22
           imagePullPolicy: Always
