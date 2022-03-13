@@ -34,6 +34,9 @@ dependencies:
   - name: aasdb-cert-generator
     repository: file://../../jobs/aasdb-cert-generator/
     version: 0.1.0
+  - name: nats-init
+    repository: file://../../jobs/nats/
+    version: 0.1.0
   - name: hvsdb-cert-generator
     repository: file://../../jobs/hvsdb-cert-generator/
     version: 0.1.0
@@ -51,6 +54,9 @@ dependencies:
     version: 0.1.0
   - name: trustagent
     repository: file://../../services/ta/
+    version: 0.1.0
+  - name: nats
+    repository: file://../../services/nats/
     version: 0.1.0
 
 maintainers:

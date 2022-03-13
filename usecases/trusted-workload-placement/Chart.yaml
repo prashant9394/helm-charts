@@ -37,6 +37,9 @@ dependencies:
   - name: hvsdb-cert-generator
     repository: file://../../jobs/hvsdb-cert-generator/
     version: 0.1.0
+  - name: nats-init
+    repository: file://../../jobs/nats/
+    version: 0.1.0
   - name: cms
     repository: file://../../services/cms/ 
     version: 0.1.0
@@ -60,6 +63,9 @@ dependencies:
     version: 0.1.0
   - name: isecl-scheduler
     repository: file://../../services/isecl-scheduler/ 
+    version: 0.1.0
+  - name: nats
+    repository: file://../../services/nats/
     version: 0.1.0
   
 maintainers:

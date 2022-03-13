@@ -162,19 +162,6 @@ Cleanup steps that needs to be done for a fresh deployment
 
 ### Usecase based chart deployment (using umbrella charts)
 
-#### For supporting TA outbound model.
-
-NATS Server has been used for supporting outbound/push model for TA, where HVS and TA subscribes for set of events.
-Enable NATS in Chart.yaml file by adding following lines
-```shell script
-  - name: nats
-    repository: file://../../services/nats/
-    version: 0.1.0
-  - name: nats-init
-    repository: file://../../jobs/nats/
-    version: 0.1.0
-``` 
-
 #### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
