@@ -39,7 +39,7 @@ To get certificate Issuer
 openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
 ```
 
-Note: Above <owner secret> is TPM owner secret of 40 character hex string
+Note: Above "<owner secret>" is TPM owner secret of 40 character hex string
     
 ### Use Case Helm Charts 
 
