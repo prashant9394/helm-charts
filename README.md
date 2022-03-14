@@ -33,12 +33,14 @@ For RHEL OS
 ```
 yum install tpm2-tools
 tpm2_nvread -P hex:<owner secret> -x 0x1c00002 -a 0x40000001 -f ekcert.der or tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
-openssl x509 -inform der -in ekcert.der | base64
+openssl x509 -inform der -in ekcert.der | base64 | tr -d " \t\n\r"
 
 To get certificate Issuer
 openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
 ```
 
+Note: Above <owner secret> is TPM owner secret of 40 character hex string
+    
 ### Use Case Helm Charts 
 
 #### Foundational Security Usecases
