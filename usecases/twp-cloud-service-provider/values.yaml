@@ -3,7 +3,7 @@ aas-manager:
   image:
     name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
   aas:
-    url: <user input> # Authservice Base Url
+    url: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://isecl.com:30444/aas/v1
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
     hostAliases:
@@ -81,9 +81,9 @@ global:
       servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) ie "nats://<hostname>:30222"
       serviceMode: outbound # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
 
-  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end
-  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end
-  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end
+  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://isecl.com:30443/hvs/v2
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://isecl.com:30445/cms/v1
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://isecl.com:30444/aas/v1
 
   cmsTlsSha384: <user input>
   storage:

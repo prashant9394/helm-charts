@@ -12,7 +12,7 @@ aas-manager:
   image:
     name: aas-manager # Authentication & Authorization Manager image name<br> (**REQUIRED**)
   aas:
-    url:  <user input> # AAS Base url
+    url:  <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://isecl.com:30444/aas/v1
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
     hostAliases:

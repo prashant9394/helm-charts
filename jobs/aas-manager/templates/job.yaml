@@ -8,7 +8,7 @@ metadata:
   labels:
     {{- include "aas-manager.labels" . | nindent 4 }}
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "*/5 * * * *"
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:

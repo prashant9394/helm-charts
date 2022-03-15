@@ -143,9 +143,9 @@ The helm chart support Nodeports for services, to support ingress model.
 
 The `values.yaml` file in each of the charts is used for defining all the values required for an individual chart deployment. Most of the values are already defined
 and yet there are few values needs to be defined by the user, these are marked by placeholder with the name \<user input\>.  
+e.g 
 ```yaml
 image:
-  registry: <user input> # The image registry where AAS-MANAGER image is pushed
   name: <user input> # The image name with which AAS-MANAGER image is pushed to registry
 
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
@@ -223,6 +223,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
+* cleanup the secrets for isecl-scheduler-certs and admission-controller-certs. ```kubectl delete secret -n <namespace> isecl-scheduler-certs admission-controller-certs```
 * Cleanup the data at NFS mount and TA nodes.
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
