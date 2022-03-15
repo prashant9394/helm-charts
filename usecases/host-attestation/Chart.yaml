@@ -16,7 +16,7 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.0
+version: 4.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
@@ -27,37 +27,37 @@ appVersion: "v4.2.0"
 dependencies:
   - name: factory
     repository: file://../../lib/factory/ 
-    version: 0.1.0
+    version: 4.2.0
   - name: cleanup-secrets
     repository: file://../../jobs/cleanup-secrets/
-    version: 0.1.0
+    version: 4.2.0
   - name: aasdb-cert-generator
     repository: file://../../jobs/aasdb-cert-generator/
-    version: 0.1.0
+    version: 4.2.0
   - name: nats-init
     repository: file://../../jobs/nats/
-    version: 0.1.0
+    version: 4.2.0
   - name: hvsdb-cert-generator
     repository: file://../../jobs/hvsdb-cert-generator/
-    version: 0.1.0
+    version: 4.2.0
   - name: cms
     repository: file://../../services/cms/ 
-    version: 0.1.0
+    version: 4.2.0
   - name: aas
     repository: file://../../services/aas/ 
-    version: 0.1.0
+    version: 4.2.0
   - name: aas-manager
     repository: file://../../jobs/aas-manager/ 
-    version: 0.1.0
+    version: 4.2.0
   - name: hvs
     repository: file://../../services/hvs/ 
-    version: 0.1.0
+    version: 4.2.0
   - name: trustagent
     repository: file://../../services/ta/
-    version: 0.1.0
+    version: 4.2.0
   - name: nats
     repository: file://../../services/nats/
-    version: 0.1.0
+    version: 4.2.0
 
 maintainers:
 - name: JJ
