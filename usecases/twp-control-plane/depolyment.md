@@ -35,7 +35,9 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 * NFS setup
   > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
     ```shell script 
-        ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
+    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0/setup-nfs.sh
+    chmod +x setup-nfs.sh
+    ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
     ```
 ### Support Details
 
@@ -53,17 +55,22 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
-| Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*nats*<br /> |
+| Trusted-Workload-Placement Control-Plane | *cms*<br />*aas*<br />*hvs*<br />*nats*<br /> |
 
 
 ### Setting up for Helm deployment
 
 ### Installing isecl-helm charts
 
-* Clone the repo
+* Add the isecl-helm charts in helm chart repository
 ```shell
-git clone https://github.com/intel-innersource/applications.security.isecl.engineering.helm-charts.git
-cd applications.security.isecl.engineering.helm-charts/
+helm repo add isecl-helm https://github.com/intel-secl/helm-charts/charts
+helm repo update
+```
+
+* To find list of avaliable charts
+```shell script
+helm repo search
 ```
 
 ### Individual helm chart deployment (using service/job charts)
@@ -106,8 +113,9 @@ hvsdb-cert-generator
 Helm deployment commands: 
 
 ```shell script
-helm dependency update <chart folder>/
-helm install <helm release name> <chart folder>/ --create-namespace -n isecl (--create-namespace for the 1st helm install command to be run)
+helm repo update
+helm repo pull isecl-helm/<use-case-chart/service-chart>
+helm install <helm release name> isecl-helm/<use-case-chart/service-chart> --create-namespace -n isecl (--create-namespace for the 1st helm install command to be run)
 ```
 
 CMS, AAS are common dependent services for any of the ISecl services/agents to be deployed except ISecl K8s Extensions(ISecl K8s Scheduler and ISecl K8s controller). Hence these two services 
@@ -117,24 +125,24 @@ Services which has database deployment associated with it needs db ssl certifica
 
 Below are the common/mandatory steps need to be performed for deploying individual charts except ISecl K8s Extensions.
 ```shell script
-helm dependency update jobs/cleanup-secrets/
-helm install cleanup-secrets jobs/cleanup-secrets/ -n isecl --create-namespace
-helm dependency update services/cms
-helm install cms services/cms -n isecl
-helm dependency update jobs/aasdb-cert-generator/
-helm install aasdb-cert-generator jobs/aasdb-cert-generator/ -n isecl
-helm dependency update services/aas
-helm install aas services/aas -n isecl
-helm dependency update jobs/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl
-helm dependency update jobs/hvsdb-cert-generator/
-helm install hvsdb-cert-generator jobs/hvsdb-cert-generator/ -n isecl
-helm dependency update services/hvs
-helm install hvs services/hvs -n isecl
-helm dependency update jobs/nats 
-helm install nats-init jobs/nats -n isecl
-helm dependency update services/nats
-helm install nats services/nats -n isecl
+helm repo pull isecl-helm/cleanup-secrets
+helm install cleanup-secrets isecl-helm/cleanup-secrets -n isecl --create-namespace
+helm repo pull isecl-helm/cms
+helm install cms isecl-helm/cms -n isecl -f values.yaml
+helm repo pull isecl-helm/aasdb-cert-generator
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -n isecl 
+helm repo pull isecl-helm/aas
+helm install aas services/aas -n isecl -f values.yaml
+helm repo pull isecl-helm/aas-manager
+helm install aas-manager jobs/aas-manager -n isecl -f values.yaml
+helm repo pull isecl-helm/hvsdb-cert-generator
+helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -n isecl
+helm repo pull isecl-helm/hvs
+helm install hvs isecl-helm/hvs -n isecl -f values.yaml
+helm repo pull isecl-helm/nats-init 
+helm install nats-init isecl-helm/nats-init -f values.yaml -n isecl
+helm repo pull isecl-helm/nats
+helm install nats isecl-helm/nats -n isecl
 ```
 
 To uninstall a chart
@@ -164,6 +172,8 @@ Cleanup steps that needs to be done for a fresh deployment
 
 #### Update `values.yaml` for Use Case chart deployments
 
+The values.yaml can be found under usecase chart as usecases/twp-control-plane/values.yaml
+
 Some assumptions before updating the `values.yaml` are as follows:
 * The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.2.0) as version for each image
 * The NFS server and setup either using sample script or by the user itself
@@ -180,9 +190,8 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-cd usecases/
-helm dependency update twp-control-plane/
-helm install <helm release name> twp-control-plane/ --create-namespace -n <namespace>
+helm repo pull isecl-helm/Trusted-Workload-Placement-Control-Plane
+helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-Plane --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
