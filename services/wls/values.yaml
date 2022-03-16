@@ -19,10 +19,10 @@ secret:
 
 image:
   svc:
-    registry: <user input> # The image registry where WLS image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which CMS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for WLS<br> (Allowed values: `Always`/`IfNotPresent`)
-
+    initName: <user input> # intit-wait image name
+    
 storage:
   nfs:
     server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
