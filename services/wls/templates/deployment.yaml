@@ -17,7 +17,7 @@
             - name: URL
               value: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/version
             - name: VERSION
-              value: {{ .Chart.AppVersion }}         
+              value: {{ .Chart.AppVersion }}
             - name: DEPEDENT_SERVICE_NAME
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
@@ -49,7 +49,7 @@
       volumes:
         {{- include "factory.volumeSvcConfig" . | nindent 8 }}
         {{- include "factory.volumeSvcLogs" . | nindent 8 }}
-        {{- include "factory.volumeBaseSecrets" . | nindent 8 }}
-        {{- include "factory.volumeCredentials" . | nindent 8 }}
-        {{- include "factory.volumeAasBearerToken" . | nindent 8 }}
         {{- include "factory.volumesBasePV" . | nindent 8 }}
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeCredentials" . | nindent 12 }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
