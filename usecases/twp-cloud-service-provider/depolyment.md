@@ -34,7 +34,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 * NFS setup
   > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
     ```shell script 
-    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0/setup-nfs.sh
+    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
     chmod +x setup-nfs.sh
     ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
     ```
