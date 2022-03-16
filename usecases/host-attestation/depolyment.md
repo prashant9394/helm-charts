@@ -101,8 +101,6 @@ hvsdb-cert-generator
 
 aas-manager
 
-nats
-
 
 #### Individual chart deployment and along with sequence to be followed
 Helm deployment commands: 

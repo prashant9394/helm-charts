@@ -17,6 +17,17 @@ spec:
           labels:
             {{- include "aas-manager.labels" . | nindent 12 }}
         spec:
+          {{- if .Values.global }}
+          {{- if .Values.global.image.imagePullSecret }}
+          imagePullSecrets:
+          - name: {{ .Values.global.image.imagePullSecret }}
+          {{- end }}
+          {{- else }}
+          {{- if .Values.image.svc.imagePullSecret }}
+          imagePullSecrets:
+          - name: {{ .Values.image.svc.imagePullSecret }}
+          {{- end }}
+          {{- end }}
           serviceAccountName: {{ .Release.Namespace }}
           securityContext:
             {{- toYaml .Values.securityContext.init | nindent 12 }}

@@ -165,8 +165,6 @@ hvsdb-cert-generator
 
 aas-manager
 
-nats
-
 By default Nodeport is supported for all ISecl services deployed on K8s, ingress can be enabled by setting the *enable* to true under ingress in values.yaml of
 individual services
 

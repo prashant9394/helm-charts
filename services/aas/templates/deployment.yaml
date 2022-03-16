@@ -2,11 +2,16 @@
 ---
 {{- include "factory.deploymentCommonSpec" . }}
     spec:
-      imagePullSecrets:
       {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
       - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
       {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
       - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.aasInit | nindent 8 }}
