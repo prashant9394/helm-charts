@@ -80,11 +80,6 @@
                 "context":"CN=Integration Hub TLS Certificate;SAN=ihub.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
             },
             {
-                 "service": "CMS",
-                 "name": "CertApprover",
-                 "context":"CN=FDS TLS Certificate;SAN=fds.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
-            },
-            {
                "service": "CMS",
                "name": "CertApprover",
                {{- if .Values.global }}
