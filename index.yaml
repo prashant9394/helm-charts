@@ -50,7 +50,7 @@ entries:
     name: Host-Attestation
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/Host-Attestation-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/Host-Attestation-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   Trusted-Workload-Placement:
   - apiVersion: v2
@@ -112,7 +112,7 @@ entries:
     name: Trusted-Workload-Placement
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/Trusted-Workload-Placement-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/Trusted-Workload-Placement-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   Trusted-Workload-Placement-Cloud-Service-Provider:
   - apiVersion: v2
@@ -156,7 +156,7 @@ entries:
     name: Trusted-Workload-Placement-Cloud-Service-Provider
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/Trusted-Workload-Placement-Cloud-Service-Provider-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   Trusted-Workload-Placement-Control-Plane:
   - apiVersion: v2
@@ -206,7 +206,7 @@ entries:
     name: Trusted-Workload-Placement-Control-Plane
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/Trusted-Workload-Placement-Control-Plane-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/Trusted-Workload-Placement-Control-Plane-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   aas:
   - apiVersion: v2
@@ -222,7 +222,7 @@ entries:
     name: aas
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/aas-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/aas-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   aas-manager:
   - apiVersion: v2
@@ -238,7 +238,7 @@ entries:
     name: aas-manager
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/aas-manager-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/aas-manager-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   aasdb-cert-generator:
   - apiVersion: v2
@@ -253,7 +253,7 @@ entries:
     name: aasdb-cert-generator
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/aasdb-cert-generator-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/aasdb-cert-generator-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   admission-controller:
   - apiVersion: v2
@@ -268,7 +268,7 @@ entries:
     name: admission-controller
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/admission-controller-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/admission-controller-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   cleanup-secrets:
   - apiVersion: v2
@@ -283,7 +283,7 @@ entries:
     name: cleanup-secrets
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/cleanup-secrets-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/cleanup-secrets-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   cms:
   - apiVersion: v2
@@ -298,7 +298,7 @@ entries:
     name: cms
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/cms-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/cms-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   hvs:
   - apiVersion: v2
@@ -313,7 +313,7 @@ entries:
     name: hvs
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/hvs-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/hvs-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   hvsdb-cert-generator:
   - apiVersion: v2
@@ -328,7 +328,7 @@ entries:
     name: hvsdb-cert-generator
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/hvsdb-cert-generator-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/hvsdb-cert-generator-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   ihub:
   - apiVersion: v2
@@ -343,7 +343,7 @@ entries:
     name: ihub
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/ihub-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/ihub-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   isecl-controller:
   - apiVersion: v2
@@ -358,7 +358,7 @@ entries:
     name: isecl-controller
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/isecl-controller-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/isecl-controller-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   isecl-scheduler:
   - apiVersion: v2
@@ -373,7 +373,7 @@ entries:
     name: isecl-scheduler
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/isecl-scheduler-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/isecl-scheduler-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   nats:
   - apiVersion: v2
@@ -388,7 +388,7 @@ entries:
     name: nats
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/nats-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/nats-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   nats-init:
   - apiVersion: v2
@@ -404,7 +404,7 @@ entries:
     name: nats-init
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/nats-init-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/nats-init-4.2.0-Beta.tgz
     version: 4.2.0-Beta
   trustagent:
   - apiVersion: v2
@@ -419,6 +419,6 @@ entries:
     name: trustagent
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/isecl-helm/trustagent-4.2.0-Beta.tgz
+    - https://github.com/intel-secl/helm-charts/releases/download/v4.2.0-Beta/trustagent-4.2.0-Beta.tgz
     version: 4.2.0-Beta
 generated: "2022-03-16T04:43:25.198628849-07:00"
