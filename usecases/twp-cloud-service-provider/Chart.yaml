@@ -16,39 +16,39 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 4.2.0-Beta
+version: 4.2.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "v4.2.0-Beta"
+appVersion: "v4.2.0"
 
 dependencies:
   - name: factory
     repository: file://../../lib/factory/ 
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: cleanup-secrets
     repository: file://../../jobs/cleanup-secrets/
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: aas-manager
     repository: file://../../jobs/aas-manager/ 
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: trustagent
     repository: file://../../services/ta/
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: isecl-controller
     repository: file://../../services/isecl-controller/ 
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: ihub
     repository: file://../../services/ihub/ 
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: isecl-scheduler
     repository: file://../../services/isecl-scheduler/ 
-    version: 4.2.0-Beta
+    version: 4.2.0
   - name: admission-controller
     repository: file://../../services/admission-controller/
-    version: 4.2.0-Beta
+    version: 4.2.0
   
 maintainers:
 - name: JJ
