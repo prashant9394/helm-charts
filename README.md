@@ -23,23 +23,6 @@ A collection of helm charts for ISecL-DC usecases
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
 | Container Runtime | Foundational Security: *docker*,*CRI-O*<br/> |
-
-### Commands to fetch EK certicate and Issuer
-
-The below obtained EK certificate can be used to upload to HVS DB, for allow registration of specific nodes use case.
-If a specific host has to be allowed to register to HVS, then, that host EK certificate should be uploaded to HVS using /hvs/tpm-endorsements API
-
-For RHEL OS
-```
-yum install tpm2-tools
-tpm2_nvread -P hex:<owner secret> -x 0x1c00002 -a 0x40000001 -f ekcert.der or tpm2_nvread -P hex:<owner secret> -C 0x40000001 -o ekcert.der  0x1c00002
-openssl x509 -inform der -in ekcert.der | base64 | tr -d " \t\n\r"
-
-To get certificate Issuer
-openssl x509 -inform der -in ekcert.der --text | grep -Po 'CN =\K.*'
-```
-
-Note: Above "owner secret" is TPM owner secret of 40 character hex string
     
 ### Use Case Helm Charts 
 
@@ -47,7 +30,7 @@ Note: Above "owner secret" is TPM owner secret of 40 character hex string
 
 | Use case                                | Helm Charts                                        | Deployment Steps |
 | --------------------------------------- | ----------------------------------------------------------------- | ---------------- |
-| Host Attestation                        | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/host-attestation/depolyment.md) |
-| Trusted Workload Placement(TWP) - Containers | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*admission-controller*<br />*isecl-controller*<br />*isecl-scheduler*<br />*Integration Hub (IHub)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/trusted-workload-placement/depolyment.md) |
-| Trusted Workload Placement - Control Plane            | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*NATS Cluster*<br /> | [Deployment Steps](usecases/twp-control-plane/depolyment.md) |
-| Trusted Workload Placement - CSP          | *Trustagent (TA)*<br />*Integration Hub*<br />*Admission-controller*<br />*ISecl-Controller*<br />*ISecl-Scheduler*<br /> | [Deployment Steps](usecases/twp-cloud-service-provider/depolyment.md)|
+| Host Attestation                        | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/host-attestation/deployment.md) |
+| Trusted Workload Placement(TWP) - Containers | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*admission-controller*<br />*isecl-controller*<br />*isecl-scheduler*<br />*Integration Hub (IHub)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/trusted-workload-placement/deployment.md) |
+| Trusted Workload Placement - Control Plane            | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*NATS Cluster*<br /> | [Deployment Steps](usecases/twp-control-plane/depoloyment.md) |
+| Trusted Workload Placement - CSP          | *Trustagent (TA)*<br />*Integration Hub*<br />*Admission-controller*<br />*ISecl-Controller*<br />*ISecl-Scheduler*<br /> | [Deployment Steps](usecases/twp-cloud-service-provider/deployment.md)|

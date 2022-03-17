@@ -35,10 +35,12 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 * NFS setup
   > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
     ```shell script 
-    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0/setup-nfs.sh
+    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
     chmod +x setup-nfs.sh
     ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
     ```
+
+* For building container images Refer here for [instructions](https://github.com/intel-secl/docs/blob/v4.2/develop/docs/quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build.md)  
   
 ### Support Details
 
@@ -130,7 +132,7 @@ Add the output base64 encoded string to value in caBundle sub field of admission
 
 * Add the isecl-helm charts in helm chart repository
 ```shell
-helm repo add isecl-helm https://github.com/intel-secl/helm-charts/charts
+helm repo add isecl-helm https://intel-secl.github.io/helm-charts
 helm repo update
 ```
 
@@ -190,7 +192,25 @@ needs to be up and running before deploying any individual services. AAS manager
 
 Services which has database deployment associated with it needs db ssl certificates to be generated as secrets, this is done by deploying \<service\>db-cert-generator job.
 
-Below are the common/mandatory steps need to be performed for deploying individual charts.
+Following is the list of values.yaml required for each of services/jobs
+
+| service/jobs            | Link to values.yaml file    |
+| ----------------------- | --------------------------- |
+| cleanup-secrets         | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml)  |
+| cms                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/cms/values.yaml) |
+| aasdb-cert-generator    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml)                                                       |
+| aas                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/aas/values.yaml) |
+| aas-manager             | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/aas-manager/values.yaml)  |
+| hvsdb-cert-generator    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/hvsdb-cert-generator/values.yaml)  |
+| hvs                     | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/hvs/values.yaml)  |
+| isecl-controller        | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/isecl-controller/values.yaml)  |
+| ihub                    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/ihub/values.yaml)  |
+| isecl-scheduler         | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/isecl-scheduler/values.yaml)  |
+| admission-controller    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/admission-controller/values.yaml)  |
+| trustagent              | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/ta/values.yaml)  |
+
+
+Following are the steps need to be run for deploying individual charts.
 ```shell script
 helm repo pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets isecl-helm/cleanup-secrets -n isecl --create-namespace
@@ -206,7 +226,7 @@ helm repo pull isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -n isecl
 helm repo pull isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f values.yaml
-helm repo pull isecl-helm/ta 
+helm repo pull isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f values.yaml
 helm repo pull isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f values.yaml
