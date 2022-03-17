@@ -13,8 +13,8 @@ A collection of helm charts for Trusted Workload Placement - Cloud Service Provi
     - [Setting up for Helm deployment](#setting-up-for-helm-deployment)
     - [Installing isecl-helm charts](#installing-isecl-helm-charts)
       - [Update `values.yaml` for Use Case chart deployments](#update-valuesyaml-for-use-case-chart-deployments)
-      - [Use Case charts Deployment](#use-case-charts-deployment)
-      - [Individual Service/Agent Charts Deployment](#individual-serviceagent-charts-deployment)
+      - [Use Case charts Deployment](#usecase-based-chart-deployment-using-umbrella-charts)
+      - [Individual Service/Agent Charts Deployment](#individual-helm-chart-deployment-using-servicejob-charts)
       - [Setup task workflow](#setup-task-workflow)
 
 <!-- /code_chunk_output -->
@@ -138,7 +138,7 @@ helm repo update
 
 * To find list of avaliable charts
 ```shell script
-helm repo search
+helm serach repo
 ```
 
 ### Individual helm chart deployment (using service/job charts)
@@ -169,47 +169,44 @@ By default Nodeport is supported for all ISecl services deployed on K8s, ingress
 individual services
 
 #### Individual chart deployment and along with sequence to be followed
-Helm deployment commands: 
-
-```shell script
-helm repo update
-helm repo pull isecl-helm/<use-case-chart/service-chart>
-helm install <helm release name> isecl-helm/<use-case-chart/service-chart> --create-namespace -n isecl (--create-namespace for the 1st helm install command to be run)
-```
-
-CMS, AAS are common dependent services for any of the ISecl services/agents to be deployed except ISecl K8s Extensions(ISecl K8s Scheduler and ISecl K8s controller). Hence these two services 
-needs to be up and running before deploying any individual services. AAS manager job needs to be run to generate bearer-token as a secret.
 
 Services which has database deployment associated with it needs db ssl certificates to be generated as secrets, this is done by deploying \<service\>db-cert-generator job.
 
-Following is the list of values.yaml required for each of services/jobs
-| service/jobs            | Link to values.yaml file    |
-| ----------------------- | --------------------------- |
-| cleanup-secrets         | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml)  |
-| aas-manager             | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/jobs/aas-manager/values.yaml)  |
-| isecl-controller        | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/isecl-controller/values.yaml)  |
-| ihub                    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/ihub/values.yaml)  |
-| isecl-scheduler         | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/isecl-scheduler/values.yaml)  |
-| admission-controller    | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/admission-controller/values.yaml)  |
-| trustagent              | [values.yaml](https://github.com/intel-secl/helm-charts/blob/v4.2.0-Beta/services/ta/values.yaml)  |
+Download the values.yaml for each of the services.
 
+```shell script
+curl -fsSL -o cleanup-secrets.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/cleanup-secrets/values.yaml
+curl -fsSL -o cms.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/cms/values.yaml
+curl -fsSL -o aasdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aasdb-cert-generator/values.yaml
+curl -fsSL -o aas.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/aas/values.yaml
+curl -fsSL -o aas-manager.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/aas-manager/values.yaml
+curl -fsSL -o hvsdb-cert-generator.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/jobs/hvsdb-cert-generator/values.yaml
+curl -fsSL -o hvs.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/hvs/values.yaml
+curl -fsSL -o trustagent.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/ta/values.yaml
+curl -fsSL -o isecl-controller.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/isecl-controller/values.yaml
+curl -fsSL -o ihub.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/ihub/values.yaml
+curl -fsSL -o isecl-scheduler.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/isecl-scheduler/values.yaml
+curl -fsSL -o admission-controller.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/services/admission-controller/values.yaml
+```
+
+Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
 helm repo pull isecl-helm/cleanup-secrets
-helm install cleanup-secrets isecl-helm/cleanup-secrets -n isecl --create-namespace
+helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
 helm repo pull isecl-helm/aas-manager
-helm install aas-manager jobs/aas-manager -n isecl -f values.yaml
-helm repo pull isecl-helm/ta 
-helm install trustagent isecl-helm/trustagent -n isecl -f values.yaml
+helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
+helm repo pull isecl-helm/trustagent 
+helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
 helm repo pull isecl-helm/isecl-controller
-helm install isecl-controller isecl-helm/isecl-controller -n isecl -f values.yaml
+helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
 helm repo pull isecl-helm/ihub
-helm install ihub repo pull isecl-helm/ihub -n isecl -f values.yaml
+helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
 helm repo pull isecl-helm/isecl-scheduler
-helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f values.yaml
+helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
 helm repo pull isecl-helm/admission-controller
-helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f values.yaml
+helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
 To uninstall a chart
@@ -239,9 +236,12 @@ Cleanup steps that needs to be done for a fresh deployment
 
 ### Usecase based chart deployment (using umbrella charts)
 
-#### Update `values.yaml` for Use Case chart deployments
+Download the values.yaml file for TWP Cloud Service Provider usecase chart
+```shell script
+curl -fsSL -o values.yaml https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/usecases/twp-cloud-service-provider/values.yaml
+```
 
-The values.yaml can be found under usecase chart as usecases/twp-cloud-service-provider/values.yaml
+#### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
 * The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v4.2.0) as version for each image
