@@ -39,6 +39,11 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
     chmod +x setup-nfs.sh
     ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
     ```
+    mfs client needs to be installed on every worker node
+    
+    For ubuntu ```apt install nfs-common```
+    
+    For rhel ```dnf install nfs-utils```
 
 * For building container images Refer here for [instructions](https://github.com/intel-secl/docs/blob/v4.2/develop/docs/quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build.md)  
   
