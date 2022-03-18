@@ -75,7 +75,7 @@ helm repo update
 
 * To find list of avaliable charts
 ```shell script
-helm serach repo
+helm search repo
 ```
 
 ### Individual helm chart deployment (using service/job charts)
@@ -137,21 +137,21 @@ Update all the downloaded values.yaml with appropriate values.
  
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm pull --verify isecl-helm/cleanup-secrets
+helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm pull --verify isecl-helm/cms
+helm pull isecl-helm/cms
 helm install cms isecl-helm/cms -n isecl -f cms.yaml
-helm pull --verify isecl-helm/aasdb-cert-generator
+helm pull isecl-helm/aasdb-cert-generator
 helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -f aasdb-cert-generator.yaml  -n isecl
-helm pull --verify isecl-helm/aas
+helm pull isecl-helm/aas
 helm install aas services/aas -n isecl -f aas.yaml
-helm pull --verify isecl-helm/aas-manager
+helm pull isecl-helm/aas-manager
 helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm pull --verify isecl-helm/hvsdb-cert-generator
+helm pull isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
-helm pull --verify isecl-helm/hvs
+helm pull isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
-helm pull --verify isecl-helm/trustagent 
+helm pull isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
 ```
 
@@ -204,7 +204,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm pull --verify isecl-helm/Host-Attestation
+helm pull isecl-helm/Host-Attestation
 helm install host-attastation isecl-helm/Host-Attestation -f values.yaml --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`

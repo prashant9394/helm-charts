@@ -143,7 +143,7 @@ helm repo update
 
 * To find list of avaliable charts
 ```shell script
-helm serach repo
+helm search repo
 ```
 
 ### Individual helm chart deployment (using service/job charts)
@@ -198,19 +198,19 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm pull --verify isecl-helm/cleanup-secrets
+helm pull isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm pull --verify isecl-helm/aas-manager
+helm pull isecl-helm/aas-manager
 helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm pull --verify isecl-helm/trustagent 
+helm pull isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
-helm pull --verify isecl-helm/isecl-controller
+helm pull isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
-helm pull --verify isecl-helm/ihub
+helm pull isecl-helm/ihub
 helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
-helm pull --verify isecl-helm/isecl-scheduler
+helm pull isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
-helm pull --verify isecl-helm/admission-controller
+helm pull isecl-helm/admission-controller
 helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
@@ -264,7 +264,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm pull --verify isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
+helm pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --create-namespace -n <namespace>
 ```
 
