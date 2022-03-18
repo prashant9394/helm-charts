@@ -130,23 +130,23 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull --verify isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/cms
+helm pull --verify isecl-helm/cms
 helm install cms isecl-helm/cms -n isecl -f cms.yaml
-helm repo pull isecl-helm/aasdb-cert-generator
-helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator aasdb-cert-generator.yaml -f  -n isecl
-helm repo pull isecl-helm/aas
+helm pull --verify isecl-helm/aasdb-cert-generator
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -f aasdb-cert-generator.yaml  -n isecl
+helm pull --verify isecl-helm/aas
 helm install aas services/aas -n isecl -f aas.yaml
-helm repo pull isecl-helm/aas-manager
+helm pull --verify isecl-helm/aas-manager
 helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/hvsdb-cert-generator
+helm pull --verify isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
-helm repo pull isecl-helm/hvs
+helm pull --verify isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
-helm repo pull isecl-helm/nats-init 
+helm pull --verify isecl-helm/nats-init 
 helm install nats-init isecl-helm/nats-init -f values.yaml -f nats-init.yaml -n isecl
-helm repo pull isecl-helm/nats
+helm pull --verify isecl-helm/nats
 helm install nats isecl-helm/nats -f nats.yaml -n isecl
 ```
 
@@ -198,7 +198,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm repo pull isecl-helm/Trusted-Workload-Placement-Control-Plane
+helm pull --verify isecl-helm/Trusted-Workload-Placement-Control-Plane
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-Plane --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`

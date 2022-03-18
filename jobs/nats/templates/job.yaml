@@ -67,9 +67,9 @@ spec:
       - name: {{ .Values.global.image.imagePullSecret }}
       {{- end }}
       {{- else }}
-      {{- if .Values.image.svc.imagePullSecret }}
+      {{- if .Values.image.imagePullSecret }}
       imagePullSecrets:
-      - name: {{ .Values.image.svc.imagePullSecret }}
+      - name: {{ .Values.image.imagePullSecret }}
       {{- end }}
       {{- end }}
       serviceAccountName: {{ .Release.Namespace }}

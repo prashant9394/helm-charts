@@ -203,29 +203,29 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull --verify isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/cms
+helm pull --verify isecl-helm/cms
 helm install cms isecl-helm/cms -n isecl -f cms.yaml
-helm repo pull isecl-helm/aasdb-cert-generator
-helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator aasdb-cert-generator.yaml -f  -n isecl
-helm repo pull isecl-helm/aas
+helm pull --verify isecl-helm/aasdb-cert-generator
+helm install aasdb-cert-generator isecl-helm/aasdb-cert-generator -f aasdb-cert-generator.yaml  -n isecl
+helm pull --verify isecl-helm/aas
 helm install aas services/aas -n isecl -f aas.yaml
-helm repo pull isecl-helm/aas-manager
+helm pull --verify isecl-helm/aas-manager
 helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/hvsdb-cert-generator
+helm pull --verify isecl-helm/hvsdb-cert-generator
 helm install hvsdb-cert-generator isecl-helm/hvsdb-cert-generator -f hvsdb-cert-generator.yaml -n isecl
-helm repo pull isecl-helm/hvs
+helm pull --verify isecl-helm/hvs
 helm install hvs isecl-helm/hvs -n isecl -f hvs.yaml
-helm repo pull isecl-helm/trustagent 
+helm pull --verify isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
-helm repo pull isecl-helm/isecl-controller
+helm pull --verify isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
-helm repo pull isecl-helm/ihub
+helm pull --verify isecl-helm/ihub
 helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
-helm repo pull isecl-helm/isecl-scheduler
+helm pull --verify isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
-helm repo pull isecl-helm/admission-controller
+helm pull --verify isecl-helm/admission-controller
 helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
@@ -242,7 +242,7 @@ helm list -A
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
 * cleanup the secrets for isecl-scheduler-certs and admission-controller-certs. ```kubectl delete secret -n <namespace> isecl-scheduler-certs admission-controller-certs```
-* Cleanup the data at NFS mount and TA nodes.
+* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 
@@ -278,7 +278,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm repo pull isecl-helm/Trusted-Workload-Placement
+helm pull --verify isecl-helm/Trusted-Workload-Placement
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement -f values.yaml --create-namespace -n <namespace>
 ```
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`

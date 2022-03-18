@@ -26,12 +26,13 @@ config:
     enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
     servers: ""  # NATS Server IP/Hostname  
     serviceMode: "" # The model for TA<br> (Allowed values: `outbound`)
-    
+
+# The values provided for serviceUsername and servicePassword here should be same as that of provided for aas.hvs.secret.serviceUsername and aas.hvs.secret.servicePassword in values.yaml file for aas-manager chart
 secret:
-  dbUsername: hvsdbuser # DB Username for HVS DB
-  dbPassword: hvsdbpassword # DB Password for HVS DB
-  serviceUsername: hvsAdminUser # Admin Username for HVS
-  servicePassword: hvsAdminPass # Admin Password for HVS
+  dbUsername:  # DB Username for HVS DB
+  dbPassword:  # DB Password for HVS DB
+  serviceUsername:  # Admin Username for HVS
+  servicePassword:  # Admin Password for HVS
 
 image:
   db:

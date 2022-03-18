@@ -39,6 +39,7 @@ if [ "$OS" == "rhel" ]
 then
   echo "Installing NFS Utils"
   dnf install -y nfs-utils
+  systemctl enable --now nfs-server rpcbind
 elif [ "$OS" == "ubuntu" ]
 then
   apt install -y nfs-kernel-server

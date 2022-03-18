@@ -2,7 +2,7 @@
 
 nameOverride: "" # The name for IHUB chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
-k8sApiServerPort: <user input>
+k8sApiServerPort: 6443
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 # TODO: Services should be be able to be deployed in different namespaces
@@ -19,9 +19,10 @@ image:
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
 
+# The values provided for serviceUsername and servicePassword here should be same as that of provided for ihub.secret.serviceUsername and ihub.secret.servicePassword in values.yaml file for aas-manager chart
 secret:
-  serviceUsername: ihubAdminUser # Admin Username for IHUB
-  servicePassword: ihubAdminPass # Admin Password for IHUB
+  serviceUsername:  # Admin Username for IHUB
+  servicePassword:  # Admin Password for IHUB
 
 hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
 aliases:

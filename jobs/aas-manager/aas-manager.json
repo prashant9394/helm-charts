@@ -1,166 +1,211 @@
 {
-   {{- if .Values.aas }}
-   "aas_api_url": "{{ .Values.aas.url }}",
-   {{- else }}
-   "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
-   {{- end }}
-   "aas_admin_username":"aasAdminUser",
-   "aas_admin_password":"aasAdminPass",
-
-   "users_and_roles":[
-      {
-         "username":"superAdmin",
-         "password":"superAdminPass",
-         "print_bearer_token":true,
-         "roles":[
-            {
-               "service":"CMS",
-               "name":"CertApprover",
-               {{- if .Values.global }}
-               "context":"CN=HVS TLS Certificate;SAN=hvs.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.global.controlPlaneHostname }};certType=TLS"
-               {{- else }}
-               "context":"CN=HVS TLS Certificate;SAN=hvs.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.controlPlaneHostname }};certType=TLS"
-               {{- end }}
-            },
-            {
-               "service":"CMS",
-               "name":"CertApprover",
-               "context":"CN=HVS Flavor Signing Certificate;certType=Signing"
-            },
-            {
-               "service":"CMS",
-               "name":"CertApprover",
-               "context":"CN=HVS SAML Certificate;certType=Signing"
-            },
-            {
-               "service":"CMS",
-               "name":"CertApprover",
-               "context":"CN=Trust Agent TLS Certificate;SAN=*;certType=TLS"
-            },
-            {
-               "service":"AAS",
-               "name":"CredentialCreator",
-               "context":"type=HVS",
-               "permissions":[
-                  "credential:create:*"
-               ]
-            },
-            {
-               "service":"AAS",
-               "name":"CredentialCreator",
-               "context":"type=TA",
-               "permissions":[
-                  "credential:create:*",
-                  "custom_claims:create:*"
-               ]
-            },
-            {
-               "service":"HVS",
-               "name":"Certifier",
-               "permissions":[
-                  "host_signing_key_certificates:create:*"
-               ]
-            },
-            {
-               "service":"HVS",
-               "name":"AttestationRegister",
-               "permissions":[
-                  "hosts:store:*",
-                  "hosts:search:*",
-                  "host_unique_flavors:create:*",
-                  "flavors:search:*",
-                  "host_aiks:certify:*",
-                  "tpm_endorsements:create:*",
-                  "tpm_endorsements:search:*"
-               ]
-            },
-            {
-                "service": "CMS",
-                "name": "CertApprover",
-                "context":"CN=Integration Hub TLS Certificate;SAN=ihub.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
-            },
-            {
-               "service": "CMS",
-               "name": "CertApprover",
-               {{- if .Values.global }}
-               "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.global.controlPlaneHostname }};certType=TLS"
-               {{- else }}
-               "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.controlPlaneHostname }};certType=TLS"
-               {{- end }}
-            }
-         ]
-      },
-      {
-         "username":"hvsAdminUser",
-         "password":"hvsAdminPass",
-         "print_bearer_token":false,
-         "roles":[
-            {
-               "service":"TA",
-               "name":"Administrator",
-               "permissions":[
-                  "*:*:*"
-               ]
-            }
-         ]
-      },
-      {
-         "username":"global_admin_user",
-         "password":"globalAdminPass",
-         "print_bearer_token":false,
-         "roles":[
-            {
-               "service":"HVS",
-               "name":"Administrator",
-               "permissions":[
-                  "*:*:*"
-               ]
-            },
-            {
-               "service":"AAS",
-               "name":"Administrator",
-               "permissions":[
-                  "*:*:*"
-               ]
-            },
-            {
-               "service":"TA",
-               "name":"Administrator",
-               "permissions":[
-                  "*:*:*"
-               ]
-            }
-         ]
-      },
-      {
-         "username": "aasAdminUser",
-         "password": "aasAdminPass",
-         "print_bearer_token": true,
-         "roles": [
-            {
-               "service": "AAS",
-               "name": "CustomClaimsCreator",
-               "permissions": [
-                  "custom_claims:create"
-               ]
-            }
-         ]
-      },
+  {{- if .Values.aas.url }}
+  "aas_api_url": "{{ .Values.aas.url }}",
+  {{- else }}
+  "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
+  {{- end }}
+  {{- if .Values.global }}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.global.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.global.aas.secret.adminPassword }}",
+  {{- else }}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.aas.secret.adminPassword }}",
+  {{- end }}
+  "users_and_roles": [
+    {
+      "username": "{{ .Values.secret.superAdminUsername }}",
+      "password": "{{ .Values.secret.superAdminPassword }}",
+      "print_bearer_token": true,
+      "roles": [
         {
-            "username": "ihubAdminUser",
-            "password": "ihubAdminPass",
-            "print_bearer_token": false,
-            "roles": [
-                {
-                    "service": "HVS",
-                    "name": "ReportSearcher",
-                    "permissions": [
-                        "reports:search:*"
-                    ]
-                }
-            ]
+          "service": "CMS",
+          "name": "CertApprover",
+           {{- if .Values.global }}
+           "context":"CN=HVS TLS Certificate;SAN=hvs.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.global.controlPlaneHostname }};certType=TLS"
+           {{- else }}
+           "context":"CN=HVS TLS Certificate;SAN=hvs.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.controlPlaneHostname }};certType=TLS"
+           {{- end }}
+        },
+        {
+          "service": "CMS",
+          "name": "CertApprover",
+          "context": "CN=HVS Flavor Signing Certificate;certType=Signing"
+        },
+        {
+          "service": "CMS",
+          "name": "CertApprover",
+          "context": "CN=HVS SAML Certificate;certType=Signing"
+        },
+        {
+          "service": "CMS",
+          "name": "CertApprover",
+          "context": "CN=Trust Agent TLS Certificate;SAN=*;certType=TLS"
+        },
+        {
+          "service": "AAS",
+          "name": "CredentialCreator",
+          "context": "type=HVS",
+          "permissions": [
+            "credential:create:*"
+          ]
+        },
+        {
+          "service": "AAS",
+          "name": "CredentialCreator",
+          "context": "type=TA",
+          "permissions": [
+            "credential:create:*",
+            "custom_claims:create:*"
+          ]
+        },
+        {
+          "service": "HVS",
+          "name": "Certifier",
+          "permissions": [
+            "host_signing_key_certificates:create:*"
+          ]
+        },
+        {
+          "service": "HVS",
+          "name": "AttestationRegister",
+          "permissions": [
+            "hosts:store:*",
+            "hosts:search:*",
+            "host_unique_flavors:create:*",
+            "flavors:search:*",
+            "host_aiks:certify:*",
+            "tpm_endorsements:create:*",
+            "tpm_endorsements:search:*"
+          ]
+        },
+        {
+          "service": "CMS",
+          "name": "CertApprover",
+          "context": "CN=Integration Hub TLS Certificate;SAN=ihub.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+        },
+        {
+          "service": "CMS",
+          "name": "CertApprover",
+          {{- if .Values.global }}
+          "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.global.controlPlaneHostname }};certType=TLS"
+          {{- else }}
+          "context":"CN=NATS TLS Certificate;SAN=nats.{{ .Release.Namespace }}.svc.cluster.local,{{ .Values.controlPlaneHostname }};certType=TLS"
+          {{- end }}
         }
-
-   ]
+      ]
+    },
+   {{- if .Values.global }}
+   {{- if .Values.global.hvs }}
+    {
+    "username": "{{ .Values.global.hvs.secret.serviceUsername }}",
+    "password": "{{ .Values.global.hvs.secret.servicePassword }}",
+    "print_bearer_token": false,
+      "roles": [
+        {
+          "service": "TA",
+          "name": "Administrator",
+          "permissions": [
+          "*:*:*"
+          ]
+        }
+      ]
+    },
+   {{- end }}
+   {{- else }}
+   {
+     "username": "{{ .Values.hvs.secret.serviceUsername }}",
+     "password": "{{ .Values.hvs.secret.servicePassword }}",
+     "print_bearer_token": false,
+     "roles": [
+       {
+         "service": "TA",
+         "name": "Administrator",
+         "permissions": [
+         "*:*:*"
+         ]
+       }
+     ]
+   },
+  {{- end }}
+  {
+   {{- if .Values.global }}
+    "username": "{{ .Values.global.aas.secret.adminUsername }}",
+    "password": "{{ .Values.global.aas.secret.adminPassword }}",
+    {{- else }}
+    "username": "{{ .Values.aas.secret.adminUsername }}",
+    "password": "{{ .Values.aas.secret.adminPassword }}",
+    {{- end }}
+      "print_bearer_token": false,
+      "roles": [
+        {
+          "service": "AAS",
+          "name": "CustomClaimsCreator",
+          "permissions": [
+            "custom_claims:create"
+          ]
+        }
+      ]
+    },
+    {{- if .Values.global }}
+    {{- if .Values.global.ihub }}
+    {
+    "username": "{{ .Values.global.ihub.secret.serviceUsername }}",
+    "password": "{{ .Values.global.ihub.secret.servicePassword }}",
+    "print_bearer_token": false,
+      "roles": [
+        {
+          "service": "HVS",
+          "name": "ReportSearcher",
+          "permissions": [
+            "reports:search:*"
+          ]
+        }
+      ]
+    },
+    {{- end }}
+    {{- else }}
+    {
+    "username": "{{ .Values.ihub.secret.serviceUsername }}",
+    "password": "{{ .Values.ihub.secret.servicePassword }}",
+    "print_bearer_token": false,
+      "roles": [
+      {
+        "service": "HVS",
+        "name": "ReportSearcher",
+        "permissions": [
+        "reports:search:*"
+        ]
+      }
+     ]
+    },
+    {{- end }}
+    {
+      "username": "{{ .Values.secret.globalAdminUsername }}",
+      "password": "{{ .Values.secret.globalAdminPassword }}",
+      "print_bearer_token": false,
+      "roles": [
+          {
+            "service": "HVS",
+            "name": "Administrator",
+            "permissions": [
+            "*:*:*"
+          ]
+          },
+          {
+            "service": "AAS",
+            "name": "Administrator",
+            "permissions": [
+            "*:*:*"
+          ]
+          },
+          {
+            "service": "TA",
+            "name": "Administrator",
+            "permissions": [
+            "*:*:*"
+            ]
+          }
+       ]
+    }
+  ]
 }
-

@@ -193,19 +193,19 @@ Update all the downloaded values.yaml with appropriate values.
 
 Following are the steps need to be run for deploying individual charts.
 ```shell script
-helm repo pull isecl-helm/cleanup-secrets
+helm pull --verify isecl-helm/cleanup-secrets
 helm install cleanup-secrets -f cleanup-secrets.yaml isecl-helm/cleanup-secrets -n isecl --create-namespace
-helm repo pull isecl-helm/aas-manager
+helm pull --verify isecl-helm/aas-manager
 helm install aas-manager jobs/aas-manager -n isecl -f aas-manager.yaml
-helm repo pull isecl-helm/trustagent 
+helm pull --verify isecl-helm/trustagent 
 helm install trustagent isecl-helm/trustagent -n isecl -f trustagent.yaml
-helm repo pull isecl-helm/isecl-controller
+helm pull --verify isecl-helm/isecl-controller
 helm install isecl-controller isecl-helm/isecl-controller -n isecl -f isecl-controller.yaml
-helm repo pull isecl-helm/ihub
+helm pull --verify isecl-helm/ihub
 helm install ihub repo pull isecl-helm/ihub -n isecl -f ihub.yaml
-helm repo pull isecl-helm/isecl-scheduler
+helm pull --verify isecl-helm/isecl-scheduler
 helm install isecl-scheduler isecl-helm/isecl-scheduler -n isecl -f isecl-scheduler.yaml
-helm repo pull isecl-helm/admission-controller
+helm pull --verify isecl-helm/admission-controller
 helm install isecl-scheduler isecl-helm/admission-controller -n isecl -f admission-controller.yaml
 ```
 
@@ -221,7 +221,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
-* Cleanup the data at NFS mount
+* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
 * cleanup the secrets for isecl-scheduler-certs and admission-controller-certs. ```kubectl delete secret -n <namespace> isecl-scheduler-certs admission-controller-certs```
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
@@ -259,7 +259,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell
-helm repo pull isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
+helm pull --verify isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider 
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Cloud-Service-Provider --create-namespace -n <namespace>
 ```
 

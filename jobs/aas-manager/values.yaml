@@ -12,6 +12,7 @@ image:
   name: <user input> # The image name with which AAS-MANAGER image is pushed to registry
   pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
   initName: <user input> # The image name of init container
+  imagePullSecret: <user input>  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
 aliases:
@@ -36,3 +37,30 @@ securityContext:
 service:
   aas:
     containerPort: 8444 # The containerPort on which AAS can listen
+
+# The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for aas chart
+aas:
+  # Please update the url section if aas is exposed via ingress
+  url:
+  secret:
+    adminUsername:
+    adminPassword:
+
+# The values provided for adminUsername and adminPassword here should be same as that of provided for hvs.secret.adminUsername and hvs.secret.adminPassword in values.yaml file for hvs chart
+hvs:
+  secret:
+    serviceUsername:
+    servicePassword:
+
+# The values provided for adminUsername and adminPassword here should be same as that of provided for ihub.secret.adminUsername and ihub.secret.adminPassword in values.yaml file for ihub chart
+ihub:
+  secret:
+    serviceUsername:
+    servicePassword:
+
+secret:
+  superAdminUsername:
+  superAdminPassword:
+  globalAdminUsername:
+  globalAdminPassword:
+

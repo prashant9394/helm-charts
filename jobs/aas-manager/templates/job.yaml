@@ -23,9 +23,9 @@ spec:
           - name: {{ .Values.global.image.imagePullSecret }}
           {{- end }}
           {{- else }}
-          {{- if .Values.image.svc.imagePullSecret }}
+          {{- if .Values.image.imagePullSecret }}
           imagePullSecrets:
-          - name: {{ .Values.image.svc.imagePullSecret }}
+          - name: {{ .Values.image.imagePullSecret }}
           {{- end }}
           {{- end }}
           serviceAccountName: {{ .Release.Namespace }}
@@ -79,7 +79,7 @@ spec:
               args:
                 - >
                   echo starting && ./kubectl delete secret -n {{ .Release.Namespace }} bearer-token --ignore-not-found &&
-                  BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep "Token for User: superAdmin" -A 2 | grep BEARER_TOKEN | cut -d '=' -f2) && populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json &&
+                  BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep BEARER_TOKEN | cut -d '=' -f2) && populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json &&
                   if [ -z "$BEARER_TOKEN" ]; then exit 1; fi  &&
                   echo $BEARER_TOKEN &&
                   ./kubectl create secret generic bearer-token -n {{ .Release.Namespace }} --from-literal=BEARER_TOKEN=$BEARER_TOKEN

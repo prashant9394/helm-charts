@@ -7,6 +7,9 @@ cms:
 aas:
   image:
     name: aas # Authentication & Authorization Service image name<br> (**REQUIRED**)
+  secret:
+    dbUsername:  # DB Username for AAS DB
+    dbPassword:  # DB Password for AAS DB
 
 aas-manager:
   image:
@@ -14,6 +17,11 @@ aas-manager:
   aas:
     url:  <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://isecl.com:30444/aas/v1
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  secret:
+    superAdminUsername:
+    superAdminPassword:
+    globalAdminUsername:
+    globalAdminPassword:
   aliases:
     hostAliases:
       - ip: ""
@@ -27,6 +35,9 @@ hvs:
   config:
     requireEKCertForHostProvision: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
     verifyQuoteForHostRegistration: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+  secret:
+    dbUsername:  # DB Username for HVS DB
+    dbPassword:  # DB Password for HVS DB
 
 nats:
   clientPort: 30222
@@ -61,6 +72,16 @@ global:
 
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled, Default value: false
+
+  aas:
+    secret:
+      adminUsername:  # Admin Username for AAS
+      adminPassword:  # Admin Password for AAS
+
+  hvs:
+    secret:
+      serviceUsername:  # Admin Username for HVS
+      servicePassword:  # Admin Password for HVS
 
   proxyEnabled: false # Set to true when running deploying behind corporate proxy
   httpProxy: <user input> # Set http_proxy url

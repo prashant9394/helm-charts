@@ -17,6 +17,7 @@ image:
   name: <user input> # The image name with which NATS image is pushed to registry
   pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
   initName: <user input> # The image name of init container
+  imagePullSecret: <user input>  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 securityContext:
   init: # The fsGroup id for init containers for NATS

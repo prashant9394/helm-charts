@@ -23,10 +23,10 @@ config:
   createCredentials: true # Trigger to run create-credentials setup task when set to True. Default is False
 
 secret:
-  dbUsername: aasdbuser # DB Username for AAS DB
-  dbPassword: aasdbpassword # DB Password for AAS DB
-  adminUsername: aasAdminUser # Admin Username for AAS
-  adminPassword: aasAdminPass # Admin Password for AAS
+  dbUsername:  # DB Username for AAS DB
+  dbPassword:  # DB Password for AAS DB
+  adminUsername:  # Admin Username for AAS
+  adminPassword:  # Admin Password for AAS
     
 image:
   db:
