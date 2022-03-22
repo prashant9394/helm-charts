@@ -38,7 +38,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
     chmod +x setup-nfs.sh
     ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
     ```
-  mfs client needs to be installed on every worker node
+  nfs client needs to be installed on every worker node
   
   For ubuntu ```apt install nfs-common```
   
