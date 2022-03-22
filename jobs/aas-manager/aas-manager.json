@@ -33,6 +33,11 @@
                "context":"CN=Trust Agent TLS Certificate;SAN=*;certType=TLS"
             },
             {
+               "service":"CMS",
+               "name":"CertApprover",
+               "context":"CN=WLS TLS Certificate;SAN=*;certType=TLS"
+            },
+            {
                "service":"AAS",
                "name":"CredentialCreator",
                "context":"type=HVS",
@@ -78,6 +83,11 @@
                "service": "CMS",
                "name": "CertApprover",
                "context":"CN=FDS TLS Certificate;SAN=fds.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+            },
+            {
+               "service": "CMS",
+               "name": "CertApprover",
+               "context":"CN=WLS TLS Certificate;SAN=wls.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
             },
             {
                  "service": "CMS",
@@ -147,6 +157,13 @@
                ]
             },
             {
+               "service":"WLS",
+               "name":"Administrator",
+               "permissions":[
+                  "*:*:*"
+               ]
+            },
+            {
                "service":"TA",
                "name":"Administrator",
                "permissions":[
@@ -172,6 +189,20 @@
                "name":"Administrator",
                "permissions":[
                   "*:*:*"
+               ]
+            }
+         ]
+      },
+      {
+         "username": "wlsAdminUser",
+         "password": "wlsAdminPass",
+         "print_bearer_token": true,
+         "roles": [
+            {
+               "service": "HVS",
+               "name": "ReportCreator",
+               "permissions": [
+                  "reports:create:*"
                ]
             }
          ]

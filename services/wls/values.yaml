@@ -1,0 +1,57 @@
+# Default values for WLS
+
+nameOverride: "" # The name for WLS chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  Cerificate Management Service chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  hvs: hvs
+
+config:
+  envVarPrefix: WLS
+
+secret:
+  adminUsername: wlsAdminUser # Admin Username for WLS
+  adminPassword: wlsAdminPass # Admin Password for WLS
+
+image:
+  svc:
+    name: <user input> # The image name with which CMS image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for WLS<br> (Allowed values: `Always`/`IfNotPresent`)
+    initName: <user input> # intit-wait image name
+    
+storage:
+  nfs:
+    server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+    reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    path: /mnt/nfs_share # The path for storing persistent data on NFS
+    configSize: 10Mi # The configuration size for storing config for WLS in NFS path
+    logsSize: 1Gi # The logs size for storing logs for WLS in NFS path
+    baseSize: 1.1Gi # The base volume size (configSize + logSize)
+
+securityContext:
+  wlsInit: # The fsGroup id for init containers for WLS
+    fsGroup: 1001
+  wls: # The security content for WLS Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+
+service:
+  directoryName: wls
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas: 
+    containerPort: 8444 # The containerPort on which AAS can listen
+  hvs:
+    containerPort: 8443 # The containerPort on which HVS can listen
+  wls:
+    containerPort: 5000 # The containerPort on which WLS can listen 
+    port: 30447 # The externally exposed NodePort on which WLS can listen to external traffic
