@@ -1,0 +1,54 @@
+# Default values for IHUB.
+
+nameOverride: "" # The name for IHUB chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+k8sApiServerPort: <user input>
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  IHUB chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  hvs: hvs
+  iseclController: isecl-controller
+  
+image:
+  svc:
+    registry: <user input> # The image registry where IHUB image is pushed<br> (**REQUIRED**)
+    name: <user input> # The image name with which IHUB image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always  # The pull policy for pulling from container registry for IHUB<br> (Allowed values: `Always`/`IfNotPresent`)
+
+secret:
+  serviceUsername: ihubAdminUser # Admin Username for IHUB
+  servicePassword: ihubAdminPass # Admin Password for IHUB
+
+storage:
+  nfs:
+    server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+    reclaimPolicy: Retain  # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: ReadWriteMany)
+    path: /mnt/nfs_share # The path for storing persistent data on NFS
+    configSize: 10Mi # The configuration size for storing config for IHUB in NFS path
+    logsSize: 1Gi # The logs size for storing logs for IHUB in NFS path
+    baseSize: 1.1Gi # The base volume size (configSize + logSize)
+ 
+securityContext:
+  init: # The fsGroup id for init containers
+    fsGroup: 1001 
+  ihub: # The security content for IHUB Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+
+service:
+  directoryName: ihub
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas: 
+    containerPort: 8444 # The containerPort on which AAS can listen
+    port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
+  hvs:
+    containerPort: 8443 # The containerPort on which HVS can listen 

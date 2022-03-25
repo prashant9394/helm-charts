@@ -1,0 +1,30 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.dependentServices.iseclController }}-init
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "iseclController-init.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "iseclController-init.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: isecl
+      containers:
+        - name: create-custom-controller-token
+          image: gcr.io/cloud-builders/kubectl:latest
+          securityContext:
+            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              echo starting &&
+              echo "Bootstrapping secrets" &&
+              kubernetes_token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='isecl')].data.token}" -n isecl | base64 --decode) &&
+              kubectl create secret generic k8s-token -n {{ .Release.Namespace }} --from-literal=KUBERNETES_TOKEN=$kubernetes_token
+      restartPolicy: Never
+  backoffLimit: 4

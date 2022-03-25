@@ -1,0 +1,34 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.deploymentCommonSpec" . }}
+    spec:
+      serviceAccountName: isecl
+      securityContext:
+        {{- toYaml .Values.securityContext.init | nindent 8 }}
+      initContainers:
+        {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
+          securityContext:
+          {{- toYaml .Values.securityContext.iseclController | nindent 12 }}
+          volumeMounts:
+          {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+      tolerations:
+        {{- include "factory.tolerations" . | indent 8 }}
+      affinity:
+        {{- include "factory.affinityExtensions" . | nindent 8 }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.iseclController | nindent 12 }}
+          env:
+            - name: TAINT_UNTRUSTED_NODES
+              value: "false"
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: TAG_PREFIX
+              value: "isecl."
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+      volumes:
+        {{- include "factory.volumeSvcLogs" . | nindent 8 }}
+        {{- include "factory.volumesBasePV" . | nindent 8}}

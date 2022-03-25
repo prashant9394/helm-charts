@@ -1,0 +1,51 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.deploymentCommonSpec" . }}
+    spec:
+      serviceAccountName: isecl
+      securityContext:
+        {{- toYaml .Values.securityContext.init | nindent 8 }}
+      initContainers:
+        {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
+          securityContext:
+          {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
+          volumeMounts:
+          {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+      tolerations:
+        {{- include "factory.tolerations" . | indent 8 }}
+      affinity:
+        {{- include "factory.affinityExtensions" . | nindent 8 }}  
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: TAG_PREFIX
+              value: "isecl."
+            - name: PORT
+              value: "{{ .Values.service.containerPort }}"
+            - name: HVS_IHUB_PUBLIC_KEY_PATH
+              value: "/etc/ihub/ihub_public_key.pem"
+            - name: TLS_CERT_PATH
+              value: "/opt/isecl-k8s-extensions/tls.crt"
+            - name: TLS_KEY_PATH
+              value: "/opt/isecl-k8s-extensions/tls.key"
+          volumeMounts:
+          {{- include "factory.volumeMountSvcLogs" . | nindent 10 }}
+          - name: {{ include "factory.name" . }}-certs
+            mountPath: /opt/isecl-k8s-extensions/
+            readOnly: true
+          - name: {{ include "factory.name" . }}-ihub-certs
+            mountPath: /etc/ihub/
+      volumes:
+        {{- include "factory.volumesBasePV" . | nindent 8}}
+        {{- include "factory.volumeSvcLogs" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-ihub-certs
+          configMap:
+            name: {{ .Values.dependentServices.ihub }}-cert
+        - name: {{ include "factory.name" . }}-certs
+          secret:
+            secretName: {{ include "factory.name" . }}-certs

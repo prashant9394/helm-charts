@@ -1,0 +1,55 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.dependentServices.ihub }}-init
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "ihub-init.labels" . | nindent 4 }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "ihub-init.labels" . | nindent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.init | nindent 8 }}
+      serviceAccountName: isecl
+      initContainers:
+        - name: wait-for-ihub-certs
+          image: busybox:1.32
+          securityContext:
+             {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+             i=0 &&
+             while [ ! $(ls /etc/ihub/ihub_public_key.pem 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 20; i=$((i+1)); done &&
+             if [ $i -eq 5 ]; then echo "Error: timeout exceeded for init job: wait-for-ihub-certs"; exit 1; fi
+          volumeMounts:
+            - name: {{ .Values.dependentServices.ihub }}-config
+              mountPath: /etc/ihub/
+              readOnly: true
+      containers:
+        - name: create-ihub-cert-config
+          image: gcr.io/cloud-builders/kubectl:latest
+          securityContext:
+            {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              echo starting &&
+              echo "Delete configmap if exists" &&
+              kubectl delete configmap -n {{ .Release.Namespace }} {{ .Values.dependentServices.ihub }}-cert --ignore-not-found=true &&
+              kubectl create configmap {{ .Values.dependentServices.ihub }}-cert --from-file=/etc/ihub/ihub_public_key.pem --namespace={{ .Release.Namespace }}
+          volumeMounts:
+            - name: {{ .Values.dependentServices.ihub }}-config
+              mountPath: /etc/ihub/
+              readOnly: true
+      restartPolicy: Never
+      volumes:
+        - name: {{ .Values.dependentServices.ihub }}-config
+          persistentVolumeClaim:
+            claimName: {{ .Values.dependentServices.ihub }}-config
+  backoffLimit: 4
