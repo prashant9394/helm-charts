@@ -1,4 +1,5 @@
-# ISecl-DC Helm Charts
+# Intel<sup>®</sup> Security Libraries for Data Center (Intel<sup>®</sup> SecL-DC) Helm Charts
+
 
 A collection of helm charts for ISecL-DC usecases
 
@@ -22,15 +23,31 @@ A collection of helm charts for ISecL-DC usecases
 | Distributions     | Any non-managed K8s cluster                                  |
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
-| Container Runtime | Foundational Security: *docker*,*CRI-O*<br/> |
-    
+| Container Runtime | Foundational Security: *docker*, *CRI-O*<br/> |
+
 ### Use Case Helm Charts 
 
 #### Foundational Security Usecases
 
-| Use case                                | Helm Charts                                        | Deployment Steps |
-| --------------------------------------- | ----------------------------------------------------------------- | ---------------- |
-| Host Attestation                        | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/host-attestation/deployment.md) |
-| Trusted Workload Placement(TWP) - Containers | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*admission-controller*<br />*isecl-controller*<br />*isecl-scheduler*<br />*Integration Hub (IHub)*<br />*Trustagent (TA)* | [Deployment Steps](usecases/trusted-workload-placement/deployment.md) |
-| Trusted Workload Placement - Control Plane            | *Certificate Management Service (CMS)*<br />*Authentication and Authorization Service (AAS)*<br />*Host Verification Service(HVS)*<br />*NATS Cluster*<br /> | [Deployment Steps](usecases/twp-control-plane/deployment.md) |
-| Trusted Workload Placement - CSP          | *Trustagent (TA)*<br />*Integration Hub*<br />*Admission-controller*<br />*ISecl-Controller*<br />*ISecl-Scheduler*<br /> | [Deployment Steps](usecases/twp-cloud-service-provider/deployment.md)|
+| Use case                                                     | Description                                                  | Helm Charts                                                  |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Host Attestation](usecases/host-attestation/deployment.md)  | Host Attestation(Platform attestation) is cornerstone use case for Intel SecL It involves taking measurements of system components during system boot, and then cryptographically verifying that the actual measurements taken matched a set of expected or approved values, ensuring that the measured components were in an acceptable or "trusted" state at the time of the last system boot. | *Certificate Management Service (CMS)*<br/> <br/>*Authentication and Authorization Service (AAS)*<br/> <br/>*Host Verification Service(HVS)* <br/> <br/>*Trustagent (TA)* |
+| [Trusted Workload Placement(TWP) - Containers](usecases/trusted-workload-placement/deployment.md) | Trusted Workload Placement(Data Sovereignty) builds on the Host Attestation use case to allow physical TPMs to be written with Asset Tags containing any number of key/value pairs. This use case is typically used to identify the geographic location of the physical server, but can also be used to identify other attributes. For example, the Asset Tags provided by this use case could be used to identify hosts that meet specific compliance requirements and can run controlled workloads. | *Certificate Management Service (CMS)*<br/><br/>*Authentication and Authorization Service (AAS)*<br/><br/>*Host Verification Service(HVS)*     <br/><br/>*admission-controller*         <br/><br/>*isecl-controller*  <br/><br/>*isecl-scheduler* <br/><br/>*Integration Hub (IHub)*           <br/><br/>*Trustagent (TA)* |
+| [Trusted Workload Placement - Control Plane](usecases/twp-control-plane/deployment.md) | Trusted Workload Placement - Control Plane is a subset of trusted workload placement usecase. This usecase helm chart can be deployed on any existing non managed k8s cluster on cloud platform and performs platform attestation of nodes at CSPs or edge nodes. | *Certificate Management Service (CMS)*<br/><br/>*Authentication and Authorization Service (AAS)*<br/><br/>*Host Verification Service(HVS)*<br/><br /> |
+| [Trusted Workload Placement - CSP](usecases/twp-cloud-service-provider/deployment.md) | Trusted Workload Placement - CSP is a subset of trusted workload placement usecase. This usecase helm chart can be deployed on any non managed k8s cluster at CSPs or edge nodes for getting the cluster nodes attested by deployed twp-control-plane services running in cloud | *Trustagent (TA)*<br/><br/>*Integration Hub*<br/><br/>*Admission-controller*<br/><br/>*ISecl-Controller*<br/><br/>*ISecl-Scheduler*<br /> |
+
+### Product Guide
+
+For more details on the product, installation and deployment strategies, please go through following, (Refer to latest and use case wise guide)
+
+[https://intel-secl.github.io/docs](https://intel-secl.github.io/docs)
+
+### Release Notes
+
+[https://intel-secl.github.io/docs/4.2/ReleaseNotes/ReleaseNotes](https://intel-secl.github.io/docs/4.2/ReleaseNotes/ReleaseNotes)
+
+### Issues
+
+Feel free to raise deployment issues here,
+
+[https://github.com/intel-secl/helm-charts/issues](https://github.com/intel-secl/helm-charts/issues)

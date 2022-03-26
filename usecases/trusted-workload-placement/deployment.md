@@ -20,6 +20,8 @@ A collection of helm charts for Trusted Workload Placement Usecase
 
 <!-- /code_chunk_output -->
 
+# Deployment diagram
+![K8s Deployment-fsws](../../images/twp.jpg)
 
 ## Getting Started
 Below steps guide in the process for installing isecl-helm charts on a kubernetes cluster.
@@ -32,20 +34,9 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
   chmod 700 get_helm.sh
   ./get_helm.sh
   ```
-* NFS setup
-  > **Note:** A sample script for setting up NFS with the right permissions is provided in the `NFS-Setup.md` file
-    ```shell script 
-    curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v4.2.0-Beta/setup-nfs.sh
-    chmod +x setup-nfs.sh
-    ./setup-nfs.sh /mnt/nfs_share 1001 <ip>
-    ```
-    mfs client needs to be installed on every worker node
-    
-    For ubuntu ```apt install nfs-common```
-    
-    For rhel ```dnf install nfs-utils```
-
 * For building container images Refer here for [instructions](https://github.com/intel-secl/docs/blob/v4.2/develop/docs/quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build.md)  
+
+* Setup NFS, Refer [instructions](../../docs/NFS-Setup.md) for setting up and configuring NFS Server
   
 ### Support Details
 
@@ -289,90 +280,10 @@ helm install <helm release name> isecl-helm/Trusted-Workload-Placement -f values
 > **Note:** If using a seprarate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
 #### Configure kube-scheduler to establish communication with isecl-scheduler after successful deployment.
+Refer [instructions](../../docs/ISecl-Scheduler-Configuration.md) for configuring kube-scheduler to establish communication with isecl-scheduler
 
-* Create a file called kube-scheduler-configuration.yml
-```yaml
----
-apiVersion: kubescheduler.config.k8s.io/v1beta2
-kind: KubeSchedulerConfiguration
-clientConnection:
-  kubeconfig: "/etc/kubernetes/scheduler.conf"
-profiles:
-  - plugins:
-      filter:
-        enabled:
-          - name: "NodePorts"
-          - name: "NodeResourcesFit"
-          - name: "VolumeBinding"
-          - name: "NodeAffinity"
-          - name: "NodeName"
-      score:
-        enabled:
-          - name: "NodeResourcesBalancedAllocation"
-            weight: 1
-extenders:
-  - urlPrefix: "https://127.0.0.1:30888/"
-    filterVerb: "filter"
-    weight: 5
-    enableHTTPS: true
-```
-
-* Make directory /opt/isecl-k8s-extensions and copy kube-scheduler-configuration.yaml file into this newly created directory
-
-* Add kube-scheduler-configuration.yml under kube-scheduler section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
-```console
-	spec:
-          containers:
-	  - command:
-            - kube-scheduler
-            - --config=/opt/isecl-k8s-extensions/kube-scheduler-configuration.yml
-```
-
-* Add mount path for isecl extended scheduler under container section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
-```console
-	containers:
-		- mountPath: /opt/isecl-k8s-extensions
-		name: extendedsched
-		readOnly: true
-```
-
-* Add volume path for isecl extended scheduler under volumes section /etc/kubernetes/manifests/kube-scheduler.yaml as mentioned below
-```console
-	spec:
-	volumes:
-	- hostPath:
-		path: /opt/isecl-k8s-extensions
-		type: ""
-		name: extendedsched
-```
-
-* Restart Kubelet which restart all the k8s services including kube base scheduler
-```console
-	systemctl restart kubelet
-```
 
 ## Setup task workflow.
+* Setup NFS, Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
 
-Check this document for available setup tasks for each of the services  [Setup tasks](../../setup-tasks.md) 
-1. Edit the configmap of respective service where we want to run setup task. e.g ```kubectl edit cm cms -n isecl```
-2. Add or Update all the variables required for setup tasks refer [here](../../setup-tasks.md)  for more details
-3. Add *SETUP_TASK* variable in config map with one or more setup task names e.g ```SETUP_TASK: "download-ca-cert,download-tls-cert"```
-4. Save the configmap
-5. Some of the sensitive variables such as credentials, db credentials, tpm-owner-secret can be updated in secrets with the command 
-
-    ```kubectl get secret -n <namespace> <secret-name> -o json | jq --arg val "$(echo <value> > | base64)" '.data["<variable-name>"]=$val' | kubectl apply -f -```
-    
-    e.g For updating the AAS_ADMIN_USERNAME in aas-credentials 
-    
-    ```kubectl get secret -n isecl aas-credentials -o json | jq --arg val "$(echo aaspassword | base64)" '.data["AAS_ADMIN_USERNAME"]=$val' | kubectl apply -f -``` 
-   
-6. Restart the pod by deleting it ```kubectl delete pod -n <namespace> <podname>```
-7. Reset the configmap by removing SETUP_TASK variable 
-
-      ```kubectl patch configmap -n <namespace> <configmap name> --type=json -p='[{"op": "remove", "path": "/data/SETUP_TASK"}]'```
-        
-        e.g For clearing SETUP_TASK variable in cms configmap
-        
-      ```kubectl patch configmap -n isecl cms --type=json -p='[{"op": "remove", "path": "/data/SETUP_TASK"}]'```
-        
     
