@@ -1,0 +1,43 @@
+# Default values for WLA.
+
+nameOverride: "" # The name for WLA chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+#hardwareFeature: <user input> # The enabled hardware feature on the host<br> (**REQUIRED**)<br> (Allowed Values: `TXT`/`SUEFI`)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  WLA chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  hvs: hvs
+  wls: wls
+  ta: ta
+
+nodeLabel:
+  txt: "" # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
+  suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
+
+image:
+  svc:
+    registry: <user input> # The image registry where WLA image is pushed<br> (**REQUIRED**)
+    name: <user input> # The image name with which WLA image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always  # The pull policy for pulling from container registry for WLA<br> (Allowed values: `Always`/`IfNotPresent`)
+
+config:
+  logLevel: info  # Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`)
+  #nodeLabel: <user input> # The node label based on hardware-feature enabled<br> (**REQUIRED**)
+
+secret:
+  serviceUsername:  # Service Username for workload-agent
+  servicePassword:  # Service Password for workload-agent
+
+service:
+  directoryName: workload-agent
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas: 
+    containerPort: 8444 # The containerPort on which AAS can listen
+  hvs:
+    containerPort: 8443 # The containerPort on which HVS can listen 
+  wls:
+    containerPort: 5000 # The containerPort on which WLS can listen 

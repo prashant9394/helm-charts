@@ -1,0 +1,67 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.daemonSetCommonHeaderSpec" . }}
+metadata:
+  name: {{ include "factory.name" . }}
+{{- include "factory.daemonSetCommonSpec" . }}
+    spec:
+      affinity:
+        {{- include "factory.affinityAgents" . | nindent 8 }}
+                  values:
+                  - "{{ .Values.nodeLabel.suefi }}"
+                  - "{{ .Values.nodeLabel.txt }}"
+      serviceAccountName: isecl
+      initContainers:
+        - name: wait-for-trustagent
+          image: busybox:1.32
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              i=0 &&
+              while [ ! $(ls /opt/trustagent/configuration/.setup_done 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done
+          volumeMounts:
+            - name: {{ .Values.dependentServices.ta }}-config
+              mountPath: /opt/trustagent/configuration
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            privileged: true
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          readinessProbe:
+            {{- include "factory.probeReadiness" . | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /etc/workload-agent/
+            - name: {{ include "factory.name" . }}-socket
+              mountPath: /var/run/workload-agent
+            - name: {{ include "factory.name" . }}-secrets
+              mountPath: /etc/secret-volume/
+              readOnly: true
+            - name: {{ .Values.dependentServices.ta }}-config
+              mountPath: /opt/trustagent/configuration
+            - name: tpmrm
+              mountPath: /dev/tpmrm0
+      volumes:
+        {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-config
+          hostPath:
+            path: /etc/workload-agent/
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-socket
+          hostPath:
+            path: /var/run/workload-agent
+            type: DirectoryOrCreate
+        - name: tpmrm
+          hostPath:
+            path: /dev/tpmrm0
+        - name: {{ .Values.dependentServices.ta }}-config
+          hostPath:
+            path: /opt/trustagent/configuration
+            type: DirectoryOrCreate
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
+        {{- include "factory.volumeCredentials" . | nindent 12 }}

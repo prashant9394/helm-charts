@@ -1,0 +1,14 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  LOG_LEVEL: {{ .Values.config.logLevel }}
+  HVS_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  WLS_API_URL: https://{{ .Values.dependentServices.wls }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.wls.containerPort }}/wls/v1
+  WLA_ENABLE_CONSOLE_LOG: "true"

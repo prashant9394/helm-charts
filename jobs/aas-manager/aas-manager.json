@@ -208,6 +208,20 @@
          ]
       },
       {
+         "username": "wlauser@wls",
+         "password": "wlaUserPass",
+         "print_bearer_token": false,
+         "roles": [
+            {
+               "service": "WLS",
+               "name": "KeysCreator",
+               "permissions": [
+                  "keys:create:*"
+               ]
+            }
+         ]
+      },
+      {
          "username":"cspAdminUser",
          "password":"cspAdminPass",
          "print_bearer_token":true,
