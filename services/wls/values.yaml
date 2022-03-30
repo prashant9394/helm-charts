@@ -55,3 +55,5 @@ service:
   wls:
     containerPort: 5000 # The containerPort on which WLS can listen 
     port: 30447 # The externally exposed NodePort on which WLS can listen to external traffic
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled
