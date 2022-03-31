@@ -22,6 +22,6 @@ for each of the nodes. After adding the all the node IPs/ subnet range run ```ex
     
 All nodes in cluster needs nfs-client to be installed
 
-    - For ubuntu ```apt install nfs-common```
+   - For ubuntu ```apt install nfs-common```
     
-    - For rhel ```dnf install nfs-utils```
+   - For rhel ```dnf install nfs-utils```

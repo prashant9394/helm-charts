@@ -191,8 +191,10 @@ The helm chart support Nodeports for services, to support ingress model.
 Enable the ingress by setting the value ingress enabled to true in values.yaml file
 
 Update the ```hvsUrl, cmsUrl and aasUrl``` under global section according to the conifgured model.
-e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
-    For Nodeport, hvsUrl: https://<controlplane-hosntam/IP>:30443/hvs/v2
+
+   If ingress is enabled, then update url with DNS name and exposed port e.g hvsUrl: https://hvs.isecl.com/hvs/v2
+    
+   For Nodeport, then update url with DNS name and nodeport e.g hvsUrl: https://<controlplane-hosntam/IP>:30443/hvs/v2
 
 #### Use Case charts Deployment
 
@@ -204,4 +206,4 @@ helm install host-attastation isecl-helm/Host-Attestation -f values.yaml --creat
 
 
 ## Setup task workflow.
-* Setup NFS, Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
+Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
