@@ -1,0 +1,28 @@
+{
+  {{- if .Values.aas.url }}
+  "aas_api_url": "{{ .Values.aas.url }}",
+  {{- else }}
+  "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
+  {{- end }}
+  {{- if .Values.global }}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.global.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.global.aas.secret.adminPassword }}",
+  {{- else }}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.aas.secret.adminPassword }}",
+  {{- end }}
+  "users_and_roles": [
+   {
+     "username": "{{ .Values.secret.cccAdminUsername }}",
+     "password": "{{ .Values.secret.cccAdminPassword }}",
+     "print_bearer_token": true,
+     "roles": [
+       {
+         "service": "AAS",
+         "name": "CustomClaimsCreator",
+         "permissions":["custom_claims:create"]
+       }
+     ]
+   }
+  ]
+}

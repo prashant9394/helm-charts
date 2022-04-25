@@ -22,6 +22,15 @@
             - configMapRef:
                 name: {{ include "factory.name" . }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- else }}
+              {{- if .Values.config.proxy.proxyEnabled }}
+              {{- include "factory.serviceProxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}
           ports:
             - containerPort: {{ .Values.service.tcs.containerPort }}

@@ -6,9 +6,15 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
 data:
-  HVS_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/
+  {{- if .Values.global }}
+  HVS_BASE_URL: {{ .Values.global.hvsUrl }}
+  AAS_API_URL: {{ .Values.global.aasUrl }}
+  CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- else }}
+  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
-  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas
+  {{- end}}
   {{- if .Values.global }}
   SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
   {{- else }}

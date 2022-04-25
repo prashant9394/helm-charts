@@ -14,6 +14,7 @@ The following table lists the configurable parameters of the Aps chart and their
 | `nameOverride` | The name for APS chart<br> (Default: `.Chart.Name`) | `""` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
+| `dependentServices.qvs` |  | `"qvs"` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `config.envVarPrefix` |  | `"APS"` |
 | `config.dbPort` | PostgreSQL DB port | `5432` |
@@ -25,19 +26,27 @@ The following table lists the configurable parameters of the Aps chart and their
 | `config.dbName` | APS DB Name | `"aps_db"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
 | `config.vender` |  | `"postgres"` |
+| `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
 | `config.dbSSLCertSource` |  | `"/etc/postgresql/secrets/server.crt"` |
-| `secret.dbUsername` | DB Username for APS DB | `"apsdbuser"` |
-| `secret.dbPassword` | DB Password for APS DB | `"apsdbpassword"` |
-| `secret.adminUsername` | Admin Username for APS | `"apsAdminUser"` |
-| `secret.adminPassword` | Admin Password for APS | `"apsAdminPass"` |
-| `secret.serviceUser` |  | `"aps"` |
-| `secret.servicePassord` |  | `"aps"` |
+| `aas.url` |  | `null` |
+| `aas.secret.adminUsername` | Admin Username for AAS | `null` |
+| `aas.secret.adminPassword` | Admin Password for AAS | `null` |
+| `secret.dbUsername` | DB Username for APS DB | `null` |
+| `secret.dbPassword` | DB Password for APS DB | `null` |
+| `secret.installAdminUsername` | Admin Username for APS | `null` |
+| `secret.installAdminPassword` | Admin Password for APS | `null` |
+| `secret.serviceUsername` |  | `null` |
+| `secret.servicePassword` |  | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
 | `image.db.name` | The image name of PostgreSQL | `"postgres:11.7"` |
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.registry` | The image registry where APS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
-| `image.svc.name` | The image name with which APS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
-| `image.svc.pullPolicy` | The pull policy for pulling from container registry for APS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.name` | The image registry where APS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
+| `image.svc.pullPolicy` | The pull policy for pulling from container registry for APS <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.initName` |  | `"<user input>"` |
+| `image.aasManager.name` | The image registry where AAS Manager image is pushed<br> (**REQUIRED**) | `"<user input>"` |
+| `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS Manager<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
@@ -65,6 +74,7 @@ The following table lists the configurable parameters of the Aps chart and their
 | `service.aps.port` | The externally exposed NodePort on which APS can listen to external traffic | `30503` |
 | `service.apsdb.containerPort` | The containerPort on which apsdb can listen to traffic | `5432` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
+| `factory.nameOverride` |  | `""` |
 
 
 

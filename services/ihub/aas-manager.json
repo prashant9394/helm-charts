@@ -1,0 +1,54 @@
+{
+{{- if .Values.global }}
+  {{- if .Values.global.aasUrl }}
+  "aas_api_url": "{{ .Values.global.aasUrl }}",
+  {{- else }}
+  "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
+  {{- end}}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.global.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.global.aas.secret.adminPassword }}",
+{{- else }}
+  {{- if .Values.aas.url }}
+  "aas_api_url": "{{ .Values.aas.url }}",
+  {{- else }}
+  "aas_api_url": "https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1",
+  {{- end}}
+  "aas_admin_username": "{{ required "A valid admin username is required!" .Values.aas.secret.adminUsername }}",
+  "aas_admin_password": "{{ required "A valid admin password is required!" .Values.aas.secret.adminPassword }}",
+{{- end }}
+   "users_and_roles":[
+      {
+         "username": "{{ .Values.secret.installAdminUsername }}",
+         "password": "{{ .Values.secret.installAdminPassword }}",
+         "print_bearer_token":true,
+         "roles":[
+            {
+               "service": "CMS",
+               "name": "CertApprover",
+               "context":"CN=Integration Hub TLS Certificate;SAN=ihub.{{ .Release.Namespace }}.svc.cluster.local;certType=TLS"
+            }
+         ]
+      },
+      {
+         "username": "{{ .Values.secret.serviceUsername }}",
+         "password": "{{ .Values.secret.servicePassword }}",
+         "print_bearer_token": false,
+      "roles": [
+        {
+          "service": "HVS",
+          "name": "ReportSearcher",
+          "permissions": [
+            "reports:search:*"
+          ]
+        },
+        {
+          "service": "FDS",
+          "name": "HostSearcher",
+          "permissions": [
+            "hosts:search:*"
+          ]
+        }
+       ]
+     }
+   ]
+}

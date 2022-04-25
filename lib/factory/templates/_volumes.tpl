@@ -39,9 +39,16 @@ AAS Bearer Token Volume
 */}}
 {{- define "factory.volumeAasBearerToken" -}}
 - secret:
-    name: bearer-token
+    name: {{ include "factory.name" . }}-bearer-token
 {{- end }}
 
+{{/*
+AAS Custom Token Volume
+*/}}
+{{- define "factory.volumeAasCustomToken" -}}
+- secret:
+    name: {{ include "factory.name" . }}-custom-token
+{{- end }}
 
 {{/*
 AAS Bootstrap token Volume
@@ -152,4 +159,3 @@ Logs Daemonset Volume
     path: /var/log/{{ include "factory.name" . }}
     type: DirectoryOrCreate
 {{- end}}
-

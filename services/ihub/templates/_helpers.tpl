@@ -1,5 +1,5 @@
 {{/*
-Common labels for ISecl Controller init job
+Common labels for ISECL CONTROLLER
 */}}
 {{- define "iseclController-init.labels" -}}
 helm.sh/chart: {{ .Values.dependentServices.iseclController }}
@@ -8,7 +8,7 @@ app.kubernetes.io/name: {{ .Values.dependentServices.iseclController }}-init
 {{- end }}
 
 {{/*
-Selector labels for ISecl Controller init job
+Selector labels for ISECL CONTROLLER
 */}}
 {{- define "iseclController-init.selectorLabels" -}}
 app.kubernetes.io/name: {{ .Values.dependentServices.iseclController }}-init

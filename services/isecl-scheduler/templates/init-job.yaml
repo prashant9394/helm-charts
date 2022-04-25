@@ -15,7 +15,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
         - name: wait-for-ihub-certs
           image: busybox:1.32
@@ -33,7 +33,7 @@ spec:
               readOnly: true
       containers:
         - name: create-ihub-cert-config
-          image: gcr.io/cloud-builders/kubectl:latest
+          image: bitnami/kubectl:1.23
           securityContext:
             {{- toYaml .Values.securityContext.iseclScheduler | nindent 12 }}
           command: ["/bin/sh", "-c"]

@@ -1,22 +1,23 @@
 
-HVS-DB TLS Certificate Generator  
-===============================
+Hvsdb-cert-generator
+===========
 
 A Helm chart for generating tls certs for database deployments
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the HVSDB-CERT-GENERATOR chart and their default values.
+The following table lists the configurable parameters of the Hvsdb-cert-generator chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
-| `nameOverride` | The name for HVSDB-CERT-GENERATOR chart (Default: .Chart.Name) | `""` |
-| `securityContext.aasdbCertGeneratorInit.fsGroup` |  | `1001` |
-| `securityContext.aasdbCertGenerator.runAsUser` |  | `1001` |
-| `securityContext.aasdbCertGenerator.runAsGroup` |  | `1001` |
-| `securityContext.aasdbCertGenerator.capabilities.drop` |  | `["all"]` |
-| `securityContext.aasdbCertGenerator.allowPrivilegeEscalation` |  | `false` |
+| `nameOverride` | The name for HVS DB chart (Default: .Chart.Name) | `""` |
+| `securityContext.hvsdbCertGeneratorInit.fsGroup` |  | `1001` |
+| `securityContext.hvsdbCertGenerator.runAsUser` |  | `1001` |
+| `securityContext.hvsdbCertGenerator.runAsGroup` |  | `1001` |
+| `securityContext.hvsdbCertGenerator.capabilities.drop` |  | `["all"]` |
+| `securityContext.hvsdbCertGenerator.allowPrivilegeEscalation` |  | `false` |
+| `factory.nameOverride` |  | `""` |
 
 
 

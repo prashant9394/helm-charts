@@ -1,0 +1,114 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.daemonSetCommonHeaderSpec" . }}
+metadata:
+  name: {{ include "factory.name" . }}
+{{- include "factory.daemonSetCommonSpec" . }}
+    spec:
+      affinity:
+        {{- include "factory.affinityAgents" . | nindent 8 }}
+                  values:
+                  - "{{ .Values.nodeLabel.sgxTxtEnabled }}"
+      serviceAccountName: isecl
+      initContainers:
+        - name: wait-for-fds
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+            {{- if .Values.global }}
+              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.fds }}/fds/v1/version
+            {{- else }}
+              value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.fds.port }}/fds/v1/version
+            {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.fds }}
+            - name: COMPONENT
+              value: {{ .Values.dependentServices.fds }}
+        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+        - name: wait-for-tcs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+            {{- if .Values.global }}
+              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.tcs }}/tcs/v4/sgx/version
+            {{- else }}
+              value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.tcs.port }}/tcs/v4/sgx/version
+            {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.tcs }}
+            - name: COMPONENT
+              value: {{ .Values.dependentServices.tcs }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            privileged: true
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- else if .Values.proxy.proxyEnabled }}
+            - name: http_proxy
+              value: {{ .Values.proxy.http_proxy }}
+            - name: https_proxy
+              value: {{ .Values.proxy.https_proxy }}
+            - name: no_proxy
+              value: {{ .Values.proxy.no_proxy }}
+            - name: all_proxy
+              value: {{ .Values.proxy.all_proxy }}
+            {{- end }}
+            {{- end }}
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /opt/fda/configuration/.setup_done
+            initialDelaySeconds: 5
+            failureThreshold: 60
+            periodSeconds: 15
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            {{- include "factory.volumeMountSvcConfig" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-hostname
+              mountPath: /etc/hostname
+              readOnly: true
+            - name: {{ include "factory.name" . }}-efivars
+              mountPath: /sys/firmware/efi/efivars
+              readOnly: true
+            - name: {{ include "factory.name" . }}-sgx-device
+              mountPath: /dev/sgx/
+              readOnly: true
+            - name: {{ include "factory.name" . }}-pck-data
+              mountPath: /opt/pckData
+            - name: {{ include "factory.name" . }}-secrets
+              mountPath: /etc/secrets/
+      volumes:
+        {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-hostname
+          hostPath:
+            path: /etc/hostname
+            type: File
+        - name: {{ include "factory.name" . }}-efivars
+          hostPath:
+            path: /sys/firmware/efi/efivars
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-sgx-device
+          hostPath:
+            path: /dev/sgx/
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-pck-data
+          hostPath:
+            path: /opt/pckData
+            type: FileOrCreate
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeAasBearerToken" . |  nindent 12 }}

@@ -16,7 +16,7 @@ app.kubernetes.io/name: {{ include "factory.name" . }}
 
 
 {{/*
-Labels for Service
+Labels for DB
 */}}
 {{- define "factory.labelsDb" -}}
 app.kubernetes.io/name: {{ include "factory.name" . }}db

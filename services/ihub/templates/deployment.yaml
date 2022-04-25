@@ -2,33 +2,96 @@
 ---
 {{- include "factory.deploymentCommonSpec" . }}
     spec:
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       initContainers:
+        {{- if .Values.dependentServices.hvs }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             - name: URL
+              {{- if .Values.global }}
+              value: {{ .Values.global.hvsUrl }}/version
+              {{- else }}
               value: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2/version
+              {{- end }}
             - name: VERSION
               value: {{ .Chart.AppVersion }}         
             - name: DEPEDENT_SERVICE_NAME
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ include "factory.name" . }}
+        {{- end}}
+        {{- if .Values.dependentServices.fds }}
+        - name: wait-for-fds
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.proxy" . | nindent 12 }}
+              {{- end }}
+              {{- end }}
+              - name: URL
+                {{- if .Values.global }}
+                value: {{ .Values.global.fdsUrl }}/version
+                {{- else }}
+                value: https://{{ .Values.dependentServices.fds }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.fds.containerPort }}/fds/v1/version
+                {{- end }}
+              - name: VERSION
+                value: {{ .Chart.AppVersion }}
+              - name: DEPEDENT_SERVICE_NAME
+                value: {{.Values.dependentServices.fds }}
+              - name: COMPONENT
+                value: {{ include "factory.name" . }}
+        {{- end}}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:
             {{- toYaml .Values.securityContext.ihub | nindent 12 }}
           volumeMounts:
             {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+        {{- if .Values.global }}
+        {{- if .Values.global.versionUpgrade }}
+        {{- include "factory.waitForUpgradeService" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
+        {{- end}}
+        {{- else}}
+        {{- if .Values.versionUpgrade }}
+        {{- include "factory.waitForUpgradeService" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
+        {{- end }}
+        {{- end }}
+      {{- include "factory.hostAliases" . | nindent 6 }}
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}
           securityContext:
              {{- toYaml .Values.securityContext.ihub | nindent 12 }}
           env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}
           envFrom:
             - configMapRef:

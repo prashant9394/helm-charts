@@ -1,0 +1,10 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.serviceCommonSpec" . }}
+  ports:
+    - port: {{ .Values.service.admissionController.targetPort }}
+      targetPort: tls
+      name: application
+    - port: {{ .Values.service.admissionController.httpPort }}
+      targetPort: metrics
+      name: metrics

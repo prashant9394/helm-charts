@@ -1,0 +1,23 @@
+{{- include "factory.headers" . }}
+---
+{{- if  .Values.global }}
+{{- if .Values.global.config.nats.enabled }}
+{{- include "factory.serviceCommonSpec" . }}
+  type: NodePort
+  ports:
+    - name: {{ .Values.service.natsClient.name }}
+      port: {{ .Values.service.natsClient.containerPort }}
+      nodePort: {{ .Values.clientPort }}
+    - name: {{ .Values.service.natsCluster.name }}
+      port: {{ .Values.service.natsCluster.containerPort }}
+{{- end }}
+{{- else }}
+{{- include "factory.serviceCommonSpec" . }}
+  type: NodePort
+  ports:
+    - name: {{ .Values.service.natsClient.name }}
+      port: {{ .Values.service.natsClient.containerPort }}
+      nodePort: {{ .Values.service.natsClient.port }}
+    - name: {{ .Values.service.natsCluster.name }}
+      port: {{ .Values.service.natsCluster.containerPort }}
+{{- end }}

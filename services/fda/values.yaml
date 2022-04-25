@@ -1,0 +1,72 @@
+# Default values for aas.
+
+nameOverride: "" # The name for FDA chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+nodeLabel: 
+  sgxTxtEnabled: SGX-TXT-ENABLED # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  Cerificate Management Service chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  fds: fds
+  tcs: tcs
+    
+image:
+  svc:
+    name: <user input> # The image name with which FDA image is pushed to registry
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+    initName: <user input> # init-wait image name
+  aasManager:
+    name:   # The image name with which AAS manager image is pushed to registry
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+
+config:
+  refreshInterval: <user input> #Refresh Interval
+  retryCount: <user input> #Retry count
+  validitySeconds: <user input> #Validity seconds
+
+aas:
+  # Please update the url section if aas is exposed via ingress
+  url:
+  secret:
+    adminUsername: aasAdminUser # Admin Username for AAS
+    adminPassword: aasAdminPass # Admin Password for AAS
+
+securityContext:
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+
+service: 
+  directoryName: fda
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+    port: 30445 # The externally exposed NodePort on which CMS can listen to external traffic
+  aas:
+    containerPort: 8444 # The containerPort on which AAS can listen
+    port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
+  fds:
+    containerPort: 13000 # The containerPort on which FDS can listen
+    port: 30500
+  tcs:
+    containerPort: 9000 # The containerPort on which TCS can listen
+    port: 30502
+
+secret:
+  cccAdminUsername:  #ccc admin token username
+  cccAdminPassword:  #ccc admin token password
+  
+proxy:
+  proxyEnabled: false # If proxy is enabled, then set to true
+  http_proxy:  # set HTTP Proxy value
+  https_proxy: # set HTTP Proxy value
+  no_proxy: # Append .svc,.svc.cluster.local, to no_proxy
+  all_proxy: # set all proxy value

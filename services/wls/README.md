@@ -1,7 +1,9 @@
-WLS
+
+Wls
 ===========
 
 A Helm chart for Installing ISecL-DC Workload Service
+
 
 ## Configuration
 
@@ -15,11 +17,20 @@ The following table lists the configurable parameters of the Wls chart and their
 | `dependentServices.aas` |  | `"aas"` |
 | `dependentServices.hvs` |  | `"hvs"` |
 | `config.envVarPrefix` |  | `"WLS"` |
-| `secret.adminUsername` | Admin Username for WLS | `"wlsAdminUser"` |
-| `secret.adminPassword` | Admin Password for WLS | `"wlsAdminPass"` |
-| `image.svc.registry` | The image registry where WLS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
-| `image.svc.name` | The image name with which CMS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
+| `aas.url` |  | `null` |
+| `aas.secret.adminUsername` | Admin Username for AAS | `null` |
+| `aas.secret.adminPassword` | Admin Password for AAS | `null` |
+| `secret.installAdminUsername` | Install Admin Username for WLS | `null` |
+| `secret.installAdminPassword` | Install Admin Password for WLS | `null` |
+| `secret.serviceUsername` | Service Username for WLS | `null` |
+| `secret.servicePassword` | Service Password for WLS | `null` |
+| `image.svc.name` | The image name with which WLS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for WLS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.initName` |  | `"<user input>"` |
+| `image.aasManager.name` | The image registry where AAS Manager image is pushed<br> (**REQUIRED**) | `"<user input>"` |
+| `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
@@ -32,12 +43,18 @@ The following table lists the configurable parameters of the Wls chart and their
 | `securityContext.wls.runAsGroup` |  | `1001` |
 | `securityContext.wls.capabilities.drop` |  | `["all"]` |
 | `securityContext.wls.allowPrivilegeEscalation` |  | `false` |
+| `securityContext.aasManager.runAsUser` |  | `1001` |
+| `securityContext.aasManager.runAsGroup` |  | `1001` |
+| `securityContext.aasManager.capabilities.drop` |  | `["all"]` |
+| `securityContext.aasManager.allowPrivilegeEscalation` |  | `false` |
+| `securityContext.aasManagerInit.fsGroup` |  | `1001` |
 | `service.directoryName` |  | `"wls"` |
 | `service.cms.containerPort` | The containerPort on which CMS can listen | `8445` |
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
 | `service.wls.containerPort` | The containerPort on which WLS can listen | `5000` |
 | `service.wls.port` | The externally exposed NodePort on which WLS can listen to external traffic | `30447` |
+| `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
 | `factory.nameOverride` |  | `""` |
 
 

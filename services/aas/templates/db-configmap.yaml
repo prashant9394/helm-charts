@@ -7,8 +7,13 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   pg_hba.conf: |
-    local  all  all trust
-    hostssl {{ .Values.config.dbName }} {{ .Values.secret.dbUsername }} 10.1.0.0/8 md5
+    local all postgres peer
+    local all all md5
+    {{- if .Values.global }}
+    hostssl {{ .Values.config.dbName }} {{ .Values.secret.dbUsername }} {{ .Values.global.config.dbhostSSLPodRange }} md5
+    {{- else }}
+    hostssl {{ .Values.config.dbName }} {{ .Values.secret.dbUsername }} {{ .Values.config.dbhostSSLPodRange }} md5
+    {{- end }}
   postgresql.conf: |
     listen_addresses = '{{ .Values.config.dbListenAddresses }}'
     port = {{ .Values.config.dbPort }}

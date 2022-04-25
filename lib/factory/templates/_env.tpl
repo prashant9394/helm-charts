@@ -18,10 +18,38 @@ Env for BEARER_TOKEN
 - name: BEARER_TOKEN
   valueFrom:
     secretKeyRef:
-      name: bearer-token
+      name: {{ include "factory.name" . }}-bearer-token
       key: BEARER_TOKEN
 {{- end }}
 
+{{/*
+Env for Global Proxy
+*/}}
+{{- define "factory.globalProxy" -}}
+- name: http_proxy
+  value: {{ .Values.global.httpProxy }}
+- name: https_proxy
+  value: {{ .Values.global.httpsProxy }}
+- name: no_proxy
+  value: {{ .Values.global.noProxy }}
+- name: all_proxy
+  value: {{ .Values.global.allProxy }}
+{{- end }}
+
+
+{{/*
+Env for Service Proxy
+*/}}
+{{- define "factory.serviceProxy" -}}
+- name: http_proxy
+  value: {{ .Values.config.proxy.httpProxy }}
+- name: https_proxy
+  value: {{ .Values.config.proxy.httpsProxy }}
+- name: no_proxy
+  value: {{ .Values.config.proxy.noProxy }}
+- name: all_proxy
+  value: {{ .Values.config.proxy.allProxy }}
+{{- end }}
 
 {{/*
 Env for PostgresDB

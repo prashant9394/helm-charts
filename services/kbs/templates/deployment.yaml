@@ -1,0 +1,61 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.deploymentCommonSpec" . }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.kbsInit | nindent 8 }}
+      serviceAccountName: isecl
+      initContainers:
+        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+        {{- if .Values.config.tee }}
+        {{- include "factory.initWaitForCustomToken" . | nindent 8 }}
+        {{- end}}
+        {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.kbs | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.kbs | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.service.kbs.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /kbs/v1/version
+              port: {{ .Values.service.kbs.containerPort }}
+              scheme: HTTPS            
+            initialDelaySeconds: 5
+            failureThreshold: 60
+            periodSeconds: 15
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          env:
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountSvcConfig" . | nindent 12 }}
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            {{- include "factory.volumeMountSecrets" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-kmip-certs
+              mountPath: /etc/pykmip/certs/
+              readOnly: true
+            - name: {{ include "factory.name" . }}-opt
+              mountPath: /opt/kbs/
+      volumes:
+        {{- include "factory.volumeSvcConfig" . | nindent 8 }}
+        {{- include "factory.volumeSvcLogs" . | nindent 8 }}
+        {{- include "factory.volumesBasePV" . | nindent 8 }}
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
+        {{- if .Values.config.tee }}
+        {{- include "factory.volumeAasCustomToken" . | nindent 12 }}
+        {{- end}}
+        - name: {{ include "factory.name" . }}-kmip-certs
+          secret:
+            secretName: {{ include "factory.name" . }}-kmip-certs
+        - name: {{ include "factory.name" . }}-opt
+          persistentVolumeClaim:
+            claimName: {{ include "factory.name" . }}-opt

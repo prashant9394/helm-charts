@@ -11,27 +11,54 @@ The following table lists the configurable parameters of the Ihub chart and thei
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
-| `nameOverride` | The name for IHUB chart<br> <span style="color:blue">Default: `.Chart.name`</span> | `""` |
-| `controlPlaneHostname` | K8s control plane IP/Hostname<br> <span style="color:red">Required</span>. | `""` |
+| `nameOverride` | The name for IHUB chart<br> (Default: `.Chart.Name`) | `""` |
+| `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `k8sApiServerPort` |  | `6443` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
-| `dependentServices.hvs` |  | `"hvs"` |
-| `dependentServices.isecl-controller` |  | `"isecl-controller"` |
-| `image.registry` | The image registry where IHUB image is pushed<br> <span style="color:red">Required</span>. | `""` |
-| `image.name` | The image name with which IHUB image is pushed to registry<br> <span style="color:red">Required</span>. | `""` |
-| `image.pullPolicy` | The pull policy for pulling from container registry for IHUB<br> <span style="color:red">Allowed values: `Always`/`IfNotPresent`</span> | `"Always"` |
-| `storage.nfs.server` | The NFS Server IP/Hostname<br> <span style="color:red">Required</span>. | `""` |
-| `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> <span style="color:red">Allowed values: `Retain`/</span> | `"Retain"` |
-| `storage.nfs.accessModes` | The access modes for NFS<br> <span style="color:red">Allowed values: `ReadWriteMany`/</span> | `"ReadWriteMany"` |
+| `dependentServices.hvs` | Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases | `null` |
+| `dependentServices.fds` | Set this to fds for TEE based usecases | `null` |
+| `dependentServices.iseclController` |  | `"isecl-controller"` |
+| `image.svc.name` | The image name with which IHUB image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
+| `image.svc.pullPolicy` | The pull policy for pulling from container registry for IHUB<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.initName` | The image name of init container | `"<user input>"` |
+| `image.aasManager.name` | The image registry where AAS Manager image is pushed<br> (**REQUIRED**) | `"<user input>"` |
+| `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `aas.url` |  | `null` |
+| `aas.secret.adminUsername` | Admin Username for AAS | `null` |
+| `aas.secret.adminPassword` | Admin Password for AAS | `null` |
+| `secret.serviceUsername` | Admin Username for IHUB | `null` |
+| `secret.servicePassword` | Admin Password for IHUB | `null` |
+| `secret.installAdminUsername` | Admin Username for IHUB | `null` |
+| `secret.installAdminPassword` | Admin Password for IHUB | `null` |
+| `hostAliasEnabled` | Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names | `false` |
+| `aliases.hostAliases` |  | `[{"ip": "", "hostnames": ["", ""]}]` |
+| `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
+| `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: ReadWriteMany) | `"ReadWriteMany"` |
 | `storage.nfs.path` | The path for storing persistent data on NFS | `"/mnt/nfs_share"` |
 | `storage.nfs.configSize` | The configuration size for storing config for IHUB in NFS path | `"10Mi"` |
 | `storage.nfs.logsSize` | The logs size for storing logs for IHUB in NFS path | `"1Gi"` |
+| `storage.nfs.baseSize` | The base volume size (configSize + logSize) | `"1.1Gi"` |
 | `securityContext.init.fsGroup` |  | `1001` |
 | `securityContext.ihub.runAsUser` |  | `1001` |
 | `securityContext.ihub.runAsGroup` |  | `1001` |
 | `securityContext.ihub.capabilities.drop` |  | `["all"]` |
 | `securityContext.ihub.allowPrivilegeEscalation` |  | `false` |
+| `securityContext.aasManager.runAsUser` |  | `1001` |
+| `securityContext.aasManager.runAsGroup` |  | `1001` |
+| `securityContext.aasManager.capabilities.drop` |  | `["all"]` |
+| `securityContext.aasManager.allowPrivilegeEscalation` |  | `false` |
+| `securityContext.aasManagerInit.fsGroup` |  | `1001` |
+| `service.directoryName` |  | `"ihub"` |
+| `service.cms.containerPort` | The containerPort on which CMS can listen | `8445` |
+| `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
+| `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
+| `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
+| `service.fds.containerPort` | The containerPort on which HVS can listen | `13000` |
+| `factory.nameOverride` |  | `""` |
 
 
 

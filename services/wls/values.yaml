@@ -13,15 +13,32 @@ dependentServices: # The dependent Service Name for deploying  Cerificate Manage
 config:
   envVarPrefix: WLS
 
+aas:
+# Please update the url section if aas is exposed via ingress
+  url:
+  secret: 
+    adminUsername: # Admin Username for AAS
+    adminPassword: # Admin Password for AAS
+
+    # The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for ihub chart
+    #
+
 secret:
-  adminUsername: wlsAdminUser # Admin Username for WLS
-  adminPassword: wlsAdminPass # Admin Password for WLS
+  installAdminUsername: # Install Admin Username for WLS
+  installAdminPassword: # Install Admin Password for WLS
+  serviceUsername: # Service Username for WLS
+  servicePassword: # Service Password for WLS
 
 image:
   svc:
-    name: <user input> # The image name with which CMS image is pushed to registry<br> (**REQUIRED**)
+    name: <user input> # The image name with which WLS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for WLS<br> (Allowed values: `Always`/`IfNotPresent`)
-    initName: <user input> # intit-wait image name
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     
 storage:
   nfs:
@@ -43,7 +60,16 @@ securityContext:
       drop:
         - all
     allowPrivilegeEscalation: false
-
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+      
 service:
   directoryName: wls
   cms:

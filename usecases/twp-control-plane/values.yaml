@@ -1,0 +1,94 @@
+---
+# The below section can be used to override additional values defined under each of the dependent charts
+cms:
+  image:
+    name: <user input> # Certificate Management Service image name<br> (**REQUIRED**)
+
+aas:
+  image:
+    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+  secret:
+    dbUsername:  # DB Username for AAS DB
+    dbPassword:  # DB Password for AAS DB
+
+hvs:
+  image:
+    name: <user input> # Host Verification Service image name<br> (**REQUIRED**)
+  config:
+    requireEKCertForHostProvision: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+    verifyQuoteForHostRegistration: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+  secret:
+    dbUsername:  # DB Username for HVS DB
+    dbPassword:  # DB Password for HVS DB
+    installAdminUsername: # Install Admin Username for HVS
+    installAdminPassword: # Install Admin Password for HVS
+    serviceUsername:  # Service Username for HVS
+    servicePassword:  # Service Password for HVS
+
+nats:
+  clientPort: 30222
+
+nats-init:
+  image:
+    name: <user input> # The image name of nats-init container
+  secret:
+    installAdminUsername:  # Admin Username for NATS Init
+    installAdminPassword:  # Admin Password for NATS Init
+
+global-admin-generator:
+  enable: false # Set this to true for generating global admin user account
+  secret:
+    globalAdminUsername:
+    globalAdminPassword:
+  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS
+    - HVS
+
+global:
+  controlPlaneHostname:  <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
+  currentVersion: # Set the currently deployed version
+
+
+  hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+  aliases:
+    hostAliases:
+      - ip: ""
+        hostnames:
+          - ""
+          - ""
+
+  image:
+    pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
+    aasManagerName: <user input> # The image name of aas-manager image name
+
+  config:
+    dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
+    nats:
+      enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+      servers: "nats://<DNS>:<Node-Port>"   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) e.g nats://192.1.2.4:30222
+
+  storage:
+    nfs:
+      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+      path: /mnt/nfs_share  # The path for storing persistent data on NFS
+
+  service:
+    cms: 30445 # The service port for Certificate Management Service
+    aas: 30444 # The service port for Authentication Authorization Service
+    hvs: 30443 # The service port for SGX Host Verification Service
+
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled, Default value: false
+
+  aas:
+    secret:
+      adminUsername:  # Admin Username for AAS
+      adminPassword:  # Admin Password for AAS
+
+  proxyEnabled: false # Set to true when running deploying behind corporate proxy
+  httpProxy: <user input> # Set http_proxy url
+  httpsProxy: <user input> # Set https_proxy url
+  allProxy: <user input>  # Set all_proxy url
+  noProxy: <user input> # Set no_proxy

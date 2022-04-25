@@ -1,25 +1,24 @@
 {{- include "factory.headers" . }}
 ---
 {{- include "factory.serviceCommonSpec" . }}
-
   {{- if .Values.global }}
     {{- if .Values.global.ingress.enable }}
   type: ClusterIP
-    ports:
-      - port: {{ .Values.service.aps.containerPort }}
-        targetPort: {{ .Values.service.aps.containerPort }}
-      {{- else }}
-    type: NodePort
-    ports:
-      - port: {{ .Values.service.aps.containerPort }}
-        targetPort: {{ .Values.service.aps.containerPort }}
-        nodePort: {{ .Values.global.service.aps }}
-      {{- end }}
+  ports:
+    - port: {{ .Values.service.aps.containerPort }}
+      targetPort: {{ .Values.service.aps.containerPort }}
+    {{- else }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.service.aps.containerPort }}
+      targetPort: {{ .Values.service.aps.containerPort }}
+      nodePort: {{ .Values.global.service.aps }}
+    {{- end }}
   {{- else if .Values.service.ingress.enable }}
   type: ClusterIP
   ports:
     - port: {{ .Values.service.aps.containerPort }}
-      targetPort: {{ .Values.service.aas.containerPort }}
+      targetPort: {{ .Values.service.aps.containerPort }}
   {{- else }}
   type: NodePort
   ports:

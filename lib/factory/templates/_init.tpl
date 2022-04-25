@@ -34,7 +34,7 @@ Wait for CMS-TLS-SHA384, BEARER-TOKEN
     - name: BEARER_TOKEN
       valueFrom:
         secretKeyRef:
-          name: bearer-token
+          name: {{ include "factory.name" . }}-bearer-token
           key: BEARER_TOKEN
   volumeMounts:
     - name: {{ include "factory.name" . }}-secrets
@@ -42,6 +42,29 @@ Wait for CMS-TLS-SHA384, BEARER-TOKEN
       readOnly: true
 {{- end }}
 
+{{/*
+Wait for CUSTOM-TOKEN
+*/}}
+{{- define "factory.initWaitForCustomToken" -}}
+- name: wait-for-custom-token
+  image: busybox:1.32
+  command: ["/bin/sh", "-c"]
+  args:
+  - >
+    i=0 &&
+    while [ ! $(ls /etc/secrets/CUSTOM_TOKEN 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done &&
+    if [ $i -eq 5 ]; then echo "Error: timeout exceeded for init job: wait-for-custom-token"; exit 1; fi
+  env:
+    - name: CUSTOM_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: {{ include "factory.name" . }}-custom-token
+          key: CUSTOM_TOKEN
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-secrets
+      mountPath: /etc/secrets/
+      readOnly: true
+{{- end }}
 
 {{/* 
 Change Ownership for log path
@@ -85,4 +108,50 @@ Associate config and log volumes with appropriate version
       cd {{ .Values.service.directoryName }} &&
       ln -sfT {{.Chart.AppVersion }}/config config &&
       ln -sfT {{.Chart.AppVersion }}/logs logs
+{{- end }}
+
+{{/*
+Backup job for services
+*/}}
+{{- define "factory.backupService" -}}
+- name: {{ include "factory.name" . }}-backup-job
+  image: busybox:1.32
+  command: ["/bin/sh", "-c"]
+  {{- $dirName := .Values.service.directoryName }}
+  {{- if .Values.global }}
+  args:
+    - >
+      if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
+      ls /{{ $dirName }}/ &&
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} &&
+      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/* /{{ $dirName }}/{{.Chart.AppVersion }}/
+  {{- else}}
+  args:
+    - >
+      if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
+      ls /{{ $dirName }}/ &&
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} &&
+      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/* /{{ $dirName }}/{{.Chart.AppVersion }}/
+  {{- end}}
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ $dirName }}/
+{{- end }}
+
+{{/*
+Wait job for service upgrades
+*/}}
+{{- define "factory.waitForUpgradeService" -}}
+- name: {{ include "factory.name" . }}-wait-for-upgrade-job
+  image: bitnami/kubectl:1.23
+  command: ["/bin/sh", "-c"]
+  args:
+    - >
+      if [ ! -f "/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/config/version" ]; then
+         kubectl wait --for=condition=complete --timeout=2m job/{{ include "factory.name" . }}-upgrade -n {{ .Release.Namespace }}
+         echo {{.Chart.AppVersion }} > /{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/config/version
+      fi
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
 {{- end }}

@@ -8,6 +8,7 @@ nameOverride: "" # The name for APS chart<br> (Default: `.Chart.Name`)
 dependentServices: # The dependent Service Name for deploying Attestation Policy Service chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
+  qvs: qvs
 
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
@@ -24,16 +25,26 @@ config:
   dbName: aps_db # APS DB Name
   dbSSLMode: verify-full # PostgreSQL DB SSL Mode
   vender: postgres
+  dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
   dbSSLCertSource: /etc/postgresql/secrets/server.crt
 
+aas:
+# Please update the url section if aas is exposed via ingress
+  url:
+  secret: 
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
+
+    # The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for ihub chart
+    #
 
 secret:
-  dbUsername: apsdbuser # DB Username for APS DB
-  dbPassword: apsdbpassword # DB Password for APS DB
-  adminUsername: apsAdminUser # Admin Username for APS
-  adminPassword: apsAdminPass # Admin Password for APS
-  serviceUser: aps
-  servicePassord: aps
+  dbUsername: # DB Username for APS DB
+  dbPassword: # DB Password for APS DB
+  installAdminUsername: # Admin Username for APS
+  installAdminPassword: # Admin Password for APS
+  serviceUsername: 
+  servicePassword: 
 
 image:
   
@@ -42,9 +53,14 @@ image:
     name: postgres:11.7 # The image name of PostgreSQL
     pullPolicy: Always # The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`)
   svc:
-    registry: <user input> # The image registry where APS image is pushed<br> (**REQUIRED**)
-    name: <user input> # The image name with which APS image is pushed to registry<br> (**REQUIRED**)
-    pullPolicy: Always  # The pull policy for pulling from container registry for APS<br> (Allowed values: `Always`/`IfNotPresent`)
+    name: <user input> # The image registry where APS image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for APS <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
   nfs:
@@ -96,4 +112,3 @@ service:
   
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled
-  

@@ -19,7 +19,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.aasdbCertGeneratorInit | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ .Release.Namespace }}
       restartPolicy: Never
       initContainers:
         - name: aasdb-cert-generator-cfssl
@@ -40,7 +40,7 @@ spec:
               mountPath: /tmp/certs
       containers:
         - name: aasdb-cert-generator-kubectl
-          image: bitnami/kubectl:1.22
+          image: bitnami/kubectl:1.23
           imagePullPolicy: Always
           securityContext:
             {{- toYaml .Values.securityContext.aasdbCertGenerator | nindent 12 }}

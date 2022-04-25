@@ -1,12 +1,29 @@
 {{- include "factory.headers" . }}
 ---
 {{- include "factory.serviceCommonSpec" . }}
+  {{- if .Values.global }}
+    {{- if .Values.global.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.fds.containerPort }}
+      targetPort: {{ .Values.service.fds.containerPort }}
+    {{- else }}
   type: NodePort
   ports:
     - port: {{ .Values.service.fds.containerPort }}
       targetPort: {{ .Values.service.fds.containerPort }}
-      {{- if .Values.global }}
       nodePort: {{ .Values.global.service.fds }}
-      {{- else }}
+    {{- end }}
+  {{- else if .Values.service.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.fds.containerPort }}
+      targetPort: {{ .Values.service.fds.containerPort }}
+  {{- else }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.service.fds.containerPort }}
+      targetPort: {{ .Values.service.fds.containerPort }}
       nodePort: {{ .Values.service.fds.port }}
-      {{- end }}
+  {{- end }}
+

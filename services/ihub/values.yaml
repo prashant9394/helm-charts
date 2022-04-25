@@ -2,25 +2,52 @@
 
 nameOverride: "" # The name for IHUB chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
-k8sApiServerPort: <user input>
+k8sApiServerPort: 6443
+versionUpgrade: false # Set this true when performing upgrading to next minor/major version
+currentVersion: # Set the currently deployed version
+
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 # TODO: Services should be be able to be deployed in different namespaces
 dependentServices: # The dependent Service Name for deploying  IHUB chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
-  hvs: hvs
+  hvs: # Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases
+  fds: # Set this to fds for TEE based usecases
   iseclController: isecl-controller
   
 image:
   svc:
-    registry: <user input> # The image registry where IHUB image is pushed<br> (**REQUIRED**)
-    name: <user input> # The image name with which IHUB image is pushed to registry<br> (**REQUIRED**)
+    name: <user input>  # The image name with which IHUB image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for IHUB<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
+aas:
+# Please update the url section if aas is exposed via ingress
+  url:
+  secret: 
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
+    # The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for ihub chart
+    #
 secret:
-  serviceUsername: ihubAdminUser # Admin Username for IHUB
-  servicePassword: ihubAdminPass # Admin Password for IHUB
+  serviceUsername: # Admin Username for IHUB
+  servicePassword: # Admin Password for IHUB
+  installAdminUsername: # Admin Username for IHUB
+  installAdminPassword: # Admin Password for IHUB
+
+hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
+aliases:
+  hostAliases:
+    - ip: ""
+      hostnames:
+        - ""
+        - ""
 
 storage:
   nfs:
@@ -42,7 +69,16 @@ securityContext:
       drop:
         - all
     allowPrivilegeEscalation: false
-
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+      
 service:
   directoryName: ihub
   cms:
@@ -52,3 +88,5 @@ service:
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
   hvs:
     containerPort: 8443 # The containerPort on which HVS can listen 
+  fds:
+    containerPort: 13000 # The containerPort on which HVS can listen

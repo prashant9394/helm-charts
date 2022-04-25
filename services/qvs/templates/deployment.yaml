@@ -36,9 +36,15 @@
             {{- include "factory.volumeMountSvcConfig" . | nindent 12 }}
             {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
             {{- include "factory.volumeMountSecrets" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-sgx-qcnl
+              mountPath: /etc/sgx_default_qcnl.conf
+              subPath: sgx_default_qcnl.conf 
       volumes:
         {{- include "factory.volumeSvcConfig" . | nindent 8 }}
         {{- include "factory.volumeSvcLogs" . | nindent 8 }}
         {{- include "factory.volumesBasePV" . | nindent 8 }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
+        - name: {{ include "factory.name" . }}-sgx-qcnl
+          configMap:
+            name: {{ include "factory.name" . }}

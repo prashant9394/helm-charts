@@ -1,0 +1,41 @@
+# Default values for ADMISSION-CONTROLLER.
+
+nameOverride: "" # The name for ADMISSION-CONTROLLER chart<br> (Default: `.Chart.Name`)
+controlPlaneLabel: <user input> #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
+
+image:
+  svc:
+    name: <user input> # The image name with which ADMISSION-CONTROLLER image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always  # The pull policy for pulling from container registry for ADMISSION-CONTROLLER<br> (Allowed values: `Always`/`IfNotPresent`)
+ 
+securityContext:
+  init: # The fsGroup id for init containers
+    fsGroup: 1001 
+  admissionController: # The security context for ADMISSION-CONTROLLER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+
+webhook:
+  caBundle: <user input> #CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
+
+service:
+  directoryName: admission-controller
+  admissionController:
+    containerPort: 8889 # The containerPort on which admission controller can listen to traffic
+    port: 30445 # The externally exposed NodePort on which admission controller can listen to external traffic
+    targetPort: 443
+    httpPort: 80
+
+storage:
+  nfs:
+    server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+    reclaimPolicy: Retain  # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    path: /mnt/nfs_share # The path for storing persistent data on NFS
+    logsSize: 1Gi # The logs size for storing logs for KBS in NFS path
+    baseSize: 1Gi # The base volume size (configSize + logSize)
+

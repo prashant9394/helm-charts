@@ -5,6 +5,17 @@ metadata:
   name: {{ include "factory.name" . }}
 {{- include "factory.daemonSetCommonSpec" . }}
     spec:
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
       affinity:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
@@ -18,15 +29,23 @@ metadata:
           args:
             - >
               i=0 &&
-              while [ ! $(ls /opt/trustagent/configuration/.setup_done 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done
+              while [ ! $(ls /etc/trustagent/configuration/.setup_done 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done
           volumeMounts:
             - name: {{ .Values.dependentServices.ta }}-config
-              mountPath: /opt/trustagent/configuration
+              mountPath: /etc/trustagent
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}
           securityContext:
             privileged: true
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+            {{- include "factory.globalProxy" . | nindent 12 }}
+            {{- end }}
+   	    {{- end }}
+            {{- include "factory.envBearerToken" . | nindent 12 }}
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
           envFrom:
             - configMapRef:
                 name: {{ include "factory.name" . }}
@@ -39,10 +58,10 @@ metadata:
             - name: {{ include "factory.name" . }}-socket
               mountPath: /var/run/workload-agent
             - name: {{ include "factory.name" . }}-secrets
-              mountPath: /etc/secret-volume/
+              mountPath: /etc/secrets
               readOnly: true
             - name: {{ .Values.dependentServices.ta }}-config
-              mountPath: /opt/trustagent/configuration
+              mountPath: /etc/trustagent
             - name: tpmrm
               mountPath: /dev/tpmrm0
       volumes:
@@ -60,7 +79,7 @@ metadata:
             path: /dev/tpmrm0
         - name: {{ .Values.dependentServices.ta }}-config
           hostPath:
-            path: /opt/trustagent/configuration
+            path: /etc/trustagent
             type: DirectoryOrCreate
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeAasBearerToken" . | nindent 12 }}

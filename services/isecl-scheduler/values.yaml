@@ -1,16 +1,16 @@
 # Default values for ISECL-SCHEDULER.
 
 nameOverride: "" # The name for ISECL-SCHEDULER chart<br> (Default: `.Chart.Name`)
-controlPlaneLabel: 10.105.167.197 #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
+controlPlaneLabel: <user input> #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
 
 dependentServices: # The dependent Service Name for deploying  ISECL-SCHEDULER chart, default is the chart name and override is from nameOverride value.
   ihub: ihub
   
 image:
   svc:
-    registry: 10.105.168.18:5000 # The image registry where ISECL-SCHEDULER image is pushed<br> (**REQUIRED**)
-    name: isecl-scheduler # The image name with which ISECL-SCHEDULER image is pushed to registry<br> (**REQUIRED**)
+    name: <user input> # The image name with which ISECL-SCHEDULER image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always  # The pull policy for pulling from container registry for ISECL-SCHEDULER<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 securityContext:
   init: # The fsGroup id for init containers

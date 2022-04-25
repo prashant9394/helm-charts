@@ -2,19 +2,49 @@
 
 # This script should be executed on Linux RHEL Virtual Machine
 
-EXPORT_DIRECTORY=${1:-/mnt/nfs_share/}
-USER_ID=${2:-1001}
+EXPORT_DIRECTORY=${1}
+USER_ID=${2}
 CURR_DIR=`pwd`
-WORKER_NODE_SUBNET=${3:-*}
-SERVICES="cms ihub kbs qvs isecl-k8s-extensions"
+WORKER_NODE_SUBNET=${3}
+SERVICES="cms ihub kbs qvs isecl-k8s-scheduler isecl-k8s-controller admission-controller"
 SERVICES_WITH_DB="wls hvs authservice fds aps tcs"
 BASE_PATH=$EXPORT_DIRECTORY/isecl
 LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
 VERSION=${VERSION:-v5.0.0}
-echo "Installing NFS Utils"
-dnf install -y nfs-utils
+
+if [ -z "$EXPORT_DIRECTORY" ]; then
+  echo "Error: missing export directory. Aborting..."
+  exit 1
+fi
+
+if [ -z "$USER_ID" ]; then
+  echo "Error: missing user id. Aborting..."
+  exit 1
+fi
+
+if [ -z "$WORKER_NODE_SUBNET" ]; then
+  echo "Error: missing worker node subnet/ip. Aborting..."
+  exit 1
+fi
+
+# Check OS
+OS=$(cat /etc/os-release | grep ^ID= | cut -d'=' -f2)
+temp="${OS%\"}"
+temp="${temp#\"}"
+OS="$temp"
+
+if [ "$OS" == "rhel" ]
+then
+  echo "Installing NFS Utils"
+  dnf install -y nfs-utils
+  systemctl enable --now nfs-server rpcbind
+elif [ "$OS" == "ubuntu" ]
+then
+  apt install -y nfs-kernel-server
+fi
+
 echo "Making new directory to be: ${EXPORT_DIRECTORY}"
 mkdir -p ${EXPORT_DIRECTORY}
 
@@ -30,7 +60,7 @@ for base_service in $services; do
   mkdir -p $service/$CONFIG_PATH
   chown -R $USER_ID:$USER_ID $service/$CONFIG_PATH
   chown -R $USER_ID:$USER_ID $service/$LOG_PATH
-  if [ $service == "$BASE_PATH/kbs" ]; then
+  if [ $base_service == "kbs" ]; then
     mkdir -p $service/opt
     chown -R $USER_ID:$USER_ID $service/opt
     cd $BASE_PATH/$base_service
@@ -67,3 +97,7 @@ grep -qx "${BASE_PATH}/        ${WORKER_NODE_SUBNET}(rw,sync,no_all_squash,root_
 echo "Restarting nfs-utils & exporting"
 nohup service nfs-utils restart
 exportfs -arv
+if [ "$OS" == "ubuntu" ]; then
+  nohup service nfs-kernel-server restart
+fi
+

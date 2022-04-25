@@ -1,0 +1,42 @@
+{{- include "factory.headers" . }}
+{{- if .Values.global }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "factory.name" . }}-opt
+spec:
+  capacity:
+    storage: {{ .Values.storage.nfs.homeDirSize }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .Values.storage.nfs.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+  claimRef:
+    namespace: {{ .Release.Namespace }}
+    name: {{ include "factory.name" . }}-opt
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.global.storage.nfs.path }}/isecl/kbs/opt
+    server: {{ .Values.global.storage.nfs.server }}
+{{- else }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "factory.name" . }}-opt
+spec:
+  capacity:
+    storage: {{ .Values.storage.nfs.homeDirSize }}
+  volumeMode: Filesystem
+  accessModes:
+    - {{ .Values.storage.nfs.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+  claimRef:
+    namespace: {{ .Release.Namespace }}
+    name: {{ include "factory.name" . }}-opt
+  storageClassName: nfs
+  nfs:
+    path: {{ .Values.storage.nfs.path }}/isecl/kbs/opt
+    server: {{ .Values.storage.nfs.server }}
+{{- end }}

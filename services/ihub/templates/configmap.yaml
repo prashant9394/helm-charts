@@ -7,14 +7,31 @@ metadata:
   namespace: {{ .Release.Namespace }}
 data:
   TLS_SAN_LIST: {{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
-  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
-  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
-  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
-  TENANT: KUBERNETES
   {{- if .Values.global }}
   KUBERNETES_URL: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.k8sApiServerPort }}/
+  AAS_API_URL: {{ .Values.global.aasUrl }}
+  CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- if and .Values.dependentServices.hvs .Values.dependentServices.fds }}
+  HVS_BASE_URL: {{ .Values.global.hvsUrl }}
+  FDS_BASE_URL: {{ .Values.global.fdsUrl }}
+  {{- else if .Values.dependentServices.hvs }}
+  HVS_BASE_URL: {{ .Values.global.hvsUrl }}
+  {{- else if .Values.dependentServices.fds }}
+  FDS_BASE_URL: {{ .Values.global.fdsUrl }}
+  {{- end }}
   {{- else }}
   KUBERNETES_URL: https://{{ .Values.controlPlaneHostname }}:{{ .Values.k8sApiServerPort }}/
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
+  {{- if and .Values.dependentServices.hvs .Values.dependentServices.fds }}
+  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  FDS_BASE_URL: https://{{ .Values.dependentServices.fds }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.fds.containerPort }}/fds/v1
+  {{- else if .Values.dependentServices.hvs }}
+  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  {{- else if .Values.dependentServices.fds }}
+  FDS_BASE_URL: https://{{ .Values.dependentServices.fds }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.fds.containerPort }}/fds/v1
   {{- end }}
-  KUBERNETES_CRD: custom-isecl-hvs
+  {{- end}}
+  TENANT: KUBERNETES
+  KUBERNETES_CRD: custom-isecl
   KUBERNETES_CERT_FILE: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt

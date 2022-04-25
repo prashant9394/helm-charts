@@ -17,7 +17,15 @@ data:
    DB_NAME: {{ .Values.config.dbName }}
    DB_SSL_MODE: {{ .Values.config.dbSSLMode }}
    DB_SSL_CERT_SOURCE: {{ .Values.config.dbSSLCertSource }}
+   {{- if .Values.global }}
+   TLS_SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+   {{- else }}
    TLS_SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
-   APS_SERVICE_USERNAME: {{ .Values.secret.serviceUser }}
-   APS_SERVICE_PASSWORD: {{ .Values.secret.servicePassord }}
+   {{- end }}
+   APS_SERVICE_USERNAME: {{ .Values.secret.serviceUsername }}
+   APS_SERVICE_PASSWORD: {{ .Values.secret.servicePassword }}
+   {{- if .Values.global }}
+   NO_PROXY: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}
+   {{- else }}
    NO_PROXY: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}
+   {{- end }}

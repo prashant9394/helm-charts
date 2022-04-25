@@ -6,10 +6,16 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
 data:
-  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
-  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
-  LOG_LEVEL: {{ .Values.config.logLevel }}
+  {{- if .Values.global }}
+  HVS_URL: {{ .Values.global.hvsUrl }}
+  AAS_API_URL: {{ .Values.global.aasUrl }}
+  CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- else }}
   HVS_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
+  {{- end}}
+  LOG_LEVEL: {{ .Values.config.logLevel }}
   PROVISION_ATTESTATION: "{{ .Values.config.provisionAttestation }}"
   TRUSTAGENT_PORT: "{{ .Values.service.ta.containerPort }}"
   TA_ENABLE_CONSOLE_LOG: "true"

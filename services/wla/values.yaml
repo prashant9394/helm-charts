@@ -19,17 +19,46 @@ nodeLabel:
 
 image:
   svc:
-    registry: <user input> # The image registry where WLA image is pushed<br> (**REQUIRED**)
     name: <user input> # The image name with which WLA image is pushed to registry<br> (**REQUIRED**)
-    pullPolicy: Always  # The pull policy for pulling from container registry for WLA<br> (Allowed values: `Always`/`IfNotPresent`)
+    pullPolicy: Always # The pull policy for pulling from container registry for WLA <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   logLevel: info  # Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`)
   #nodeLabel: <user input> # The node label based on hardware-feature enabled<br> (**REQUIRED**)
 
+aas:
+# Please update the url section if aas is exposed via ingress
+  url:
+  secret: 
+    adminUsername: # Admin Username for AAS
+    adminPassword: # Admin Password for AAS
+
+    # The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for ihub chart
+    #
+
+
 secret:
+  installAdminUsername: # Admin Username for WLS
+  installAdminPassword: # Admin Password for WLS
   serviceUsername:  # Service Username for workload-agent
   servicePassword:  # Service Password for workload-agent
+
+securityContext:
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
 
 service:
   directoryName: workload-agent

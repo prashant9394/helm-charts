@@ -1,22 +1,23 @@
 
-FDS-DB TLS Certificate Generator  
-===============================
+Fdsdb-cert-generator
+===========
 
 A Helm chart for generating tls certs for database deployments
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the FDSDB-CERT-GENERATOR chart and their default values.
+The following table lists the configurable parameters of the Fdsdb-cert-generator chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
-| `nameOverride` | The name for FDSDB-CERT-GENERATOR chart (Default: .Chart.Name) | `""` |
+| `nameOverride` | The name for FDS database chart (Default: .Chart.Name) | `""` |
 | `securityContext.fdsdbCertGeneratorInit.fsGroup` |  | `1001` |
 | `securityContext.fdsdbCertGenerator.runAsUser` |  | `1001` |
 | `securityContext.fdsdbCertGenerator.runAsGroup` |  | `1001` |
 | `securityContext.fdsdbCertGenerator.capabilities.drop` |  | `["all"]` |
 | `securityContext.fdsdbCertGenerator.allowPrivilegeEscalation` |  | `false` |
+| `factory.nameOverride` |  | `""` |
 
 
 
