@@ -203,10 +203,7 @@ metadata:
               mountPath: /usr/sbin/txt-stat
       volumes:
         {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
-        - name: {{ include "factory.name" . }}-config
-          hostPath:
-            path: /etc/trustagent/{{ .Chart.AppVersion }}
-            type: DirectoryOrCreate
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
         - name: {{ include "factory.name" . }}-base
           hostPath:
             path: /etc/trustagent/

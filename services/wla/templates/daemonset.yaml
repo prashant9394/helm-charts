@@ -66,10 +66,7 @@ metadata:
               mountPath: /dev/tpmrm0
       volumes:
         {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
-        - name: {{ include "factory.name" . }}-config
-          hostPath:
-            path: /etc/workload-agent/
-            type: DirectoryOrCreate
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
         - name: {{ include "factory.name" . }}-socket
           hostPath:
             path: /var/run/workload-agent
@@ -79,7 +76,7 @@ metadata:
             path: /dev/tpmrm0
         - name: {{ .Values.dependentServices.ta }}-config
           hostPath:
-            path: /etc/trustagent
+            path: /etc/trustagent/{{ .Chart.AppVersion }}
             type: DirectoryOrCreate
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeAasBearerToken" . | nindent 12 }}

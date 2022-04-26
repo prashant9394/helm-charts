@@ -204,10 +204,7 @@ metadata:
               readOnly: true  
       volumes:
         {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
-        - name: {{ include "factory.name" . }}-config
-          hostPath:
-            path: /etc/trustagent/
-            type: DirectoryOrCreate
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
         - name: {{ include "factory.name" . }}-base
           hostPath:
             path: /etc/trustagent/
