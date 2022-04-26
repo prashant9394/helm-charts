@@ -38,7 +38,7 @@ The following table lists the configurable parameters of the Aps chart and their
 | `secret.serviceUsername` |  | `null` |
 | `secret.servicePassword` |  | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `image.db.name` | The image name of PostgreSQL | `"postgres:11.7"` |
+| `image.db.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
 | `image.svc.name` | The image registry where APS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for APS <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |

@@ -18,6 +18,7 @@ services/kbs/charts/
 services/ta/charts/
 services/wla/charts/
 services/wls/charts/
+services/fda/charts/
 services/isecl-controller/charts/
 services/ihub/charts/
 services/isecl-scheduler/charts/

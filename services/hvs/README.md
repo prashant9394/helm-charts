@@ -40,7 +40,7 @@ The following table lists the configurable parameters of the Hvs chart and their
 | `secret.installAdminUsername` | Admin Username for HVS | `null` |
 | `secret.installAdminPassword` | Admin Password for HVS | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `image.db.name` | The image name of PostgreSQL | `"postgres:11.7"` |
+| `image.db.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
 | `image.svc.name` | The image name with which HVS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for HVS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |

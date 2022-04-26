@@ -49,7 +49,7 @@ secret:
 image:
   db:
     registry: dockerhub.io # The image registry where PostgreSQL image is pulled from
-    name: postgres:11.7 # The image name of PostgreSQL
+    name: postgres:14.2 # The image name of PostgreSQL
     pullPolicy: Always # The pull policy for pulling from container registry for PostgreSQL image
   svc:
     name: <user input> # The image name with which HVS image is pushed to registry<br> (**REQUIRED**)
