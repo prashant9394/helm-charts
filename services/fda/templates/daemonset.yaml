@@ -65,7 +65,6 @@ metadata:
             - name: all_proxy
               value: {{ .Values.proxy.all_proxy }}
             {{- end }}
-            {{- end }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}
           readinessProbe:
             exec:

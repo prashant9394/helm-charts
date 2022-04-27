@@ -30,7 +30,7 @@ The following table lists the configurable parameters of the Aas chart and their
 | `secret.adminUsername` | Admin Username for AAS | `null` |
 | `secret.adminPassword` | Admin Password for AAS | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `image.db.name` | The image name of PostgreSQL | `"postgres:11.7"` |
+| `image.db.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
 | `image.svc.name` | The image name with which AAS image is pushed to registry | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |

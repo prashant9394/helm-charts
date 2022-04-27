@@ -62,7 +62,7 @@ The following table lists the configurable parameters of the Workload-Security c
 | `aas.secret.adminUsername` | Admin Username for AAS | `"aasAdminUser"` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `"aasAdminPass"` |
 | `aas.image.aasdb.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `aas.image.aasdb.name` | The image name of PostgreSQL | `"postgres:11.7"` |
+| `aas.image.aasdb.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `aas.image.aasdb.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
 | `aas.image.aas.registry` | The image registry where AAS image is pushed | `"<user input>"` |
 | `aas.image.aas.name` | The image name with which CMS image is pushed to registry | `"<user input>"` |
@@ -114,7 +114,7 @@ The following table lists the configurable parameters of the Workload-Security c
 | `hvs.secret.adminUsername` | Admin Username for HVS | `"hvsAdminUser"` |
 | `hvs.secret.adminPassword` | Admin Password for HVS | `"hvsAdminPass"` |
 | `hvs.image.hvsdb.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `hvs.image.hvsdb.name` | The image name of PostgreSQL | `"postgres:11.7"` |
+| `hvs.image.hvsdb.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `hvs.image.hvsdb.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
 | `hvs.image.hvs.registry` | The image registry where HVS image is pushed | `"<user input>"` |
 | `hvs.image.hvs.name` | The image name with which CMS image is pushed to registry | `"<user input>"` |
