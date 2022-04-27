@@ -28,8 +28,7 @@ metadata:
           command: ["/bin/sh", "-c"]
           args:
             - >
-              i=0 &&
-              while [ ! $(ls /etc/trustagent/configuration/.setup_done 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done
+              while [ ! $(ls /etc/trustagent/.setup_done 2> /dev/null) ]; do sleep 5; done
           volumeMounts:
             - name: {{ .Values.dependentServices.ta }}-config
               mountPath: /etc/trustagent
