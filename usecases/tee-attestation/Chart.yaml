@@ -63,12 +63,6 @@ dependencies:
   - name: fda
     repository: file://../../services/fda/ 
     version: 5.0.0
-  - name: fds
-    repository: file://../../services/fds/
-    version: 5.0.0
-  - name: fdsdb-cert-generator
-    repository: file://../../jobs/fdsdb-cert-generator/
-    version: 5.0.0
 
 maintainers:
 - name: Om Prakash

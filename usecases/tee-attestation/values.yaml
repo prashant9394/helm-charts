@@ -98,7 +98,6 @@ global-admin-generator:
     globalAdminPassword:  # Global admin password 
   services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS
     - APS
-    - FDS
     - TCS
     - KBS
 

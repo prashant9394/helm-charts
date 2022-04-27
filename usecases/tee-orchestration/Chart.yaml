@@ -1,5 +1,5 @@
 apiVersion: v2
-name: TEE-Attestation
+name: TEE-Orchestration
 description: A Helm chart for Deploying TEE Orchestration Use case
 
 # A chart can be either an 'application' or a 'library' chart.

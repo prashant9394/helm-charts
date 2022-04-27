@@ -1,5 +1,5 @@
 apiVersion: v2
-name: TEE-Attestation
+name: TEE-Attestation-Orchestration
 description: A Helm chart for Deploying TEE Attestation and Orchestration Use case
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -69,7 +69,7 @@ dependencies:
   - name: isecl-scheduler
     repository: file://../../services/isecl-scheduler/ 
     version: 5.0.0
-  - name: fds
+  - name: fdsdb-cert-generator
     repository: file://../../jobs/fdsdb-cert-generator/ 
     version: 5.0.0
   - name: fds
