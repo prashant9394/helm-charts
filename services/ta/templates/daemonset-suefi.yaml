@@ -233,10 +233,12 @@ metadata:
         - name: uefi
           hostPath:
             path: /sys/firmware/dmi/tables/DMI
+        {{- if contains "Workload-Security" .Template.BasePath }}
         - name: wla-config-volume
           hostPath:
-            path: /etc/workload-agent
+            path: /etc/workload-agent/{{ .Chart.AppVersion }}
             type: DirectoryOrCreate
+        {{- end }}
         - name: efi
           hostPath:
             path: /sys/firmware/efi

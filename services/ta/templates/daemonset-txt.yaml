@@ -232,11 +232,12 @@ metadata:
         - name: uefi
           hostPath:
             path: /sys/firmware/dmi/tables/DMI
-        #TODO: try to handle wla volume better
+        {{- if contains "Workload-Security" .Template.BasePath }}
         - name: wla-config-volume
           hostPath:
-            path: /etc/workload-agent
+            path: /etc/workload-agent/{{ .Chart.AppVersion }}
             type: DirectoryOrCreate
+        {{- end }}
         - name: txt-stat
           hostPath:
             path: /usr/sbin/txt-stat

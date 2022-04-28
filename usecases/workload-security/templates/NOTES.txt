@@ -36,5 +36,5 @@ Once deployment is complete, below endpoints can be hit to check on the services
   Workload Service (WLS):
   $ curl --location --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.wls }}/wls/v2/version' -k
 
-  Key Broker Service (WLS):
+  Key Broker Service (KBS):
   $ curl --location --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.kbs }}/kbs/v1/version' -k

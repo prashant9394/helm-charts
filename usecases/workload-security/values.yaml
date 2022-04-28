@@ -87,7 +87,7 @@ admission-controller:
 
 wls:
   image:
-    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+    name: <user input> # Workload Service image name<br> (**REQUIRED**)
   secret:
     installAdminUsername: # Install Admin Username for WLS
     installAdminPassword: # Install Admin Password for WLS
@@ -96,7 +96,7 @@ wls:
 
 workload-agent:
   image:
-    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+    name: <user input> # Workload Agent image name<br> (**REQUIRED**)
   secret:
     installAdminUsername: # Install Admin Username for WLA
     installAdminPassword: # Install Admin Password for WLA
@@ -108,7 +108,7 @@ workload-agent:
 
 kbs:
   image:
-    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+    name: <user input> # KBS image name<br> (**REQUIRED**)
   secret:
     installAdminUsername: # Install Admin Username for KBS
     installAdminPassword: # Install Admin Password for KBS
@@ -143,7 +143,7 @@ global:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
-    aasManagerName: <user input> # The image name of aas-manager image name
+    aasManagerName: <user input> # The image name of aas-manager container
 
   config:
     dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
@@ -164,10 +164,10 @@ global:
   service:
     cms: 30445 # The service port for Certificate Management Service
     aas: 30444 # The service port for Authentication Authorization Service
-    hvs: 30443 # The service port for SGX Host Verification Service
-    ta: 31443 # The service port for Trust Agent
+    hvs: 30443 # The service port for Host Verification Service
+    ta:  31443 # The service port for Trust Agent
     kbs: 30448 # The service port for KBS
-  
+    wls: 30447 # The service port for WLS
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled
 
