@@ -6,26 +6,26 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
 data:
-   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
-   AAS_BASE_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
-   QVS_BASE_URL: https://{{ .Values.dependentServices.qvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.qvs.containerPort }}/qvs/v1
-   DB_VENDOR: {{ .Values.config.vender }}
-   DB_HOST: {{ include "factory.name" . }}db.{{ .Release.Namespace }}.svc.cluster.local
-   DB_USERNAME: {{ .Values.secret.dbUsername }}
-   DB_PORT: {{ .Values.config.dbPort | quote }}
-   DB_PASSWORD: {{ .Values.secret.dbPassword }}
-   DB_NAME: {{ .Values.config.dbName }}
-   DB_SSL_MODE: {{ .Values.config.dbSSLMode }}
-   DB_SSL_CERT_SOURCE: {{ .Values.config.dbSSLCertSource }}
-   {{- if .Values.global }}
-   TLS_SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
-   {{- else }}
-   TLS_SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
-   {{- end }}
-   APS_SERVICE_USERNAME: {{ .Values.secret.serviceUsername }}
-   APS_SERVICE_PASSWORD: {{ .Values.secret.servicePassword }}
-   {{- if .Values.global }}
-   NO_PROXY: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}
-   {{- else }}
-   NO_PROXY: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}
-   {{- end }}
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  AAS_BASE_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  QVS_BASE_URL: https://{{ .Values.dependentServices.qvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.qvs.containerPort }}/qvs/v1
+  DB_VENDOR: {{ .Values.config.vender }}
+  DB_HOST: {{ include "factory.name" . }}db.{{ .Release.Namespace }}.svc.cluster.local
+  DB_USERNAME: {{ .Values.secret.dbUsername }}
+  DB_PORT: {{ .Values.config.dbPort | quote }}
+  DB_PASSWORD: {{ .Values.secret.dbPassword }}
+  DB_NAME: {{ .Values.config.dbName }}
+  DB_SSL_MODE: {{ .Values.config.dbSSLMode }}
+  DB_SSL_CERT_SOURCE: {{ .Values.config.dbSSLCertSource }}
+  {{- if .Values.global }}
+  TLS_SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  TLS_SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  APS_SERVICE_USERNAME: {{ .Values.secret.serviceUsername }}
+  APS_SERVICE_PASSWORD: {{ .Values.secret.servicePassword }}
+  {{- if .Values.global }}
+  NO_PROXY: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}
+  {{- else }}
+  NO_PROXY: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}
+  {{- end }}

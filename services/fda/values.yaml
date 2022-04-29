@@ -3,7 +3,7 @@
 nameOverride: "" # The name for FDA chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 nodeLabel: 
-  sgxTxtEnabled: SGX-TXT-ENABLED # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**)
+  sgxTxtEnabled: <user input> # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**)
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 # TODO: Services should be be able to be deployed in different namespaces
@@ -12,12 +12,13 @@ dependentServices: # The dependent Service Name for deploying  Cerificate Manage
   aas: aas
   fds: fds
   tcs: tcs
-    
+
 image:
   svc:
-    name: <user input> # The image name with which FDA image is pushed to registry
-    pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
-    initName: <user input> # init-wait image name
+    name: <user input> # The image registry where FDS image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for FDS <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
   aasManager:
     name:   # The image name with which AAS manager image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
