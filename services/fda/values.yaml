@@ -1,4 +1,4 @@
-# Default values for aas.
+# Default values for FDA.
 
 nameOverride: "" # The name for FDA chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
