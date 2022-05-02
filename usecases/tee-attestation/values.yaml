@@ -43,23 +43,23 @@ fda:
   image:
     name: <user input> # Feature Discovery Agent image name<br> (**REQUIRED**)
   config:
-    refreshInterval: <user input> #Refresh Interval
-    retryCount: <user input> #Retry count
-    validitySeconds: <user input> #Validity seconds
+    refreshInterval: <user input> # Refresh Interval should be in range of 60 to 240
+    retryCount: <user input> # Retry count should be in range of 1 to 3
+    validitySeconds: <user input> # Validity of custom token in seconds
   secret:
     cccAdminUsername:  #ccc admin token username
     cccAdminPassword:  #ccc admin token password
   nodeLabel: 
-    sgxTxtEnabled: SGX-ENABLED # The node label for SGX-ENABLED <br> (**REQUIRED IF NODE IS SGX ENABLED**)
+    sgxTxtEnabled: <user input>  # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX or TXT ENABLED**)
 
 fds:
+  image:
+    name: <user input> # Feature Discovery Service image name<br> (**REQUIRED**)
   secret:
     dbUsername:  # DB Username for FDS DB
     dbPassword:  # DB Password for FDS DB
     installAdminUsername:  # Admin Username for HVS
     installAdminPassword:  # Admin Password for HVS
-  image:
-    name: <user input> # Feature Discovery Service image name<br> (**REQUIRED**)
 
 aps:
   image:
@@ -106,6 +106,8 @@ global:
   controlPlaneLabel: microk8s.io/cluster # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
   
   image:
+    pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
     aasManagerName: <user input> # The image name of aas-manager image name
 
@@ -136,3 +138,10 @@ global:
 
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled
+
+  proxy:
+    proxyEnabled: false # If proxy is enabled, then set to true
+    httpProxy:  # set HTTP Proxy value
+    httpsProxy:  # set HTTP Proxy value
+    noProxy:  # Append .svc,.svc.cluster.local, to no_proxy
+    allProxy: # set all proxy value

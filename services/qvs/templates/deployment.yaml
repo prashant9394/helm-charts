@@ -2,6 +2,17 @@
 ---
 {{- include "factory.deploymentCommonSpec" . }}
     spec:
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
       initContainers:
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
