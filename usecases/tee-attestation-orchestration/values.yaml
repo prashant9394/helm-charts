@@ -168,8 +168,8 @@ global:
     enable: false # Accept true or false to notify ingress rules are enable or disabled
 
   proxy:
-    proxyEnabled: false # If proxy is enabled, then set to true
-    httpProxy:  # set HTTP Proxy value
-    httpsProxy:  # set HTTP Proxy value
-    noProxy:  # Append .svc,.svc.cluster.local, to no_proxy
-    allProxy: # set all proxy value
+  proxyEnabled: false # If proxy is enabled, then set to true
+  httpProxy:  # set HTTP Proxy value
+  httpsProxy:  # set HTTP Proxy value
+  noProxy:  # Append .svc,.svc.cluster.local, to no_proxy
+  allProxy: # set all proxy value
