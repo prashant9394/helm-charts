@@ -22,6 +22,7 @@ image:
   aasManager:
     name:   # The image name with which AAS manager image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   refreshInterval: <user input> #Refresh Interval
@@ -32,8 +33,8 @@ aas:
   # Please update the url section if aas is exposed via ingress
   url:
   secret:
-    adminUsername: aasAdminUser # Admin Username for AAS
-    adminPassword: aasAdminPass # Admin Password for AAS
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
 
 securityContext:
   aasManager: # The security content for AAS-MANAGER Pod
