@@ -22,6 +22,7 @@ metadata:
                   - "{{ .Values.nodeLabel.sgxTxtEnabled }}"
       serviceAccountName: isecl
       initContainers:
+        {{- if eq .Values.global.usecase.teeAttestation "yes" }}
         - name: wait-for-fds
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
@@ -38,6 +39,7 @@ metadata:
             - name: COMPONENT
               value: {{ .Values.dependentServices.fds }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+        {{- end }}
         - name: wait-for-tcs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
