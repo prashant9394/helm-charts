@@ -1,6 +1,6 @@
-# Helm Chart Deployment steps for Host Attestation Usecase
+# Helm Chart Deployment steps for TEE Attestation Usecase
 
-A collection of helm charts for Host-Attestation Usecase
+A collection of helm charts for TEE Attestation Usecase
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
@@ -53,10 +53,17 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 | Use case                                | Helm Charts                                                 |
 | --------------------------------------- | ----------------------------------------------------------- |
-| Host Attestation - Containers           | *cms*<br />*aas*<br />*hvs*<br />*ta*<br />*nats(optional)* |
+| Tee Attestation                         | *cms*<br />*aas*<br />*kbs*<br />*qvs*<br />*aps*<br />*tcs*<br />*fda*<br />|
 
 
 ### Setting up for Helm deployment
+
+##### Create Secrets for KBS KMIP Certificates
+Copy KMIP Client Certificate, Client Key and Root Certificate from KMIP Server to Node where KMIP secrets needs to be generated.
+
+```shell script
+kubectl create secret generic kbs-kmip-certs -n isecl --from-file=client_certificate.pem=<KMIP Client Certificate Path> --from-file=client_key.pem=<KMIP Client Key Path> --from-file=root_certificate.pem=<KMIP Root Certificate Path>
+``` 
 
 #### Installing isecl-helm charts
 
@@ -83,16 +90,16 @@ Some assumptions before updating the `values.yaml` are as follows:
 
 The helm chart support Nodeports for services to support ingress model, enable the ingress by setting the value ingress enabled to true in values.yaml file.
 
-Update the ```hvsUrl, cmsUrl and aasUrl``` under global section according to the configured model.
-e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
-    For Nodeport, hvsUrl: https://<controlplane-hostname/IP>:30443/hvs/v2
+Update the ```cmsUrl and aasUrl``` under global section according to the configured model.
+e.g For ingress. cmsUrl: https://cms.isecl.com/cms/v1
+    For Nodeport, cmsUrl: https://<controlplane-hostname/IP>:30445/cms/v1
 
 #### Use Case charts Deployment
 
 ```shell script
 export VERSION=v5.0.0
-helm pull isecl-helm/Host-Attestation --version $VERSION && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml
-helm install <helm release name> isecl-helm/Host-Attestation --version $VERSION -f Host-Attestation/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/Tee-Attestation --version $VERSION && tar -xzf Tee-Attestation-$VERSION.tgz Tee-Attestation/values.yaml
+helm install <helm release name> isecl-helm/Tee-Attestation --version $VERSION -f Tee-Attestation/values.yaml --create-namespace -n <namespace>
 ```
 > **Note:** If using a separate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
@@ -111,7 +118,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments.
-* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
+* Cleanup the data at NFS mount and FDA data mount on each nodes(/etc/fda and /var/log/fda).
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 

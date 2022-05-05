@@ -3,9 +3,9 @@
 ## Pre-requisites
 
 * Ubuntu/RHEL VM
-* Export directory to use (Default: `/mnt/nfs_share/`)
-* User ID for ISecL Services (Default: `1001`)
-* Worker Node Subnet (Default: `*`)
+* Export directory to use
+* User ID for ISecL Services
+* Worker Node Subnet
 
 ## How to run
 * Copy the sample script to the specific location on the machine (/root) to a file (e.g: setup-nfs.sh)
@@ -15,5 +15,5 @@
   ```
 * Run the sample script as follows
   ```shell
-  ./setup-nfs.sh /mnt/nfs_share 1001 <Subnet of worker node>
+  ./setup-nfs.sh <export directory> <User Id for ISecL Services> <Subnet of worker node>
   ```
