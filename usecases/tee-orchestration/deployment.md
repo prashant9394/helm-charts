@@ -21,7 +21,7 @@ A collection of helm charts for Tee-Orchestration Usecase
 <!-- /code_chunk_output -->
 
 # Deployment diagram
-![K8s Deployment-fsws](../../images/fs.jpg)
+![K8s Deployment-fsws](../../images/tee-orches.jpg)
 
 ## Getting Started
 Below steps guide in the process for installing isecl-helm charts on a kubernetes cluster.

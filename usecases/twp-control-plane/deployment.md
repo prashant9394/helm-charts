@@ -120,4 +120,3 @@ Cleanup steps that needs to be done for a fresh deployment
     Before redeploying any of the chart please check the pv and pvc of corresponding deployments are removed. Suppose
     if you want to redeploy aas, make sure that aas-logs-pv, aas-logs-pvc, aas-config-pv, aas-config-pvc, aas-db-pv, aas-db-pvc, aas-base-pvc are removed successfully.
     Command: ```kubectl get pvc -n <namespace>``` && ```kubectl get pv -n <namespace>```
-    

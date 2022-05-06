@@ -20,7 +20,7 @@ A collection of helm charts for Workload Security Usecase
 
 <!-- /code_chunk_output -->
 # Deployment diagram
-![K8s Deployment-fsws](../../images/twp-cloud.jpg)
+![K8s Deployment-ws](../../images/ws.jpg)
 
 ## Getting Started
 Below steps guide in the process for installing isecl-helm charts on a kubernetes cluster.
@@ -154,4 +154,3 @@ Cleanup steps that needs to be done for a fresh deployment
     Before redeploying any of the chart please check the pv and pvc of corresponding deployments are removed. Suppose
     if you want to redeploy aas, make sure that aas-logs-pv, aas-logs-pvc, aas-config-pv, aas-config-pvc, aas-db-pv, aas-db-pvc, aas-base-pvc are removed successfully.
     Command: ```kubectl get pvc -n <namespace>``` && ```kubectl get pv -n <namespace>```
-    

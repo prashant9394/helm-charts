@@ -21,7 +21,7 @@ A collection of helm charts for Tee-Attestation-Orchestration Usecase
 <!-- /code_chunk_output -->
 
 # Deployment diagram
-![K8s Deployment-fsws](../../images/fs.jpg)
+![K8s Deployment-fsws](../../images/tee-attest-orches.jpg)
 
 ## Getting Started
 Below steps guide in the process for installing isecl-helm charts on a kubernetes cluster.
@@ -130,6 +130,13 @@ export VERSION=v5.0.0
 helm pull isecl-helm/Tee-Attestation-Orchestration --version $VERSION && tar -xzf Tee-Attestation-Orchestration-$VERSION.tgz Tee-Attestation-Orchestration/values.yaml
 helm install <helm release name> isecl-helm/Tee-Attestation-Orchestration --version $VERSION -f Tee-Attestation-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
+
+#### Follow the build instructions for SKC Library and update the isecl-skc-k8s.env and install SKC Library using below command(Only for SGX attestation use-case)
+
+```shell script
+./skc-bootstrap.sh install
+```
+
 > **Note:** If using a separate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
 #### Configure kube-scheduler to establish communication with isecl-scheduler after successful deployment.
