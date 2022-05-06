@@ -14,6 +14,8 @@ spec:
     metadata:
       labels:
         {{- include "factory.labelsChart" . | nindent 8 }}
+      selector:
+        serviceAccountName: {{ "factory.name " }}
     spec:
       {{- if .Values.global }}
       {{- if .Values.global.image.imagePullSecret }}
