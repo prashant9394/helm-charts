@@ -6,6 +6,8 @@ nameOverride: "" # The name for FDS database chart (Default: .Chart.Name)
 dependentServices: # The dependent Service Name for deploying FDS chart, default is the chart name and override is from nameOverride value.
   aas: aas
 
+enable: true
+
 
 securityContext:
   aasManager: # The security content for AAS-MANAGER Pod
