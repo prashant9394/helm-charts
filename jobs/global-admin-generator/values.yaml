@@ -3,8 +3,10 @@
 nameOverride: "" # The name for FDS database chart (Default: .Chart.Name)
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-dependentServices: # The dependent Service Name for deploying FDS chart, default is the chart name and override is from nameOverride value.
+dependentServices: # The dependent Service Name for deploying Global Admin chart, default is the chart name and override is from nameOverride value.
   aas: aas
+
+enable: true
 
 
 securityContext:
