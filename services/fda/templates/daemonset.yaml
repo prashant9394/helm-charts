@@ -81,7 +81,7 @@ metadata:
             exec:
               command:
                 - cat
-                - /opt/fda/configuration/.setup_done
+                - /etc/fda/.setup_done
             initialDelaySeconds: 5
             failureThreshold: 60
             periodSeconds: 15
