@@ -22,7 +22,7 @@ metadata:
                   - "{{ .Values.nodeLabel.sgxTxtEnabled }}"
       serviceAccountName: isecl
       initContainers:
-        {{- if eq .Values.global.usecase.teeAttestation "yes" }}
+        {{- if not (contains "TEE-Attestation" .Template.BasePath) }}
         - name: wait-for-fds
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:

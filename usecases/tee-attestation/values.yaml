@@ -144,6 +144,3 @@ global:
   httpsProxy:  # set HTTP Proxy value
   noProxy:  # Append .svc,.svc.cluster.local, to no_proxy
   allProxy: # set all proxy value
-
-  usecase:
-    teeAttestation: "yes" # For TEE Attestation usecase, FDA charts will be deployed
