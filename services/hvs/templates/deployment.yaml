@@ -15,7 +15,7 @@
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.hvsInit | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- include "factory.initWaitForDb" . | nindent 8 }}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}

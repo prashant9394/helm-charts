@@ -19,7 +19,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.aasdbCertGeneratorInit | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         - name: aasdb-cert-generator-cfssl

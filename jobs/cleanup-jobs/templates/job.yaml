@@ -18,7 +18,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.cleanupJobsInit | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}-jobs
+      serviceAccountName: {{ include "factory.name" . }}-jobs
       restartPolicy: Never
       containers:
         - name: cleanup-jobs

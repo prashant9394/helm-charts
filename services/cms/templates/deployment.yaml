@@ -13,6 +13,7 @@
       - name: {{ .Values.image.svc.imagePullSecret }}
       {{- end }}
       {{- end }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:

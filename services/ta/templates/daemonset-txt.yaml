@@ -20,7 +20,7 @@ metadata:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
                   - "{{ .Values.nodeLabel.txt }}"
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}

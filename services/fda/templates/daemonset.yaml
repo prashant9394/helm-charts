@@ -20,7 +20,7 @@ metadata:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
                   - "{{ .Values.nodeLabel.sgxTxtEnabled }}"
-      serviceAccountName: isecl
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         - name: wait-for-fds
           {{- include "factory.imageInitContainer" . | indent 10 }}

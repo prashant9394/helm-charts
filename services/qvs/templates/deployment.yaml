@@ -13,6 +13,7 @@
       - name: {{ .Values.image.svc.imagePullSecret }}
       {{- end }}
       {{- end }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}

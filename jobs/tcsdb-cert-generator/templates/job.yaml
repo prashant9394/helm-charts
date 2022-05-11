@@ -19,7 +19,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.tcsdbCertGeneratorInit | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         - name: tcsdb-cert-generator-cfssl
