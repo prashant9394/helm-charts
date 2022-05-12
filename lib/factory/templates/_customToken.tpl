@@ -15,7 +15,7 @@ spec:
       labels:
         {{- include "factory.labelsChart" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       securityContext:
         {{- toYaml .Values.securityContext.customTokenInit | nindent 8 }}
       restartPolicy: Never
