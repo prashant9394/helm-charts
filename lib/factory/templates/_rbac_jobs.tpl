@@ -1,5 +1,5 @@
 {{/*
-   RBAC for create and delete secrect for Jobs
+   RBAC for create and delete secret for Jobs
 */}}
 {{- define "factory.getRBACRolesAndPermissions" -}}
 {{- include "factory.headers" . }}
