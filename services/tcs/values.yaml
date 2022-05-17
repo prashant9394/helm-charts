@@ -20,6 +20,8 @@ config:
   dbListenAddresses: "*" # PostgreSQL DB Listen Address
   dbName: tcsdb # TCS DB Name
   dbSSLMode: verify-full # PostgreSQL DB SSL Mode
+  dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+  dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
   intelPcsUrl: https://api.trustedservices.intel.com/sgx/certification/v4  # Intel PCS URL
   dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
   retryCount: <user input> # Retries attempted in case PCS is not responding

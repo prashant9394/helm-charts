@@ -27,6 +27,8 @@ config:
   vender: postgres
   dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
   dbSSLCertSource: /etc/postgresql/secrets/server.crt
+  dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+  dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
 
 aas:
 # Please update the url section if aas is exposed via ingress

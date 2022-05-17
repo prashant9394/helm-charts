@@ -10,6 +10,9 @@ aas:
   secret:
     dbUsername:  # DB Username for AAS DB
     dbPassword:  # DB Password for AAS DB
+  config:
+    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
 
 tcs:
   image:
@@ -25,6 +28,8 @@ tcs:
     retryCount: <user input> # Retries attempted in case PCS is not responding
     waitTime: <user input> # Time interval between each retry in seconds
     refreshInterval: <user input> # Automatic refresh time of platform collateral
+    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
     proxy:
       proxyEnabled: false #checking if proxy is enabled
       httpProxy: #http proxy url 
@@ -41,7 +46,10 @@ aps:
     installAdminUsername: # Admin Username for APS
     installAdminPassword: # Admin Password for APS
     serviceUsername: 
-    servicePassword: 
+    servicePassword:
+  config:
+    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
 
 qvs:
   image:

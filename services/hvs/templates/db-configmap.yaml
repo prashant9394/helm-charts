@@ -21,3 +21,5 @@ data:
     ssl_cert_file = '{{ .Values.config.dbSSLCert }}'
     ssl_key_file = '{{ .Values.config.dbSSLKey }}'
     ssl_ciphers = '{{ .Values.config.dbSSLCiphers }}'
+    max_connections = {{ .Values.config.dbMaxConnections }}
+    shared_buffers = {{ .Values.config.dbSharedBuffers }}
