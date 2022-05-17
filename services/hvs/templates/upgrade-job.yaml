@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.global.image.imagePullSecret }}
       {{- end }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         {{- include "factory.backupService" . | nindent 8 }}
@@ -77,7 +77,7 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.image.svc.imagePullSecret }}
       {{- end }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         {{- include "factory.backupService" . | nindent 8 }}

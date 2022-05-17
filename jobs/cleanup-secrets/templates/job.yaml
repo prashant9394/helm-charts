@@ -18,7 +18,7 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.cleanupSecretsInit | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       containers:
         - name: cleanup-secrets

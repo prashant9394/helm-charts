@@ -19,10 +19,13 @@ metadata:
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get","create","delete","list"]
+    verbs: ["create","delete"]
   - apiGroups: [""]
-    resources: ["configmaps"]
-    verbs: ["create","delete","list"]
+    resources: ["pods"]
+    verbs: ["get","create","list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create","list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

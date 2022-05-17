@@ -20,7 +20,7 @@ metadata:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
                   - "{{ .Values.nodeLabel.sgxTxtEnabled }}"
-      serviceAccountName: isecl
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- if not (contains "TEE-Attestation" .Template.BasePath) }}
         - name: wait-for-fds

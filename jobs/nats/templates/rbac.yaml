@@ -18,11 +18,14 @@ metadata:
     "helm.sh/hook-weight": "-5"
 rules:
   - apiGroups: [""]
-    resources: ["secrets"]
+    resources: ["secrets","pods"]
     verbs: ["get","create","delete","list"]
-  - apiGroups: [""]
-    resources: ["configmaps"]
-    verbs: ["create","delete","list"]
+  - apiGroups: [ "" ]
+    resources: [ "pods", "secrets","configmaps" ]
+    verbs: [ "get", "list", "create","delete" ]
+  - apiGroups: [ "" ]
+    resources: [ "pods/exec" ]
+    verbs: [ "create" ]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding

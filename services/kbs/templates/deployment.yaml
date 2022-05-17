@@ -15,7 +15,7 @@
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.kbsInit | nindent 8 }}
-      serviceAccountName: isecl
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- if .Values.config.tee }}

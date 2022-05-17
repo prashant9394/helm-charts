@@ -21,7 +21,7 @@ metadata:
                   values:
                   - "{{ .Values.nodeLabel.suefi }}"
                   - "{{ .Values.nodeLabel.txt }}"
-      serviceAccountName: isecl
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         - name: wait-for-trustagent
           image: busybox:1.32
