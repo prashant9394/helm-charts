@@ -117,7 +117,7 @@ kbs:
     cccPassword:  # Custom Claims Creator Password
   
   customToken:
-    validitySeconds: <user input> # Custom Token validity in seconds
+    validitySeconds: "31536000" # Custom Token validity in seconds (Default: "31536000")
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account

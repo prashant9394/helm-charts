@@ -46,7 +46,7 @@ secret:
 
 customToken:
   subject: kbs # The username for KBS
-  validitySeconds: "31536000" # Custom Token validity in seconds
+  validitySeconds: "31536000" # Custom Token validity in seconds (Default: "31536000")
 
 storage:
   nfs:
