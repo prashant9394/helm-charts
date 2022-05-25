@@ -31,7 +31,7 @@ Once deployment is complete, below endpoints can be hit to check on the services
   $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.aas }}/aas/v1/version' -k
 
   TEE Caching Service (TCS):
-  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.tcs }}/tcs/v1/version' -k
+  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.tcs }}/tcs/v4/sgx/version' -k
 
   Quote Verification Service (QVS):
   $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.qvs }}/qvs/v1/version' -k
@@ -40,4 +40,4 @@ Once deployment is complete, below endpoints can be hit to check on the services
   $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.kbs }}/kbs/v1/version' -k
 
   Attestation policy service (APS):
-  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.tcs }}/aps/v1/version' -k
+  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.aps }}/aps/v1/version' -k
