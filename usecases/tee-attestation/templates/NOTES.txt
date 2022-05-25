@@ -40,4 +40,4 @@ Once deployment is complete, below endpoints can be hit to check on the services
   $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.kbs }}/kbs/v1/version' -k
 
   Attestation policy service (APS):
-  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.tcs }}/aps/v1/version' -k
+  $ curl --location -g --request GET 'https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.aps }}/aps/v1/version' -k
