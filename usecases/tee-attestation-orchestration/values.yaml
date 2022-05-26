@@ -93,7 +93,7 @@ ihub:
     name: <user input> # Integration Hub Service image name<br> (**REQUIRED**)
   k8sApiServerPort: 6443
   dependentServices:
-    hvs: hvs
+    fds: fds
   secret:
     installAdminUsername: # Install Admin Username for IHub
     installAdminPassword: # Install Admin Password for IHub
