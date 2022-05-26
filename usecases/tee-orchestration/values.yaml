@@ -119,7 +119,7 @@ global:
 
   fdsUrl: https://10.105.168.108:30500/fds/v1 # Fds Base Url, Do not include "/" at the end. e.g for ingress https://fds.isecl.com/fds/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30500/fds/v1
   cmsUrl: https://10.105.168.108:30445/cms/v1 # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
-  aasUrl: https://10.105.168.108:330444/aas/v1 # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
+  aasUrl: https://10.105.168.108:30444/aas/v1 # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
 
   service:
     aas: 30444 # The service port for Authentication Authorization Service
