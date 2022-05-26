@@ -63,23 +63,30 @@ fda:
     sgxTxtEnabled: <user input>  # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX or TXT ENABLED**)
 
 
+isecl-controller:
+  image:
+    name: <user input> # ISecL Controller Service image name<br> (**REQUIRED**)
+  nodeTainting:
+    taintRegisteredNodes: false # If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`)
+    taintRebootedNodes: false # If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`)
+    taintUntrustedNode: false # If set to true, taints the node which has trust tag set to false in node labels. (Allowed values: `true`\`false`)
+
 ihub:
   image:
     name: <user input> # Integration Hub Service image name<br> (**REQUIRED**)
   k8sApiServerPort: 6443
+  dependentServices:
+    hvs: hvs
   secret:
     installAdminUsername: # Install Admin Username for IHub
     installAdminPassword: # Install Admin Password for IHub
     serviceUsername:  # Service Username for IHub
     servicePassword:  # Service Password for IHub
 
-isecl-controller:
-  image:
-    name: <user input> # Isecl Controller image name<br> (**REQUIRED**)
-
 isecl-scheduler:
   image:
-    name: <user input> # Isecl Scheduler image name<br> (**REQUIRED**)
+    name: <user input> # ISecL Scheduler image name<br> (**REQUIRED**)
+
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
@@ -110,9 +117,9 @@ global:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
       path: /mnt/nfs_share/  # The path for storing persistent data on NFS
 
-  fdsUrl: <user input> # Fds Base Url, Do not include "/" at the end. e.g for ingress https://fds.isecl.com/fds/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30500/fds/v2
-  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
-  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
+  fdsUrl: https://10.105.168.108:30500/fds/v1 # Fds Base Url, Do not include "/" at the end. e.g for ingress https://fds.isecl.com/fds/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30500/fds/v1
+  cmsUrl: https://10.105.168.108:30445/cms/v1 # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
+  aasUrl: https://10.105.168.108:330444/aas/v1 # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
 
   service:
     aas: 30444 # The service port for Authentication Authorization Service

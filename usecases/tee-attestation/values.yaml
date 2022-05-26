@@ -57,18 +57,6 @@ fda:
   nodeLabel: 
     sgxTxtEnabled: <user input>  # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX or TXT ENABLED**)
 
-fds:
-  image:
-    name: <user input> # Feature Discovery Service image name<br> (**REQUIRED**)
-  secret:
-    dbUsername:  # DB Username for FDS DB
-    dbPassword:  # DB Password for FDS DB
-    installAdminUsername:  # Admin Username for HVS
-    installAdminPassword:  # Admin Password for HVS
-  config:
-    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
-    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
-
 aps:
   image:
     name: <user input> # Attestation policy service image name<br> (**REQUIRED**)
@@ -137,7 +125,6 @@ global:
     tcs: 30502 # The service port for Authentication Authorization Service
     qvs: 30501 # The service port for TCS Service
     aps: 30503 # The service port for Attestation policy service
-    fds: 30500 # The service port for FDS
   
   aas:
     secret:

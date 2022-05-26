@@ -48,18 +48,18 @@
               {{- include "factory.proxy" . | nindent 12 }}
               {{- end }}
               {{- end }}
-              - name: URL
-                {{- if .Values.global }}
-                value: {{ .Values.global.fdsUrl }}/version
-                {{- else }}
-                value: https://{{ .Values.dependentServices.fds }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.fds.containerPort }}/fds/v1/version
-                {{- end }}
-              - name: VERSION
-                value: {{ .Chart.AppVersion }}
-              - name: DEPEDENT_SERVICE_NAME
-                value: {{.Values.dependentServices.fds }}
-              - name: COMPONENT
-                value: {{ include "factory.name" . }}
+            - name: URL
+              {{- if .Values.global }}
+              value: {{ .Values.global.fdsUrl }}/version
+              {{- else }}
+              value: https://{{ .Values.dependentServices.fds }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.fds.containerPort }}/fds/v1/version
+              {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.fds }}
+            - name: COMPONENT
+              value: {{ include "factory.name" . }}
         {{- end}}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
