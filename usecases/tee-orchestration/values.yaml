@@ -25,9 +25,9 @@ tcs:
     installAdminPassword:  # Admin Password for TCS
   config:
     intelPcsUrl: <user input> # Intel PCS URL
-    retryCount: <user input> # Retries attempted in case PCS is not responding
-    waitTime: <user input> # Time interval between each retry in seconds
-    refreshInterval: <user input> # Automatic refresh time of platform collateral
+    retryCount: <user input> # Retries attempted in case PCS is not responding. Retry count should be in range of 1 to 3.
+    waitTime: <user input> # Time interval between each retry in seconds. Wait time should be less than or equal to 2 seconds.
+    refreshInterval: <user input> # Automatic refresh time of platform collateral. RefreshInterval should be in range of 60 to 240.
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
     proxy:
@@ -63,23 +63,30 @@ fda:
     sgxTxtEnabled: <user input>  # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX or TXT ENABLED**)
 
 
+isecl-controller:
+  image:
+    name: <user input> # ISecL Controller Service image name<br> (**REQUIRED**)
+  nodeTainting:
+    taintRegisteredNodes: false # If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`)
+    taintRebootedNodes: false # If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`)
+    taintUntrustedNode: false # If set to true, taints the node which has trust tag set to false in node labels. (Allowed values: `true`\`false`)
+
 ihub:
   image:
     name: <user input> # Integration Hub Service image name<br> (**REQUIRED**)
   k8sApiServerPort: 6443
+  dependentServices:
+    fds: fds
   secret:
     installAdminUsername: # Install Admin Username for IHub
     installAdminPassword: # Install Admin Password for IHub
     serviceUsername:  # Service Username for IHub
     servicePassword:  # Service Password for IHub
 
-isecl-controller:
-  image:
-    name: <user input> # Isecl Controller image name<br> (**REQUIRED**)
-
 isecl-scheduler:
   image:
-    name: <user input> # Isecl Scheduler image name<br> (**REQUIRED**)
+    name: <user input> # ISecL Scheduler image name<br> (**REQUIRED**)
+
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
@@ -90,6 +97,7 @@ global-admin-generator:
     - APS
     - FDS
     - TCS
+
 
 global:
   config:
@@ -108,6 +116,10 @@ global:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
       path: /mnt/nfs_share/  # The path for storing persistent data on NFS
+
+  fdsUrl: <user input> # Fds Base Url, Do not include "/" at the end. e.g for ingress https://fds.isecl.com/fds/v1 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30500/fds/v1
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
 
   service:
     aas: 30444 # The service port for Authentication Authorization Service
