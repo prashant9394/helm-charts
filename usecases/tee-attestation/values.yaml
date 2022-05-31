@@ -99,6 +99,7 @@ global-admin-generator:
     - APS
     - TCS
     - KBS
+    - QVS
 
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
