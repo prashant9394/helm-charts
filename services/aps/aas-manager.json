@@ -55,7 +55,8 @@
                     "service": "QVS",
                     "name": "QuoteVerifier",
                     "permissions": [
-                        "sgx_quote:verify:*"
+                        "sgx_quote:verify:*",
+                        "tdx_quote:verify:*"
                     ]
           }
 	 ]
