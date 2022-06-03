@@ -48,7 +48,7 @@ fda:
   image:
     name: <user input> # Feature Discovery Agent image name<br> (**REQUIRED**)
   config:
-    refreshInterval: <user input> # Refresh Interval should be in range of 60 to 240
+    refreshInterval: <user input> # Refresh Interval should be in range of 60 to 240 seconds
     retryCount: <user input> # Retry count should be in range of 1 to 3
     validitySeconds: <user input> # Validity of custom token in seconds
   secret:
