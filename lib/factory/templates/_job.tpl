@@ -80,7 +80,6 @@ spec:
               echo starting &&
               cat /etc/secrets/populate-users.json &&
               BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep BEARER_TOKEN | cut -d '=' -f2) &&
-              echo $BEARER_TOKEN &&
               if [ -z "$BEARER_TOKEN" ]; then exit 1; fi &&
               INSTALLATION_TOKEN=`echo $BEARER_TOKEN | cut -d " " -f1` &&
               if [ -z "$INSTALLATION_TOKEN" ]; then exit 1; fi &&
@@ -186,7 +185,6 @@ spec:
                     echo starting &&
                     cat /etc/secrets/populate-users.json &&
                     BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep BEARER_TOKEN | cut -d '=' -f2) &&
-                    echo $BEARER_TOKEN &&
                     if [ -z "$BEARER_TOKEN" ]; then exit 1; fi &&
                     INSTALLATION_TOKEN=`echo $BEARER_TOKEN | cut -d " " -f1` &&
                     if [ -z "$INSTALLATION_TOKEN" ]; then exit 1; fi &&
