@@ -131,7 +131,7 @@ spec:
               - name: {{ .Values.image.aasManager.imagePullSecret }}
             {{- end }}
             {{- end }}
-            serviceAccountName: {{ .Release.Namespace }}
+            serviceAccountName: {{ include "factory.name" . }}
             securityContext:
               {{- toYaml .Values.securityContext.aasManagerInit | nindent 14 }}
             restartPolicy: Never
