@@ -37,8 +37,8 @@ nats-init:
   image:
     name: <user input> # The image name of nats-init container
   secret:
-    installAdminUsername:  # Admin Username for NATS Init
-    installAdminPassword:  # Admin Password for NATS Init
+    installAdminUsername: # Install Admin Username for Nats init
+    installAdminPassword:  # Install Admin Password for Nats init
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account

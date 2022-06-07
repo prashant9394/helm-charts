@@ -67,6 +67,9 @@ nats:
 nats-init:
   image:
     name: <user input> # The image name of nats-init container
+  secret:
+    installAdminUsername: # Install Admin Username for Nats init
+    installAdminPassword:  # Install Admin Password for Nats init
 
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
