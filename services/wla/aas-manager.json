@@ -19,7 +19,7 @@
          "roles":[
        	    {
 		"service": "HVS",
-		"name": "AttestationRegister",
+		"name": "HostSigner",
 		"permissions": [
 		"host_signing_key_certificates:create:*"
 		]
