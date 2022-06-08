@@ -27,7 +27,7 @@ The following table lists the configurable parameters of the Tee-attestation cha
 | `global.controlPlaneLabel` | K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s` | `"<user input>"` |
 | `global.config.keyManager` | The Key manager for KBS (Allowed values: `kmip`) | `"kmip"` |
 | `global.config.kmip.serverIp` | The KMIP server IP | `"<user input>"` |
-| `global.config.kmip.serverHostname` | The KMIP server hostname | `"<user input>"` |
+| `global.config.kmip.serverHostname` | The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation. | `"<user input>"` |
 | `global.config.kmip.serverPort` | The KMIP server port | `"<user input>"` |
 | `global.config.kmip.clientCertPath` | The KMIP server client certificate absolute path | `"<user input>"` |
 | `global.config.kmip.clientKeyPath` | The KMIP server client key absolute path | `"<user input>"` |

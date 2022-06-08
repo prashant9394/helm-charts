@@ -78,7 +78,7 @@ kbs:
   config:
     kmip:
       serverIp: <user input> # The KMIP server IP
-      serverHostname: <user input> # The KMIP server hostname
+      serverHostname: <user input> # The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation.
       serverPort: <user input> # The KMIP server port
     tee: true
   secret:

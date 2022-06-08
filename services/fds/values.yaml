@@ -35,8 +35,8 @@ aas:
 secret:
   dbUsername: # DB Username for FDS DB
   dbPassword: # DB Password for FDS DB
-  installAdminUsername:  # Admin Username for HVS
-  installAdminPassword:  # Admin Password for HVS
+  installAdminUsername:  # Admin Username for FDS
+  installAdminPassword:  # Admin Password for FDS
 
 image:
   db:

@@ -64,8 +64,8 @@ fds:
   secret:
     dbUsername: # DB Username for FDS DB
     dbPassword: # DB Password for FDS DB
-    installAdminUsername:  # Admin Username for HVS
-    installAdminPassword:  # Admin Password for HVS
+    installAdminUsername:  # Admin Username for FDS
+    installAdminPassword:  # Admin Password for FDS
 
 fda:
   image:
@@ -111,7 +111,7 @@ kbs:
   config:
     kmip:
       serverIp: <user input> # The KMIP server IP
-      serverHostname: <user input> # The KMIP server hostname
+      serverHostname: <user input> # The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation.
       serverPort: <user input> # The KMIP server port
     tee: true
   secret:

@@ -43,8 +43,8 @@ fds:
   secret:
     dbUsername: # DB Username for FDS DB
     dbPassword: # DB Password for FDS DB
-    installAdminUsername:  # Admin Username for HVS
-    installAdminPassword:  # Admin Password for HVS
+    installAdminUsername:  # Admin Username for FDS
+    installAdminPassword:  # Admin Password for FDS
   config:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB

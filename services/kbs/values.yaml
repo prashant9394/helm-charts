@@ -25,7 +25,7 @@ config:
   keyManager: kmip # The Key manager for KBS (Allowed values: `kmip`)
   kmip:       
     serverIp: <user input> # The KMIP server IP
-    serverHostname: <user input> # The KMIP server hostname
+    serverHostname: <user input> # The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation.
     serverPort: <user input> # The KMIP server port
     clientCertPath: /etc/pykmip/certs/client_certificate.pem # The KMIP server client certificate absolute path
     clientKeyPath: /etc/pykmip/certs/client_key.pem # The KMIP server client key absolute path

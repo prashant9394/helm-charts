@@ -25,7 +25,7 @@ The following table lists the configurable parameters of the Kbs chart and their
 | `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `config.keyManager` | The Key manager for KBS (Allowed values: `kmip`) | `"kmip"` |
 | `config.kmip.serverIp` | The KMIP server IP | `"<user input>"` |
-| `config.kmip.serverHostname` | The KMIP server hostname | `"<user input>"` |
+| `config.kmip.serverHostname` | The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation. | `"<user input>"` |
 | `config.kmip.serverPort` | The KMIP server port | `"<user input>"` |
 | `config.kmip.clientCertPath` | The KMIP server client certificate absolute path | `"/etc/pykmip/certs/client_certificate.pem"` |
 | `config.kmip.clientKeyPath` | The KMIP server client key absolute path | `"/etc/pykmip/certs/client_key.pem"` |
