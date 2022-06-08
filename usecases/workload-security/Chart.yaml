@@ -31,6 +31,9 @@ dependencies:
   - name: cleanup-secrets
     repository: file://../../jobs/cleanup-secrets/
     version: 5.0.0
+  - name: wpm
+    repository: file://../../jobs/wpm-aas-mgr/
+    version: 5.0.0
   - name: cleanup-jobs
     repository: file://../../jobs/cleanup-jobs/
     version: 5.0.0

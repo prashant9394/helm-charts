@@ -127,6 +127,11 @@ kbs:
       serverPort: <user input> # The KMIP server port
     tee: false
 
+wpm:
+  secret:
+    serviceUsername:  # Service Username for WPM
+    servicePassword:  # Service Password for WPM
+
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
   secret:
