@@ -146,7 +146,7 @@ spec:
                 env:
                   {{- if .Values.global }}
                     {{- if .Values.global.proxyEnabled }}
-                    {{- include "factory.globalProxy" . | nindent 12 }}
+                    {{- include "factory.globalProxy" . | nindent 20 }}
                     {{- end }}
                     {{- end }}
                     - name: URL
@@ -176,7 +176,7 @@ spec:
                 env:
                   {{- if .Values.global }}
                   {{- if .Values.global.proxyEnabled }}
-                  {{- include "factory.globalProxy" . | nindent 12 }}
+                  {{- include "factory.globalProxy" . | nindent 20 }}
                   {{- end }}
                   {{- end }}
                 command: ["/bin/sh", "-c"]
