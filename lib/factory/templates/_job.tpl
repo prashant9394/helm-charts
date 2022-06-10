@@ -78,7 +78,6 @@ spec:
           args:
             - >
               echo starting &&
-              cat /etc/secrets/populate-users.json &&
               BEARER_TOKEN=$(populate-users --use_json=true --in_json_file=/etc/secrets/populate-users.json | grep BEARER_TOKEN | cut -d '=' -f2) &&
               if [ -z "$BEARER_TOKEN" ]; then exit 1; fi &&
               INSTALLATION_TOKEN=`echo $BEARER_TOKEN | cut -d " " -f1` &&
