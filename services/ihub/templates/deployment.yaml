@@ -45,7 +45,7 @@
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
               {{- end }}
               {{- end }}
             - name: URL
