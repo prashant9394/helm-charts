@@ -43,11 +43,6 @@
         - name: wait-for-fds
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
-            {{- if .Values.global }}
-              {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.globalProxy" . | nindent 12 }}
-              {{- end }}
-              {{- end }}
             - name: URL
               {{- if .Values.global }}
               value: {{ .Values.global.fdsUrl }}/version
