@@ -27,7 +27,7 @@ tcs:
     intelPcsUrl: <user input> # Intel PCS URL
     retryCount: <user input> # Retries attempted in case PCS is not responding. Retry count should be in range of 1 to 3.
     waitTime: <user input> # Time interval between each retry in seconds. Wait time should be less than or equal to 2 seconds.
-    refreshInterval: <user input> # Automatic refresh time of platform collateral. RefreshInterval should be in range of 60 to 240.
+    refreshInterval: <user input> # Automatic refresh time of platform collateral. RefreshInterval should be in range of 24 to 720 hours.
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
     proxy:

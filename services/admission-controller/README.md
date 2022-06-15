@@ -32,7 +32,6 @@ The following table lists the configurable parameters of the Admission-controlle
 | `storage.nfs.path` | The path for storing persistent data on NFS | `"/mnt/nfs_share"` |
 | `storage.nfs.logsSize` | The logs size for storing logs for KBS in NFS path | `"1Gi"` |
 | `storage.nfs.baseSize` | The base volume size (configSize + logSize) | `"1Gi"` |
-| `factory.nameOverride` |  | `""` |
 
 
 

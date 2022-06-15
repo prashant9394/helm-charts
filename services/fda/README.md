@@ -13,22 +13,24 @@ The following table lists the configurable parameters of the Fda chart and their
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for FDA chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
-| `nodeLabel.sgxTxtEnabled` | The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**) | `"SGX-TXT-ENABLED"` |
+| `nodeLabel.sgxTxtEnabled` | The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**) | `"<user input>"` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
 | `dependentServices.fds` |  | `"fds"` |
 | `dependentServices.tcs` |  | `"tcs"` |
-| `image.svc.name` | The image name with which FDA image is pushed to registry | `"<user input>"` |
-| `image.svc.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.initName` | init-wait image name | `"<user input>"` |
+| `image.svc.name` | The image registry where FDS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
+| `image.svc.pullPolicy` | The pull policy for pulling from container registry for FDS <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.initName` |  | `"<user input>"` |
 | `image.aasManager.name` | The image name with which AAS manager image is pushed to registry | `null` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `config.refreshInterval` | Refresh Interval | `"<user input>"` |
 | `config.retryCount` | Retry count | `"<user input>"` |
-| `config.validitySeconds` | Validity seconds | `"<user input>"` |
+| `config.validitySeconds` | Validity seconds (Note: Value needs to be provided in quotes) | `"<user input>"` |
 | `aas.url` |  | `null` |
-| `aas.secret.adminUsername` | Admin Username for AAS | `"aasAdminUser"` |
-| `aas.secret.adminPassword` | Admin Password for AAS | `"aasAdminPass"` |
+| `aas.secret.adminUsername` | Admin Username for AAS | `null` |
+| `aas.secret.adminPassword` | Admin Password for AAS | `null` |
 | `securityContext.aasManager.runAsUser` |  | `1001` |
 | `securityContext.aasManager.runAsGroup` |  | `1001` |
 | `securityContext.aasManager.capabilities.drop` |  | `["all"]` |
@@ -45,7 +47,11 @@ The following table lists the configurable parameters of the Fda chart and their
 | `service.tcs.port` |  | `30502` |
 | `secret.cccAdminUsername` | ccc admin token username | `null` |
 | `secret.cccAdminPassword` | ccc admin token password | `null` |
-| `factory.nameOverride` |  | `""` |
+| `proxy.proxyEnabled` | If proxy is enabled, then set to true | `false` |
+| `proxy.http_proxy` | set HTTP Proxy value | `null` |
+| `proxy.https_proxy` | set HTTP Proxy value | `null` |
+| `proxy.no_proxy` | Append .svc,.svc.cluster.local, to no_proxy | `null` |
+| `proxy.all_proxy` | set all proxy value | `null` |
 
 
 

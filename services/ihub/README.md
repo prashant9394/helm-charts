@@ -14,6 +14,8 @@ The following table lists the configurable parameters of the Ihub chart and thei
 | `nameOverride` | The name for IHUB chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `k8sApiServerPort` |  | `6443` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
 | `dependentServices.hvs` | Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases | `null` |
@@ -58,7 +60,6 @@ The following table lists the configurable parameters of the Ihub chart and thei
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
 | `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
 | `service.fds.containerPort` | The containerPort on which HVS can listen | `13000` |
-| `factory.nameOverride` |  | `""` |
 
 
 

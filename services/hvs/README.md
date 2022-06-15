@@ -13,6 +13,8 @@ The following table lists the configurable parameters of the Hvs chart and their
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for HVS chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
 | `config.envVarPrefix` |  | `"HVS"` |
@@ -25,6 +27,8 @@ The following table lists the configurable parameters of the Hvs chart and their
 | `config.dbName` | HVS DB Name | `"hvsdb"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `config.requireEKCertForHostProvision` | If set to true, worker node EK certificate should be registered in HVS DB, for AIK provisioning step of TA. (Allowed values: `true`\`false`) | `"<user input>"` |
 | `config.verifyQuoteForHostRegistration` | If set to true, when the worker node is being registered to HVS, quote verification will be done. Default value is false. (Allowed values: `true`\`false`) | `"<user input>"` |
 | `config.nats.enabled` | Enable/Disable NATS mode<br> (Allowed values: `true`\`false`) | `false` |
@@ -78,7 +82,6 @@ The following table lists the configurable parameters of the Hvs chart and their
 | `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
 | `service.hvs.port` | The externally exposed NodePort on which HVS can listen to external traffic | `30443` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

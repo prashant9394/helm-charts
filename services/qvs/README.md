@@ -45,15 +45,15 @@ The following table lists the configurable parameters of the Qvs chart and their
 | `securityContext.aasManager.capabilities.drop` |  | `["all"]` |
 | `securityContext.aasManager.allowPrivilegeEscalation` |  | `false` |
 | `securityContext.aasManagerInit.fsGroup` |  | `1001` |
+| `config.qplHttps` | variable to use update USE_SECURE variable in sgx_default_qcnl.conf to enable https by default it is false | `false` |
 | `service.directoryName` |  | `"qvs"` |
 | `service.cms.containerPort` | The containerPort on which CMS can listen to traffic | `8445` |
 | `service.aas.containerPort` | The containerPort on which AAS can listen to traffic | `8444` |
 | `service.tcs.containerPort` | The containerPort on which TCS can listen to traffic | `9000` |
-| `service.qvs.isSandBoxEnv` |  | `"no"` |
+| `service.qvs.isSandBoxEnv` | If SGX node which runs client (SKC client/ SGX Agent) is production grade then mark it "no", else mark it "yes". | `"no"` |
 | `service.qvs.containerPort` | The containerPort on which QVS can listen to traffic | `12000` |
 | `service.qvs.port` | The externally exposed NodePort on which QVS can listen to external traffic | `30501` |
-| `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
+| `service.ingress.enable` |  | `false` |
 
 
 

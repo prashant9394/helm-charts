@@ -29,7 +29,6 @@ The following table lists the configurable parameters of the Nats chart and thei
 | `service.natsClient.name` |  | `"client"` |
 | `service.natsClient.containerPort` | The containerPort on which NATS can listen to traffic | `4222` |
 | `service.natsClient.port` | The externally exposed NodePort on which NATS can listen to external traffic | `30222` |
-| `factory.nameOverride` |  | `""` |
 
 
 

@@ -13,6 +13,8 @@ The following table lists the configurable parameters of the Aas chart and their
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for AAS chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.cms` |  | `"cms"` |
 | `config.envVarPrefix` |  | `"AAS"` |
 | `config.dbPort` | PostgreSQL DB port | `5432` |
@@ -25,6 +27,8 @@ The following table lists the configurable parameters of the Aas chart and their
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
 | `config.createCredentials` | Trigger to run create-credentials setup task when set to True. Default is False | `true` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `secret.dbUsername` | DB Username for AAS DB | `null` |
 | `secret.dbPassword` | DB Password for AAS DB | `null` |
 | `secret.adminUsername` | Admin Username for AAS | `null` |
@@ -59,7 +63,6 @@ The following table lists the configurable parameters of the Aas chart and their
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 
