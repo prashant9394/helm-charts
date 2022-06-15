@@ -13,6 +13,8 @@ The following table lists the configurable parameters of the Cms chart and their
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for CMS chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.aas` |  | `"aas"` |
 | `image.svc.name` | The image name with which CMS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for CMS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
@@ -34,7 +36,6 @@ The following table lists the configurable parameters of the Cms chart and their
 | `service.cms.port` | The externally exposed NodePort on which CMS can listen to external traffic | `30445` |
 | `service.aas.containerPort` | The containerPort on which CMS can listen to traffic | `8444` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

@@ -23,7 +23,3 @@ version: 5.0.0
 # It is recommended to use it with quotes.
 appVersion: "v5.0.0"
 
-dependencies:
-  - name: factory
-    repository: file://../../lib/factory/ 
-    version: 5.0.0

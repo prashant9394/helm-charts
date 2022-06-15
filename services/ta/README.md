@@ -15,6 +15,8 @@ The following table lists the configurable parameters of the Trustagent chart an
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `nodeLabel.txt` | The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**) | `""` |
 | `nodeLabel.suefi` | The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**) | `""` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
 | `dependentServices.hvs` |  | `"hvs"` |
@@ -52,7 +54,6 @@ The following table lists the configurable parameters of the Trustagent chart an
 | `service.hvs.port` |  | `30443` |
 | `service.ta.containerPort` | The containerPort on which TA can listen | `1443` |
 | `service.ta.port` | The externally exposed NodePort on which TA can listen to external traffic | `31443` |
-| `factory.nameOverride` |  | `""` |
 
 
 

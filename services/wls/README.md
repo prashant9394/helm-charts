@@ -55,7 +55,6 @@ The following table lists the configurable parameters of the Wls chart and their
 | `service.wls.containerPort` | The containerPort on which WLS can listen | `5000` |
 | `service.wls.port` | The externally exposed NodePort on which WLS can listen to external traffic | `30447` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

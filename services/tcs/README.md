@@ -24,16 +24,18 @@ The following table lists the configurable parameters of the Tcs chart and their
 | `config.dbListenAddresses` | PostgreSQL DB Listen Address | `"*"` |
 | `config.dbName` | TCS DB Name | `"tcsdb"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `config.intelPcsUrl` | Intel PCS URL | `"https://api.trustedservices.intel.com/sgx/certification/v4"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
-| `config.retryCount` | Retries attempted in case PCS is not responding | `3` |
-| `config.waitTime` | Time interval between each retry in seconds | `1` |
-| `config.refreshInterval` | Automatic refresh time of platform collateral | `6` |
+| `config.retryCount` | Retries attempted in case PCS is not responding | `"<user input>"` |
+| `config.waitTime` | Time interval between each retry in seconds | `"<user input>"` |
+| `config.refreshInterval` | Automatic refresh time of platform collateral | `"<user input>"` |
 | `config.proxy.proxyEnabled` | checking if proxy is enabled | `false` |
 | `config.proxy.httpProxy` | http proxy url | `null` |
 | `config.proxy.httpsProxy` | https proxy url | `null` |
-| `config.proxy.noProxy` | https proxy url | `null` |
-| `config.proxy.allProxy` | https proxy url | `null` |
+| `config.proxy.noProxy` | no proxy url example service-name.namespace.svc.cluster.local | `null` |
+| `config.proxy.allProxy` | all proxy url | `null` |
 | `aas.url` |  | `null` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
@@ -82,7 +84,6 @@ The following table lists the configurable parameters of the Tcs chart and their
 | `service.tcs.containerPort` | The containerPort on which TCS can listen | `9000` |
 | `service.tcs.port` | The externally exposed NodePort on which TCS can listen to external traffic | `30502` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

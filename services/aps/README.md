@@ -28,6 +28,8 @@ The following table lists the configurable parameters of the Aps chart and their
 | `config.vender` |  | `"postgres"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
 | `config.dbSSLCertSource` |  | `"/etc/postgresql/secrets/server.crt"` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `aas.url` |  | `null` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
@@ -74,7 +76,6 @@ The following table lists the configurable parameters of the Aps chart and their
 | `service.aps.port` | The externally exposed NodePort on which APS can listen to external traffic | `30503` |
 | `service.apsdb.containerPort` | The containerPort on which apsdb can listen to traffic | `5432` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

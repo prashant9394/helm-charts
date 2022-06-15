@@ -30,16 +30,16 @@ The following table lists the configurable parameters of the Kbs chart and their
 | `config.kmip.clientCertPath` | The KMIP server client certificate absolute path | `"/etc/pykmip/certs/client_certificate.pem"` |
 | `config.kmip.clientKeyPath` | The KMIP server client key absolute path | `"/etc/pykmip/certs/client_key.pem"` |
 | `config.kmip.rootCertPath` | The KMIP server root certificate absolute path | `"/etc/pykmip/certs/root_certificate.pem"` |
-| `config.tee` |  | `false` |
-| `aas.url` |  | `"<user input>"` |
-| `aas.secret.adminUsername` | Admin Username for AAS | `"<user input>"` |
-| `aas.secret.adminPassword` | Admin Password for AAS | `"<user input>"` |
-| `secret.installAdminUsername` | Install Admin Username for KBS | `"<user input>"` |
-| `secret.installAdminPassword` | Install Admin Password for KBS | `"<user input>"` |
-| `secret.cccUsername` | Custom Claims Creator Username | `"<user input>"` |
-| `secret.cccPassword` | Custom Claims Creator Password | `"<user input>"` |
+| `config.tee` | mark this true if its for TEE use cases else by default set to false | `false` |
+| `aas.url` | Please update the url section if kbs is exposed via ingress | `null` |
+| `aas.secret.adminUsername` | Admin Username for AAS | `null` |
+| `aas.secret.adminPassword` | Admin Password for AAS | `null` |
+| `secret.installAdminUsername` | Install Admin Username for KBS | `null` |
+| `secret.installAdminPassword` | Install Admin Password for KBS | `null` |
+| `secret.cccUsername` | Custom Claims Creator Username. Set only if tee is set to "true" | `null` |
+| `secret.cccPassword` | Custom Claims Creator Password. Set only if tee is set to "true" | `null` |
 | `customToken.subject` | The username for KBS | `"kbs"` |
-| `customToken.validitySeconds` | Custom Token validity in seconds | `"31536000"` |
+| `customToken.validitySeconds` | Custom Token validity in seconds (Default: "31536000") | `"31536000"` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
@@ -70,7 +70,6 @@ The following table lists the configurable parameters of the Kbs chart and their
 | `service.kbs.containerPort` | The containerPort on which KBS can listen to traffic | `9443` |
 | `service.kbs.port` | The externally exposed NodePort on which KBS can listen to external traffic | `30448` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

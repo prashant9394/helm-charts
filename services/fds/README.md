@@ -24,13 +24,15 @@ The following table lists the configurable parameters of the Fds chart and their
 | `config.dbName` | FDS DB Name | `"fdsdb"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `aas.url` |  | `null` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
 | `secret.dbUsername` | DB Username for FDS DB | `null` |
 | `secret.dbPassword` | DB Password for FDS DB | `null` |
-| `secret.installAdminUsername` | Admin Username for HVS | `null` |
-| `secret.installAdminPassword` | Admin Password for HVS | `null` |
+| `secret.installAdminUsername` | Admin Username for FDS | `null` |
+| `secret.installAdminPassword` | Admin Password for FDS | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
 | `image.db.name` | The image name of PostgreSQL | `"postgres:14.2"` |
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
@@ -70,7 +72,6 @@ The following table lists the configurable parameters of the Fds chart and their
 | `service.fds.containerPort` | The containerPort on which FDS can listen | `13000` |
 | `service.fds.port` | The externally exposed NodePort on which FDS can listen to external traffic | `30500` |
 | `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
-| `factory.nameOverride` |  | `""` |
 
 
 

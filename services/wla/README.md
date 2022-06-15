@@ -45,7 +45,6 @@ The following table lists the configurable parameters of the Workload-agent char
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
 | `service.wls.containerPort` | The containerPort on which WLS can listen | `5000` |
-| `factory.nameOverride` |  | `""` |
 
 
 
