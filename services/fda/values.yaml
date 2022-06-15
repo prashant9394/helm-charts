@@ -27,7 +27,7 @@ image:
 config:
   refreshInterval: <user input> #Refresh Interval
   retryCount: <user input> #Retry count
-  validitySeconds: <user input> #Validity seconds
+  validitySeconds: <user input> #Validity seconds (Note: Value needs to be provided in quotes)
 
 aas:
   # Please update the url section if aas is exposed via ingress

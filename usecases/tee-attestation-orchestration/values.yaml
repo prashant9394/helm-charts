@@ -73,7 +73,7 @@ fda:
   config:
     refreshInterval: <user input> # Refresh Interval should be in range of 60 to 240
     retryCount: <user input> # Retry count should be in range of 1 to 3
-    validitySeconds: <user input> # Validity of custom token in seconds
+    validitySeconds: <user input> # Validity of custom token in seconds (Note: Value needs to be provided in quotes)
   secret:
     cccAdminUsername:  #ccc admin token username
     cccAdminPassword:  #ccc admin token password
