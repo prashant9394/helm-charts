@@ -120,8 +120,8 @@ e.g For ingress. cmsUrl: https://cms.isecl.com/cms/v1
 
 ```shell script
 export VERSION=v5.0.0
-helm pull isecl-helm/Tee-Orchestration --version $VERSION && tar -xzf Tee-Orchestration-$VERSION.tgz Tee-Orchestration/values.yaml
-helm install <helm release name> isecl-helm/Tee-Orchestration --version $VERSION -f Tee-Orchestration/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/TEE-Orchestration --version $VERSION && tar -xzf TEE-Orchestration-$VERSION.tgz TEE-Orchestration/values.yaml
+helm install <helm release name> isecl-helm/TEE-Orchestration --version $VERSION -f TEE-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 > **Note:** If using a separate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 

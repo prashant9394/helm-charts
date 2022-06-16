@@ -127,8 +127,8 @@ e.g For ingress. cmsUrl: https://cms.isecl.com/cms/v1
 
 ```shell script
 export VERSION=v5.0.0
-helm pull isecl-helm/Tee-Attestation-Orchestration --version $VERSION && tar -xzf Tee-Attestation-Orchestration-$VERSION.tgz Tee-Attestation-Orchestration/values.yaml
-helm install <helm release name> isecl-helm/Tee-Attestation-Orchestration --version $VERSION -f Tee-Attestation-Orchestration/values.yaml --create-namespace -n <namespace>
+helm pull isecl-helm/TEE-Attestation-Orchestration --version $VERSION && tar -xzf TEE-Attestation-Orchestration-$VERSION.tgz TEE-Attestation-Orchestration/values.yaml
+helm install <helm release name> isecl-helm/TEE-Attestation-Orchestration --version $VERSION -f TEE-Attestation-Orchestration/values.yaml --create-namespace -n <namespace>
 ```
 
 #### Follow the build instructions for SKC Library and update the isecl-skc-k8s.env and install SKC Library using below command(Only for SGX attestation use-case)
