@@ -10,12 +10,9 @@ A collection of helm charts for Trusted Workload Placement Usecase
     - [Pre-requisites](#pre-requisites)
     - [Support Details](#support-details)
     - [Use Case Helm Charts](#use-case-helm-charts)
-    - [Setting up for Helm deployment](#setting-up-for-helm-deployment)
-        - [Create Secrets for Database of Services](#create-secrets-for-database-of-services)
     - [Installing isecl-helm charts](#installing-isecl-helm-charts)
       - [Update `values.yaml` for Use Case chart deployments](#update-valuesyaml-for-use-case-chart-deployments)
       - [Use Case charts Deployment](#usecase-based-chart-deployment-using-umbrella-charts)
-      - [Individual Service/Agent Charts Deployment](#individual-helm-chart-deployment-using-servicejob-charts)
       - [Setup task workflow](#setup-task-workflow)
 
 <!-- /code_chunk_output -->
@@ -46,7 +43,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 | Distributions     | Any non-managed K8s cluster                                  |
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
-| Container Runtime | *docker*,*CRI-O*|
+| Container Runtime | *CRI-O*                                                      |
 
 ### Use Case Helm Charts 
 

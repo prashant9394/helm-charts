@@ -10,12 +10,9 @@ A collection of helm charts for Host-Attestation Usecase
     - [Pre-requisites](#pre-requisites)
     - [Support Details](#support-details)
     - [Use Case Helm Charts](#use-case-helm-charts)
-    - [Setting up for Helm deployment](#setting-up-for-helm-deployment)
-        - [Create Secrets for Database of Services](#create-secrets-for-database-of-services)
     - [Installing isecl-helm charts](#installing-isecl-helm-charts)
       - [Update `values.yaml` for Use Case chart deployments](#update-valuesyaml-for-use-case-chart-deployments)
       - [Use Case charts Deployment](#usecase-based-chart-deployment-using-umbrella-charts)
-      - [Individual Service/Agent Charts Deployment](#individual-helm-chart-deployment-using-servicejob-charts)
       - [Setup task workflow](#setup-task-workflow)
 
 <!-- /code_chunk_output -->
@@ -47,7 +44,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 | Distributions     | Any non-managed K8s cluster                                  |
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
-| Container Runtime | *docker*,*CRI-O*<br/>                                        |
+| Container Runtime | *CRI-O*<br/>                                                 |
 
 ### Use Case Helm Charts 
 
@@ -55,10 +52,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 | --------------------------------------- | ----------------------------------------------------------- |
 | Host Attestation - Containers           | *cms*<br />*aas*<br />*hvs*<br />*ta*<br />*nats(optional)* |
 
-
-### Setting up for Helm deployment
-
-#### Installing isecl-helm charts
+### Installing isecl-helm charts
 
 * Add the chart repository
 ```shell script
@@ -96,7 +90,7 @@ helm install <helm release name> isecl-helm/Host-Attestation --version $VERSION 
 ```
 > **Note:** If using a separate .kubeconfig file, ensure to provide the path using `--kubeconfig <.kubeconfig path>`
 
-## Setup task workflow.
+#### Setup task workflow.
 * Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
 
 To uninstall a chart

@@ -14,7 +14,6 @@ A collection of helm charts for Trusted Workload Placement - Cloud Service Provi
     - [Installing isecl-helm charts](#installing-isecl-helm-charts)
       - [Update `values.yaml` for Use Case chart deployments](#update-valuesyaml-for-use-case-chart-deployments)
       - [Use Case charts Deployment](#usecase-based-chart-deployment-using-umbrella-charts)
-      - [Individual Service/Agent Charts Deployment](#individual-helm-chart-deployment-using-servicejob-charts)
       - [Setup task workflow](#setup-task-workflow)
 
 <!-- /code_chunk_output -->
@@ -37,7 +36,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 * Setup NFS, Refer [instructions](../../docs/NFS-Setup.md) for setting up and configuring NFS Server
   
-  ### Support Details
+### Support Details
 
 | Kubernetes        | Details                                                      |
 | ----------------- | ------------------------------------------------------------ |
@@ -45,7 +44,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 | Distributions     | Any non-managed K8s cluster                                  |
 | Versions          | v1.23                                                        |
 | Storage           | NFS                                                          |
-| Container Runtime | *docker*,*CRI-O*<br/> |
+| Container Runtime | *CRI-O*<br/>                                                 |
 
 ### Use Case Helm Charts 
 

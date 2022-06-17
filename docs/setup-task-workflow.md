@@ -1,5 +1,5 @@
 #Setup Tasks
-Each ISecl Serivces can be configured by running appropriate setup tasks. These setup tasks perform specific task such
+Each ISecL Services can be configured by running appropriate setup tasks. These setup tasks perform specific task such
 as regenerating tls certificate, updating the configuration and few other tasks specific to services.
 
 Check this document for available setup tasks for each of the services  [Setup tasks](../../setup-tasks.md) 
