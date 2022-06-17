@@ -8,7 +8,7 @@ For this reason the usecase/individual chart deployment requires NFS to be setup
 setup-nfs.sh script can be run to setup nfs server and create directory structure with appropriate file permissions.
 
 ```shell script 
-   curl -fsSL -o setup-nfs.sh https://raw.githubusercontent.com/intel-secl/helm-charts/v5.0.0-Beta/setup-nfs.sh
+   curl -fsSL -o setup-nfs.sh -H "Authorization: token <github personal access token>" https://raw.githubusercontent.com/intel-innersource/applications.security.isecl.engineering.helm-charts/v5.0/develop/setup-nfs.sh
    chmod +x setup-nfs.sh
   ./setup-nfs.sh <mount_path> <user_id> <ip/subnet range>
 ```
