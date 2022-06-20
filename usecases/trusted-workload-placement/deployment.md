@@ -165,7 +165,7 @@ helm install <helm release name> isecl-helm/Trusted-Workload-Placement --version
 Refer [instructions](../../docs/ISecl-Scheduler-Configuration.md) for configuring kube-scheduler to establish communication with isecl-scheduler
 
 ## Setup task workflow.
-* Setup NFS, Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
+* Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
 
 To uninstall a chart
 ```shell script

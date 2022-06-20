@@ -2,10 +2,10 @@
 Each ISecL Services can be configured by running appropriate setup tasks. These setup tasks perform specific task such
 as regenerating tls certificate, updating the configuration and few other tasks specific to services.
 
-Check this document for available setup tasks for each of the services  [Setup tasks](../../setup-tasks.md) 
+Check this document for available setup tasks for each of the services  [Setup tasks](../docs/setup-tasks.md) 
 
 1. Edit the configmap of respective service where we want to run setup task. e.g ```kubectl edit cm cms -n isecl```
-2. Add or Update all the variables required for setup tasks refer [here](../../setup-tasks.md)  for more details
+2. Add or Update all the variables required for setup tasks refer [here](../docs/setup-tasks.md)  for more details
 3. Add *SETUP_TASK* variable in config map with one or more setup task names e.g ```SETUP_TASK: "download-ca-cert,download-tls-cert"```
 4. Save the configmap
 5. Some of the sensitive variables such as credentials, db credentials, tpm-owner-secret can be updated in secrets with the command 

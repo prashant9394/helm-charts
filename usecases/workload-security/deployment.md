@@ -129,7 +129,7 @@ helm install <helm release name> isecl-helm/Workload-Security --version $VERSION
 
 
 ## Setup task workflow.
-* Setup NFS, Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
+* Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
 
 
 To uninstall a chart

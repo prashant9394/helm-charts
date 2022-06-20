@@ -92,7 +92,7 @@ helm install <helm release name> isecl-helm/Trusted-Workload-Placement-Control-P
 
 
 ## Setup task workflow.
-* Setup NFS, Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
+* Refer [instructions](../../docs/setup-task-workflow.md) for running service specific setup tasks
 
 To uninstall a chart
 ```shell script
