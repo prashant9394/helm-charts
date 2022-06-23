@@ -126,7 +126,7 @@ Add the output base64 encoded string to value in caBundle sub field of admission
 
 * Add the chart repository
 ```shell script
-helm repo add isecl-helm https://intel-secl.github.io/helm-charts
+helm repo add --username='' --password='' isecl-helm https://amr-registry.caas.intel.com/chartrepo/isecl/
 helm repo update
 ```
 
