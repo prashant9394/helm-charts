@@ -67,7 +67,7 @@ kubectl create secret generic kbs-kmip-certs -n isecl --from-file=client_certifi
 
 * Add the chart repository
 ```shell script
-helm repo add isecl-helm https://intel-secl.github.io/helm-charts
+helm repo add isecl-helm --username='' --password='' https://intel-secl.github.io/helm-charts
 helm repo update
 ```
 
