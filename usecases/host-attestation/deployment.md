@@ -56,7 +56,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 * Add the chart repository
 ```shell script
-helm repo add isecl-helm https://intel-secl.github.io/helm-charts
+helm repo add isecl-helm --username= --password= https://amr-registry.caas.intel.com/chartrepo/isecl
 helm repo update
 ```
 
