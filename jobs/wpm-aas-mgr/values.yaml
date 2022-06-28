@@ -9,6 +9,10 @@ dependentServices: # The dependent Service Name for deploying WPM chart, default
   cms: cms
   aas: aas
 
+secret:
+  serviceUsername:  # Service Username for WPM
+  servicePassword:  # Service Password for WPM
+
 image:
   svc:
     pullPolicy: Always # The pull policy for pulling from container registry for wpm aas manager <br> (Allowed values: `Always`/`IfNotPresent`)
