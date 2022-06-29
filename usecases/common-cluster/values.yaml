@@ -60,7 +60,7 @@ fda:
     cccAdminUsername:  #ccc admin token username
     cccAdminPassword:  #ccc admin token password
   nodeLabel: 
-    sgxTxtEnabled: <user input>  # The node label for SGX-ENABLED and TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX or TXT ENABLED**)
+    sgxTxtEnabled: <user input>  # The node label for SGX-SUEFI-ENABLED or SGX-TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX and TXT or SUEFI ENABLED**)
 
 
 isecl-controller:
@@ -119,8 +119,8 @@ trustagent:
     name: <user input> # Trust Agent image name<br> (**REQUIRED**)
 
   nodeLabel:
-    txt: TXT-ENABLED # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
-    suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
+    txt: "" # The node label for SGX-TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX and TXT ENABLED**)
+    suefi: "" # The node label for SGX-SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SGX and SUEFI ENABLED**)
 
   config:
     tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
