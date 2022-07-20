@@ -30,6 +30,11 @@ hvs:
     serviceUsername:  # Service Username for HVS
     servicePassword:  # Service Password for HVS
 
+tagent:
+  secret:
+    serviceUsername:  # Service Username for Tagent
+    servicePassword:  # Service Password for Tagent
+
 nats:
   clientPort: 30222
 
