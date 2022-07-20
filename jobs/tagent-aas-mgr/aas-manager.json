@@ -16,13 +16,30 @@
             "username": "{{ .Values.secret.serviceUsername }}",
             "password": "{{ .Values.secret.servicePassword }}",
             "print_bearer_token": true,
-            "roles": [
+            "roles":[
                 {
-                    "service": "KBS",
-                    "name": "KeyManager",
+                   "service": "CMS",
+                   "name": "CertApprover",
+                   "context":"CN=Trust Agent TLS Certificate;SAN=*;certType=TLS"
+                },
+                {
+                   "service":"AAS",
+                   "name":"CredentialCreator",
+                   "context":"type=TA",
+                   "permissions":[
+                      "credential:create:*",
+                      "custom_claims:create:*"
+                   ]
+                },
+                {
+                    "service": "HVS",
+                    "name": "AttestationRegister",
                     "permissions": [
-                        "keys:create:*",
-                        "keys:transfer:*"
+                        "hosts:store:*",
+                        "hosts:search:*",
+                        "host_unique_flavors:create:*",
+                        "flavors:search:*",
+                        "host_aiks:certify:*"
                     ]
                 }
             ]

@@ -1,6 +1,6 @@
 apiVersion: v2
 name: tagent
-description: A Helm chart for creating Workload Policy Manager service account
+description: A Helm chart for creating Tagent service account
 
 # A chart can be either an 'application' or a 'library' chart.
 #

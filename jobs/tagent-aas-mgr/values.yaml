@@ -1,6 +1,6 @@
-# Default values for wpm aas manager.
+# Default values for tagent aas manager.
 
-nameOverride: "" # The name for AAS-MANAGER chart (Default: .Chart.Name)
+nameOverride: "" # The name for TAGENT-MANAGER chart (Default: .Chart.Name)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
@@ -10,12 +10,12 @@ dependentServices: # The dependent Service Name for deploying WPM chart, default
   aas: aas
 
 secret:
-  serviceUsername:  # Service Username for WPM
-  servicePassword:  # Service Password for WPM
+  serviceUsername:  # Service Username for Tagent
+  servicePassword:  # Service Password for Tagent
 
 image:
   svc:
-    pullPolicy: Always # The pull policy for pulling from container registry for wpm aas manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    pullPolicy: Always # The pull policy for pulling from container registry for tagent aas manager <br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input>
   aasManager:

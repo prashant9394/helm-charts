@@ -1,13 +1,13 @@
 
-wpm aas manager
+tagent aas manager
 ===========
 
-A Helm chart for creating service account for wpm aas manager
+A Helm chart for creating service account for tagent aas manager
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the wpm aas manager chart and their default values.
+The following table lists the configurable parameters of the tagent aas manager chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
