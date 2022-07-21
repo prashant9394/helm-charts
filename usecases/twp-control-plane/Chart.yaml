@@ -58,7 +58,9 @@ dependencies:
   - name: nats
     repository: file://../../services/nats/
     version: 5.0.0
-  
+  - name: trustagent
+    repository: file://../../jobs/tagent-aas-mgr
+    version: 5.0.0
 maintainers:
 - name: JJ
   email: johnny.jacob@intel.com
