@@ -30,7 +30,7 @@ hvs:
     serviceUsername:  # Service Username for HVS
     servicePassword:  # Service Password for HVS
 
-tagent:
+trustagent:
   secret:
     serviceUsername:  # Service Username for Tagent
     servicePassword:  # Service Password for Tagent

@@ -1,13 +1,13 @@
 
-tagent aas manager
+trust agent aas manager
 ===========
 
-A Helm chart for creating service account for tagent aas manager
+A Helm chart for creating service account for trust agent aas manager
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the tagent aas manager chart and their default values.
+The following table lists the configurable parameters of the trust agent aas manager chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |

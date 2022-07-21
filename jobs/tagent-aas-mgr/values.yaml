@@ -1,17 +1,17 @@
-# Default values for tagent aas manager.
+# Default values for Trust agent aas manager.
 
-nameOverride: "" # The name for TAGENT-MANAGER chart (Default: .Chart.Name)
+nameOverride: "" # The name for TAGENT AAS MANAGER chart (Default: .Chart.Name)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 # TODO: Services should be be able to be deployed in different namespaces
-dependentServices: # The dependent Service Name for deploying WPM chart, default is the chart name and override is from nameOverride value.
+dependentServices: # The dependent Service Name for deploying Trust agent chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
 
 secret:
-  serviceUsername:  # Service Username for Tagent
-  servicePassword:  # Service Password for Tagent
+  serviceUsername:  # Service Username for Trust agent
+  servicePassword:  # Service Password for Trust agent
 
 image:
   svc:
