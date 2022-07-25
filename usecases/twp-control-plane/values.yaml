@@ -30,7 +30,8 @@ hvs:
     serviceUsername:  # Service Username for HVS
     servicePassword:  # Service Password for HVS
 
-trustagent:
+trustagent: # Provide values for trustagent-aas-manager if enabled, this is a job that creates service account for trustagent
+  createTAServiceAccount: false # Set this to true, only when trustagent is not deployed through helm
   secret:
     serviceUsername:  # Service Username for Tagent
     servicePassword:  # Service Password for Tagent
