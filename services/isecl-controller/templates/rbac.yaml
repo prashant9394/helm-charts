@@ -37,3 +37,13 @@ subjects:
   - kind: ServiceAccount
     name: {{ include "factory.name" . }}
     namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/service-account.name: {{ include "factory.name" . }}
+    kubernetes.io/service-account.namespace: {{ .Release.Namespace }}
+type: kubernetes.io/service-account-token
