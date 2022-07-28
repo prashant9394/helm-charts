@@ -24,7 +24,7 @@ spec:
             - >
               echo starting &&
               echo "Bootstrapping secrets" &&
-              kubernetes_token=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='{{ .Values.dependentServices.iseclController }}')].data.token}" -n {{ .Release.Namespace }} | base64 --decode) &&
+              kubernetes_token=$(kubectl get secret -o jsonpath="{.items[?(@.metadata.name=='isecl-controller')].data.token}" -n {{ .Release.Namespace }} | base64 --decode) &&
               kubectl create secret generic k8s-token -n {{ .Release.Namespace }} --from-literal=KUBERNETES_TOKEN=$kubernetes_token
       restartPolicy: Never
   backoffLimit: 4
