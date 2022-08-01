@@ -58,7 +58,7 @@ global:
   controlPlaneHostname:  <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
   versionUpgrade: false # Set this true when performing upgrading to next minor/major version
   currentVersion: # Set the currently deployed version
-
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
 
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
@@ -72,6 +72,7 @@ global:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
+    dbVersionUpgradeImage: # The image name of PostgresDB version upgrade
     aasManagerName: <user input> # The image name of aas-manager image name
 
   config:

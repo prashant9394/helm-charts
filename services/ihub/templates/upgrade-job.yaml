@@ -20,10 +20,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -76,10 +72,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}

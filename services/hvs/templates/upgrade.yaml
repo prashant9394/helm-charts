@@ -20,10 +20,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.hvs | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -50,8 +46,8 @@ spec:
       volumes:
         {{- include "factory.volumeSvcConfig" . | nindent 8 }}
         {{- include "factory.volumeSvcLogs" . | nindent 8 }}
-        {{- include "factory.volumesSvcDb" . | nindent 8 }}
         {{- include "factory.volumesBasePV" . | nindent 8 }}
+        {{- include "factory.volumesSvcDb" . | nindent 8 }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeDbCredentials" . | nindent 12 }}
         {{- include "factory.volumeCredentials" . | nindent 12 }}
@@ -79,10 +75,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.hvs | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -109,8 +101,8 @@ spec:
       volumes:
         {{- include "factory.volumeSvcConfig" . | nindent 8 }}
         {{- include "factory.volumeSvcLogs" . | nindent 8 }}
-        {{- include "factory.volumesSvcDb" . | nindent 8 }}
         {{- include "factory.volumesBasePV" . | nindent 8 }}
+        {{- include "factory.volumesSvcDb" . | nindent 8 }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeDbCredentials" . | nindent 12 }}
         {{- include "factory.volumeCredentials" . | nindent 12 }}

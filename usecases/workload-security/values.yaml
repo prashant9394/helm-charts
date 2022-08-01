@@ -146,7 +146,9 @@ global-admin-generator:
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
   controlPlaneLabel: <user input> # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` (k8s 1.23) or node-role.kubernetes.io/control-plane (k8s 1.24) in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
-  currentVersion: # Set the currently deployed version
+  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
+  currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
 
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)

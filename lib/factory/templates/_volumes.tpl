@@ -87,10 +87,6 @@ Logs Service Volume
     claimName: {{ include "factory.name" . }}-logs
 {{- end}}
 
-
-{{/*
-#TODO-relook later
-*/}}
 {{/*
 Service with DB Volumes
 */}}
@@ -118,6 +114,14 @@ AAS Service Volumes
 {{- include "factory.volumeDbCredentials" . | nindent 4 }}
 {{ include "factory.volumeCredentials" . | indent 4 }}
 {{ include "factory.volumeAasBootstrapToken" . | indent 4 }}    
+{{- end}}
+
+{{/*
+DB Version Upgrade Service Volumes
+*/}}
+{{- define "factory.volumesSvcDbCredentials" -}}
+{{ include "factory.volumeProjectedSecrets" . }}
+{{- include "factory.volumeDbCredentials" . | nindent 4 }}
 {{- end}}
 
 

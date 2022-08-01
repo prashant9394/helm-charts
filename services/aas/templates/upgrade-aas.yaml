@@ -1,5 +1,5 @@
 {{- if .Values.global }}
-  {{- if .Values.global.versionUpgrade }}
+{{- if .Values.global.versionUpgrade }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -20,10 +20,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.aas | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -52,9 +48,9 @@ spec:
         {{- include "factory.volumeSvcLogs" . | nindent 8 }}
         {{- include "factory.volumesBasePV" . | nindent 8 }}
         {{- include "factory.volumesSvcDbAas" . | nindent 8 }}
-  {{- end}}
-  {{- else}}
-  {{- if .Values.versionUpgrade }}
+{{- end}}
+{{- else}}
+{{- if .Values.versionUpgrade }}
 ---
 apiVersion: batch/v1
 kind: Job
@@ -75,10 +71,6 @@ spec:
       {{- end }}
       serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
-      initContainers:
-        {{- include "factory.backupService" . | nindent 8 }}
-          securityContext:
-            {{- toYaml .Values.securityContext.aas | nindent 12 }}
       containers:
         - name: {{ include "factory.name" . }}-upgrade
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -108,4 +100,4 @@ spec:
         {{- include "factory.volumesBasePV" . | nindent 8 }}
         {{- include "factory.volumesSvcDbAas" . | nindent 8 }}
   {{- end}}
-  {{- end}}
+{{- end}}

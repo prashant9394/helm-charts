@@ -1,4 +1,4 @@
-{{/* 
+{{/*
 Wait for Database bootstrap
 */}}
 {{- define "factory.initWaitForDb" -}}
@@ -13,7 +13,7 @@ Wait for Database bootstrap
 {{- end }}
 
 
-{{/* 
+{{/*
 Wait for CMS-TLS-SHA384, BEARER-TOKEN
 */}}
 {{- define "factory.initWaitForCmsSha384BearerToken" -}}
@@ -66,7 +66,7 @@ Wait for CUSTOM-TOKEN
       readOnly: true
 {{- end }}
 
-{{/* 
+{{/*
 Change Ownership for log path
 */}}
 {{- define "factory.initChownLogPath" -}}
@@ -87,14 +87,16 @@ Change Ownership for log path
 Associate db volume with appropriate version
 */}}
 {{- define "factory.initCommonSpecLinkDBVolumes" -}}
-- name: link-volumes
+- name: link-db-volumes
   image: busybox:1.32
   command: ["/bin/sh", "-c"]
   args:
     - >
       cd {{ .Values.service.directoryName }} && ln -sfT {{.Chart.AppVersion }}/db db
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
 {{- end }}
-
 
 {{/*
 Associate config and log volumes with appropriate version
@@ -107,7 +109,11 @@ Associate config and log volumes with appropriate version
     - >
       cd {{ .Values.service.directoryName }} &&
       ln -sfT {{.Chart.AppVersion }}/config config &&
+      if [ -d "{{.Chart.AppVersion }}/opt" ]; then ln -sfT {{.Chart.AppVersion }}/opt opt ; fi &&
       ln -sfT {{.Chart.AppVersion }}/logs logs
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
 {{- end }}
 
 {{/*
@@ -123,15 +129,27 @@ Backup job for services
     - >
       if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
       ls /{{ $dirName }}/ &&
-      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} &&
-      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/* /{{ $dirName }}/{{.Chart.AppVersion }}/
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
+      {{- if not (.Values.global.dbVersionUpgrade) }}
+      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      {{- end }}
+      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
+      if [ -d "/{{ $dirName }}/{{.Values.global.currentVersion}}/opt" ]; then
+        cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/opt /{{ $dirName }}/{{.Chart.AppVersion }}/opt
+      fi
   {{- else}}
   args:
     - >
       if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
       ls /{{ $dirName }}/ &&
-      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} &&
-      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/* /{{ $dirName }}/{{.Chart.AppVersion }}/
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
+      {{- if not (.Values.dbVersionUpgrade) }}
+      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      {{- end }}
+      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
+      if [ -d "/{{ $dirName }}/{{.Values.currentVersion}}/opt" ]; then
+        cp -r /{{ $dirName }}/{{.Values.currentVersion}}/opt /{{ $dirName }}/{{.Chart.AppVersion }}/opt
+      fi
   {{- end}}
   volumeMounts:
     - name: {{ include "factory.name" . }}-base

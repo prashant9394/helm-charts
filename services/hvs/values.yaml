@@ -4,6 +4,7 @@ nameOverride: "" # The name for HVS chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 versionUpgrade: false # Set this true when performing upgrading to next minor/major version
 currentVersion: # Set the currently deployed version
+dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 # TODO: Services should be be able to be deployed in different namespaces
@@ -53,6 +54,7 @@ image:
     registry: dockerhub.io # The image registry where PostgreSQL image is pulled from
     name: postgres:14.2 # The image name of PostgreSQL
     pullPolicy: Always # The pull policy for pulling from container registry for PostgreSQL image
+    dbVersionUpgradeImage: # The image name of PostgresDB version upgrade
   svc:
     name: <user input> # The image name with which HVS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for HVS<br> (Allowed values: `Always`/`IfNotPresent`)

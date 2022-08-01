@@ -10,7 +10,7 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install, pre-upgrade
     "helm.sh/hook-weight": "-5"
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -19,7 +19,7 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install, pre-upgrade
     "helm.sh/hook-weight": "-5"
 rules:
 - apiGroups: [""]
@@ -32,7 +32,7 @@ metadata:
   name: {{ include "factory.name" . }}
   namespace: {{ .Release.Namespace }}
   annotations:
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": pre-install, pre-upgrade
     "helm.sh/hook-weight": "-5"
 subjects:
 - kind: ServiceAccount

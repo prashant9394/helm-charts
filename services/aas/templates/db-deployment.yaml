@@ -2,6 +2,7 @@
 ---
 {{- include "factory.deploymentDbCommonSpec" . }}
     spec:
+      serviceAccountName: {{ include "factory.name" . }}
       securityContext:
         fsGroup: {{ .Values.securityContext.aasdbInit.fsGroup }}
       initContainers:

@@ -198,3 +198,94 @@ spec:
                 secret:
                   secretName: {{ include "factory.name" . }}-aas-json
 {{- end -}}
+
+{{/*
+Job for db version upgrade
+*/}}
+{{- define "factory.dbVersionUpgrade" -}}
+{{- if .Values.global }}
+  {{- if .Values.global.dbVersionUpgrade }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "factory.name" . }}-db-version-upgrade
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "factory.labelsChart" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-4"
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "factory.labelsChart" . | nindent 8 }}
+    spec:
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      serviceAccountName: {{ include "factory.name" . }}
+      restartPolicy: Never
+      containers:
+        - name: {{ include "factory.name" . }}-db-upgrade
+          image: {{ .Values.global.image.dbVersionUpgradeImage }}
+          env:
+            - name: PGDATAOLD
+              value: "/{{ .Values.service.directoryName }}/{{.Values.global.currentVersion}}/db"
+            - name: PGDATANEW
+              value: "/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/db"
+            {{- include "factory.envPostgres" . | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "factory.name" . }}-base
+              mountPath: /{{ .Values.service.directoryName }}/
+            {{- include "factory.volumeMountsSvcDbUpgrade" . | nindent 12 }}
+      volumes:
+        {{- include "factory.volumesBasePV" . | nindent 8 }}
+        {{- include "factory.volumesSvcDbCredentials" . | nindent 8 }}
+  {{- end}}
+  {{- else}}
+  {{- if .Values.dbVersionUpgrade }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "factory.name" . }}-db-version-upgrade
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "factory.labelsChart" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-4"
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "factory.labelsChart" . | nindent 8 }}
+    spec:
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      serviceAccountName: {{ include "factory.name" . }}
+      restartPolicy: Never
+      containers:
+        - name: {{ include "factory.name" . }}-db-upgrade
+          image: {{ .Values.image.db.dbVersionUpgradeImage }}
+          env:
+            - name: PGDATAOLD
+              value: "/{{ .Values.service.directoryName }}/{{.Values.currentVersion}}/db"
+            - name: PGDATANEW
+              value: "/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/db"
+            {{- include "factory.envPostgres" . | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "factory.name" . }}-base
+              mountPath: /{{ .Values.service.directoryName }}/
+            {{- include "factory.volumeMountsSvcDbUpgrade" . | nindent 12 }}
+      volumes:
+          {{- include "factory.volumesSvcDbCredentials" . | nindent 8 }}
+          {{- include "factory.volumesBasePV" . | nindent 8 }}
+  {{- end}}
+  {{- end}}
+{{- end }}

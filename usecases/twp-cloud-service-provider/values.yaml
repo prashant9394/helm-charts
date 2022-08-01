@@ -56,8 +56,7 @@ global:
   controlPlaneHostname: <user input>  # K8s control plane IP/Hostname<br> (**REQUIRED**)
   controlPlaneLabel: <user input> # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` (k8s 1.23) or node-role.kubernetes.io/control-plane (k8s 1.24) in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s
   versionUpgrade: false # Set this true when performing upgrading to next minor/major version
-  currentVersion: # Set the currently deployed version
-
+  currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
     hostAliases:
