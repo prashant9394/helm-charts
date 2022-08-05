@@ -33,6 +33,7 @@ config:
   logLevel: info  # Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`)
   provisionAttestation: "y" # TPM provisioning<br> (Allowed values: `y`\`n`)
   tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
+  tpmEndorsementSecret:  # The TPM endorsement secret if TPM is already owned
   nats:
     enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
     servers: <user input> # NATS Server IP/Hostname  

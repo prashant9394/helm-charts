@@ -8,7 +8,7 @@ Check this document for available setup tasks for each of the services  [Setup t
 2. Add or Update all the variables required for setup tasks refer [here](../docs/setup-tasks.md)  for more details
 3. Add *SETUP_TASK* variable in config map with one or more setup task names e.g ```SETUP_TASK: "download-ca-cert,download-tls-cert"```
 4. Save the configmap
-5. Some of the sensitive variables such as credentials, db credentials, tpm-owner-secret can be updated in secrets with the command 
+5. Some of the sensitive variables such as credentials, db credentials, tpm secrets can be updated in secrets with the command 
 
     ```kubectl get secret -n <namespace> <secret-name> -o json | jq --arg val "$(echo <value> > | base64)" '.data["<variable-name>"]=$val' | kubectl apply -f -```
     

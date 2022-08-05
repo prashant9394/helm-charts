@@ -37,6 +37,7 @@ trustagent:
 
   config:
     tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
+    tpmEndorsementSecret:  # The TPM endorsement secret if TPM is already owned
 
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:

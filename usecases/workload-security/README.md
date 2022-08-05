@@ -32,6 +32,7 @@ The following table lists the configurable parameters of the Workload-security c
 | `trustagent.nodeLabel.txt` | The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**) | `"TXT-ENABLED"` |
 | `trustagent.nodeLabel.suefi` | The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**) | `""` |
 | `trustagent.config.tpmOwnerSecret` | The TPM owner secret if TPM is already owned | `null` |
+| `trustagent.config.tpmEndorsementSecret` | The TPM endorsement secret if TPM is already owned | `null` |
 | `trustagent.secret.installAdminUsername` | Install Admin Username for TA | `null` |
 | `trustagent.secret.installAdminPassword` | Install Admin Password for TA | `null` |
 | `trustagent.hostAliasEnabled` | Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names | `false` |

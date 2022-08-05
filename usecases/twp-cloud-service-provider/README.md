@@ -15,6 +15,7 @@ The following table lists the configurable parameters of the Trusted-workload-pl
 | `trustagent.nodeLabel.txt` | The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**) | `"TXT-ENABLED"` |
 | `trustagent.nodeLabel.suefi` | The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**) | `""` |
 | `trustagent.config.tpmOwnerSecret` | The TPM owner secret if TPM is already owned | `null` |
+| `trustagent.config.tpmEndorsementSecret` | The TPM endorsement secret if TPM is already owned | `null` |
 | `trustagent.secret.installAdminUsername` | Install Admin Username for TA | `null` |
 | `trustagent.secret.installAdminPassword` | Install Admin Password for TA | `null` |
 | `isecl-controller.image.name` | ISecL Controller Service image name<br> (**REQUIRED**) | `"<user input>"` |

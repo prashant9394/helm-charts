@@ -32,6 +32,7 @@ The following table lists the configurable parameters of the Trustagent chart an
 | `config.logLevel` | Log Level for Trust agent<br> (Allowed values: `info`/`warn`/`debug`/`trace`) | `"info"` |
 | `config.provisionAttestation` | TPM provisioning<br> (Allowed values: `y`\`n`) | `"y"` |
 | `config.tpmOwnerSecret` | The TPM owner secret if TPM is already owned | `null` |
+| `config.tpmEndorsementSecret` | The TPM endorsement secret if TPM is already owned | `null` |
 | `config.nats.enabled` | Enable/Disable NATS mode<br> (Allowed values: `true`\`false`) | `false` |
 | `config.nats.servers` | NATS Server IP/Hostname | `"<user input>"` |
 | `config.nats.serviceMode` | The model for TA<br> (Allowed values: `outbound`) | `"<user input>"` |
