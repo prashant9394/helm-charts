@@ -126,7 +126,6 @@ kbs:
       serverIp: <user input> # The KMIP server IP
       serverHostname: <user input> # The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation.
       serverPort: <user input> # The KMIP server port
-    tee: false
 
 wpm:
   secret:
@@ -138,7 +137,7 @@ global-admin-generator:
   secret:
     globalAdminUsername:
     globalAdminPassword:
-  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS
+  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA
     - HVS
     - TA
     - WLS

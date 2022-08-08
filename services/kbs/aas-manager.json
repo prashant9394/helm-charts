@@ -28,19 +28,5 @@
             }
          ]
       }
-      {{- if .Values.config.tee }}
-      ,{
-         "username": "{{ .Values.secret.cccUsername }}",
-         "password": "{{ .Values.secret.cccPassword }}",
-         "print_bearer_token":true,
-         "roles":[
-            {
-               "service": "AAS",
-               "name": "CustomClaimsCreator",
-               "permissions":["custom_claims:create"]
-            }
-         ]
-      }
-      {{- end}}
    ]
 }

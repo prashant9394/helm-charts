@@ -40,13 +40,6 @@
           "permissions": [
             "reports:search:*"
           ]
-        },
-        {
-          "service": "FDS",
-          "name": "HostSearcher",
-          "permissions": [
-            "hosts:search:*"
-          ]
         }
        ]
      }

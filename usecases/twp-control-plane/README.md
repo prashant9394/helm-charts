@@ -35,7 +35,7 @@ The following table lists the configurable parameters of the Trusted-workload-pl
 | `global-admin-generator.enable` | Set this to true for generating global admin user account | `false` |
 | `global-admin-generator.secret.globalAdminUsername` |  | `null` |
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
-| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS | `["HVS"]` |
+| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA | `["HVS"]` |
 | `global.controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `global.versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
 | `global.currentVersion` | Set the currently deployed version | `null` |
@@ -52,7 +52,7 @@ The following table lists the configurable parameters of the Trusted-workload-pl
 | `global.storage.nfs.path` | The path for storing persistent data on NFS | `"/mnt/nfs_share"` |
 | `global.service.cms` | The service port for Certificate Management Service | `30445` |
 | `global.service.aas` | The service port for Authentication Authorization Service | `30444` |
-| `global.service.hvs` | The service port for SGX Host Verification Service | `30443` |
+| `global.service.hvs` | The service port for Host Verification Service | `30443` |
 | `global.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled, Default value: false | `false` |
 | `global.aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `global.aas.secret.adminPassword` | Admin Password for AAS | `null` |

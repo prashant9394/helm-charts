@@ -8,7 +8,6 @@ controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIR
 dependentServices: # The dependent Service Name for deploying  Key broker Service chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
-  aps: aps
 
 image:
   svc:
@@ -30,7 +29,6 @@ config:
     clientCertPath: /etc/pykmip/certs/client_certificate.pem # The KMIP server client certificate absolute path
     clientKeyPath: /etc/pykmip/certs/client_key.pem # The KMIP server client key absolute path
     rootCertPath: /etc/pykmip/certs/root_certificate.pem # The KMIP server root certificate absolute path
-  tee: false # mark this true if its for TEE use cases else by default set to false
 
 aas:
   url:  # Please update the url section if kbs is exposed via ingress
@@ -41,12 +39,6 @@ aas:
 secret:
   installAdminUsername: # Install Admin Username for KBS
   installAdminPassword: # Install Admin Password for KBS
-  cccUsername: # Custom Claims Creator Username. Set only if tee is set to "true"
-  cccPassword: # Custom Claims Creator Password. Set only if tee is set to "true"
-
-customToken:
-  subject: kbs # The username for KBS
-  validitySeconds: "31536000" # Custom Token validity in seconds (Default: "31536000")
 
 storage:
   nfs:
@@ -76,16 +68,7 @@ securityContext:
       drop:
         - all
     allowPrivilegeEscalation: false
-  customToken: # The security content for Custom-Token Pod
-    runAsUser: 1001
-    runAsGroup: 1001
-    capabilities:
-      drop:
-        - all
-    allowPrivilegeEscalation: false
   aasManagerInit: # The fsGroup id for init containers for AAS DB
-    fsGroup: 1001
-  customTokenInit: # The fsGroup id for init containers for AAS Custom Token
     fsGroup: 1001
 
 service:
@@ -94,8 +77,6 @@ service:
     containerPort: 8445 # The containerPort on which CMS can listen to traffic
   aas:
     containerPort: 8444 # The containerPort on which AAS can listen to traffic
-  aps:
-    containerPort: 5443 # The containerPort on which APS can listen to traffic
   kbs: 
     containerPort: 9443 # The containerPort on which KBS can listen to traffic
     port: 30448 # The externally exposed NodePort on which KBS can listen to external traffic

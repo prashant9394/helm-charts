@@ -35,7 +35,7 @@ The following table lists the configurable parameters of the Trusted-workload-pl
 | `global-admin-generator.enable` | Set this to true for generating global admin user account | `false` |
 | `global-admin-generator.secret.globalAdminUsername` |  | `null` |
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
-| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS | `["TA"]` |
+| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA | `["TA"]` |
 | `global.controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `global.controlPlaneLabel` | K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s` | `"node-role.kubernetes.io/master"` |
 | `global.versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |

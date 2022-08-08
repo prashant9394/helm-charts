@@ -51,7 +51,7 @@ global-admin-generator:
   secret:
     globalAdminUsername:
     globalAdminPassword:
-  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS
+  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA
     - HVS
 
 global:
@@ -89,7 +89,7 @@ global:
   service:
     cms: 30445 # The service port for Certificate Management Service
     aas: 30444 # The service port for Authentication Authorization Service
-    hvs: 30443 # The service port for SGX Host Verification Service
+    hvs: 30443 # The service port for Host Verification Service
 
   ingress:
     enable: false # Accept true or false to notify ingress rules are enable or disabled, Default value: false

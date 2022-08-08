@@ -31,7 +31,7 @@ The following table lists the configurable parameters of the Host-attestation ch
 | `global-admin-generator.enable` | Set this to true for generating global admin user account | `false` |
 | `global-admin-generator.secret.globalAdminUsername` |  | `null` |
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
-| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS | `["HVS", "TA"]` |
+| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA | `["HVS", "TA"]` |
 | `trustagent.image.name` | Trust Agent image name<br> (**REQUIRED**) | `null` |
 | `trustagent.nodeLabel.txt` | The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**) | `""` |
 | `trustagent.nodeLabel.suefi` | The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**) | `""` |

@@ -11,7 +11,7 @@ The following table lists the configurable parameters of the Global-admin-genera
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
-| `nameOverride` | The name for FDS database chart (Default: .Chart.Name) | `""` |
+| `nameOverride` | The name for global admin generator database chart (Default: .Chart.Name) | `""` |
 | `dependentServices.aas` |  | `"aas"` |
 | `securityContext.aasManager.runAsUser` |  | `1001` |
 | `securityContext.aasManager.runAsGroup` |  | `1001` |
@@ -31,7 +31,7 @@ The following table lists the configurable parameters of the Global-admin-genera
 | `secret.globalAdminPassword` |  | `null` |
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
-| `services_list` | Services list for global admin token generation. Accepted values HVS, WLS, WLA, KBS, APS, FDS, TA, QVS, TCS, FDA | `[null, null]` |
+| `services_list` | Services list for global admin token generation. Accepted values HVS, WLS, WLA, KBS, TA | `[null, null]` |
 | `factory.nameOverride` |  | `""` |
 
 

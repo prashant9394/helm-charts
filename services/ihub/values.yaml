@@ -13,7 +13,6 @@ dependentServices: # The dependent Service Name for deploying  IHUB chart, defau
   cms: cms
   aas: aas
   hvs: # Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases
-  fds: # Set this to fds for TEE based usecases
   iseclController: isecl-controller
   
 image:
@@ -87,6 +86,4 @@ service:
     containerPort: 8444 # The containerPort on which AAS can listen
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
   hvs:
-    containerPort: 8443 # The containerPort on which HVS can listen 
-  fds:
-    containerPort: 13000 # The containerPort on which HVS can listen
+    containerPort: 8443 # The containerPort on which HVS can listen

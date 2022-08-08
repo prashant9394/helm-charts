@@ -19,7 +19,6 @@ The following table lists the configurable parameters of the Ihub chart and thei
 | `dependentServices.cms` |  | `"cms"` |
 | `dependentServices.aas` |  | `"aas"` |
 | `dependentServices.hvs` | Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases | `null` |
-| `dependentServices.fds` | Set this to fds for TEE based usecases | `null` |
 | `dependentServices.iseclController` |  | `"isecl-controller"` |
 | `image.svc.name` | The image name with which IHUB image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for IHUB<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
@@ -59,7 +58,6 @@ The following table lists the configurable parameters of the Ihub chart and thei
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
 | `service.hvs.containerPort` | The containerPort on which HVS can listen | `8443` |
-| `service.fds.containerPort` | The containerPort on which HVS can listen | `13000` |
 
 
 

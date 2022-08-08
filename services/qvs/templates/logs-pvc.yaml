@@ -1,9 +1,0 @@
-{{- include "factory.headers" . }}
----
-{{- include "factory.pvcLogsCommonSpec" . }}
-  storageClassName: nfs
-  accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
-  resources:
-    requests:
-      storage: {{ .Values.storage.nfs.logsSize }}

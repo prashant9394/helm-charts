@@ -1,6 +1,6 @@
-# Default values for fdsdb-cert-generator.
+# Default values for global-admin-generator.
 
-nameOverride: "" # The name for FDS database chart (Default: .Chart.Name)
+nameOverride: "" # The name for global admin generator chart (Default: .Chart.Name)
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
 dependentServices: # The dependent Service Name for deploying Global Admin chart, default is the chart name and override is from nameOverride value.
@@ -48,6 +48,6 @@ service:
     containerPort: 8444 # The containerPort on which AAS can listen
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
 
-services_list: # Services list for global admin token generation. Accepted values HVS, WLS, WLA, KBS, APS, FDS, TA, QVS, TCS, FDA
+services_list: # Services list for global admin token generation. Accepted values HVS, WLS, WLA, KBS, TA
   -
   -

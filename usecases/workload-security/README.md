@@ -75,13 +75,12 @@ The following table lists the configurable parameters of the Workload-security c
 | `kbs.config.kmip.serverIp` | The KMIP server IP | `"<user input>"` |
 | `kbs.config.kmip.serverHostname` | The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation. | `"<user input>"` |
 | `kbs.config.kmip.serverPort` | The KMIP server port | `"<user input>"` |
-| `kbs.config.tee` |  | `false` |
 | `wpm.secret.serviceUsername` | Service Username for WPM | `null` |
 | `wpm.secret.servicePassword` | Service Password for WPM | `null` |
 | `global-admin-generator.enable` | Set this to true for generating global admin user account | `false` |
 | `global-admin-generator.secret.globalAdminUsername` |  | `null` |
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
-| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, APS, FDS, TA, QVS, TCS | `["HVS", "TA", "WLS", "KBS"]` |
+| `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA | `["HVS", "TA", "WLS", "KBS"]` |
 | `global.controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `global.controlPlaneLabel` | K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s` | `"<user input>"` |
 | `global.versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |

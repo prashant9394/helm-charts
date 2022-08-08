@@ -18,9 +18,6 @@
       serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
-        {{- if .Values.config.tee }}
-        {{- include "factory.initWaitForCustomToken" . | nindent 8 }}
-        {{- end}}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:
             {{- toYaml .Values.securityContext.kbs | nindent 12 }}
@@ -61,9 +58,6 @@
         {{- include "factory.volumesBasePV" . | nindent 8 }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
-        {{- if .Values.config.tee }}
-        {{- include "factory.volumeAasCustomToken" . | nindent 12 }}
-        {{- end}}
         - name: {{ include "factory.name" . }}-kmip-certs
           secret:
             secretName: {{ include "factory.name" . }}-kmip-certs

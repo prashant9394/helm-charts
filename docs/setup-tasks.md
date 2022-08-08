@@ -326,7 +326,6 @@ Following environment variables are optionally used in download-cert-tls
 
 Following environment variables are required for attestation-service-connection setup:
     HVS_BASE_URL        Base URL for the Host Verification Service
-    SHVS_BASE_URL       Base URL for the SGX Host Verification Service
 
 Following environment variables are required for tenant-service-connection setup:
     TENANT      Type of Tenant Service (Kubernetes)

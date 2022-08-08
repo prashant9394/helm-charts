@@ -8,9 +8,6 @@ metadata:
 data:
   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
   AAS_API_URL: https://{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
-  {{- if .Values.config.tee }}
-  APS_BASE_URL: https://{{.Values.dependentServices.aps}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aps.containerPort }}/aps/v1
-  {{- end }}
   KMIP_SERVER_IP: {{ .Values.config.kmip.serverIp }}
   KMIP_HOSTNAME: {{ .Values.config.kmip.serverHostname }}
   KMIP_SERVER_PORT: "{{ .Values.config.kmip.serverPort }}"

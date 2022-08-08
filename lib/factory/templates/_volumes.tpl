@@ -43,14 +43,6 @@ AAS Bearer Token Volume
 {{- end }}
 
 {{/*
-AAS Custom Token Volume
-*/}}
-{{- define "factory.volumeAasCustomToken" -}}
-- secret:
-    name: {{ include "factory.name" . }}-custom-token
-{{- end }}
-
-{{/*
 AAS Bootstrap token Volume
 */}}
 {{- define "factory.volumeAasBootstrapToken" -}}

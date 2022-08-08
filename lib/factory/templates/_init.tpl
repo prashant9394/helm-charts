@@ -43,30 +43,6 @@ Wait for CMS-TLS-SHA384, BEARER-TOKEN
 {{- end }}
 
 {{/*
-Wait for CUSTOM-TOKEN
-*/}}
-{{- define "factory.initWaitForCustomToken" -}}
-- name: wait-for-custom-token
-  image: busybox:1.32
-  command: ["/bin/sh", "-c"]
-  args:
-  - >
-    i=0 &&
-    while [ ! $(ls /etc/secrets/CUSTOM_TOKEN 2> /dev/null) ] && [ $i -lt 5 ]; do sleep 5; i=$((i+1)); done &&
-    if [ $i -eq 5 ]; then echo "Error: timeout exceeded for init job: wait-for-custom-token"; exit 1; fi
-  env:
-    - name: CUSTOM_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: {{ include "factory.name" . }}-custom-token
-          key: CUSTOM_TOKEN
-  volumeMounts:
-    - name: {{ include "factory.name" . }}-secrets
-      mountPath: /etc/secrets/
-      readOnly: true
-{{- end }}
-
-{{/*
 Change Ownership for log path
 */}}
 {{- define "factory.initChownLogPath" -}}
