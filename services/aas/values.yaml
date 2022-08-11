@@ -7,7 +7,6 @@ currentVersion: # Set the currently deployed version
 dbVersionUpgrade: false # Set this to true when there is db version ugrade
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-# TODO: Services should be be able to be deployed in different namespaces
 dependentServices: # The dependent Service Name for deploying  Authentication and Authorization Service chart, default is the chart name and override is from nameOverride value.
   cms: cms
 

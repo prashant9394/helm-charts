@@ -8,8 +8,8 @@ aas:
   image:
     name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
   secret:
-    dbUsername:  # DB Username for AAS DB
-    dbPassword:  # DB Password for AAS DB
+    dbUsername: # DB Username for AAS DB
+    dbPassword: # DB Password for AAS DB
   config:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB Default is 2GB
@@ -23,12 +23,12 @@ hvs:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
   secret:
-    dbUsername:  # DB Username for HVS DB
-    dbPassword:  # DB Password for HVS DB
+    dbUsername: # DB Username for HVS DB
+    dbPassword: # DB Password for HVS DB
     installAdminUsername: # Install Admin Username for HVS
     installAdminPassword: # Install Admin Password for HVS
-    serviceUsername:  # Service Username for HVS
-    servicePassword:  # Service Password for HVS
+    serviceUsername: # Service Username for HVS
+    servicePassword: # Service Password for HVS
 
 trustagent:
   image:
@@ -39,8 +39,8 @@ trustagent:
     suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
 
   config:
-    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
-    tpmEndorsementSecret:  # The TPM endorsement secret if TPM is already owned
+    tpmOwnerSecret: # The TPM owner secret if TPM is already owned
+    tpmEndorsementSecret: # The TPM endorsement secret if TPM is already owned
 
   secret:
     installAdminUsername: # Install Admin Username for TA
@@ -61,8 +61,8 @@ nats-init:
   image:
     name: <user input> # The image name of nats-init container
   secret:
-    installAdminUsername:  # Admin Username for NATS Init
-    installAdminPassword:  # Admin Password for NATS Init
+    installAdminUsername: # Admin Username for NATS Init
+    installAdminPassword: # Admin Password for NATS Init
 
 isecl-controller:
   image:
@@ -81,15 +81,15 @@ ihub:
   secret:
     installAdminUsername: # Install Admin Username for IHub
     installAdminPassword: # Install Admin Password for IHub
-    serviceUsername:  # Service Username for IHub
-    servicePassword:  # Service Password for IHub
+    serviceUsername: # Service Username for IHub
+    servicePassword: # Service Password for IHub
 
 isecl-scheduler:
   image:
     name: <user input> # ISecL Scheduler image name<br> (**REQUIRED**)
 
 admission-controller:
-  caBundle: <user input> #CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
+  caBundle: <user input> # CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
 
 wls:
   image:
@@ -97,8 +97,8 @@ wls:
   secret:
     installAdminUsername: # Install Admin Username for WLS
     installAdminPassword: # Install Admin Password for WLS
-    serviceUsername:  # Service Username for WLS
-    servicePassword:  # Service Password for WLS
+    serviceUsername: # Service Username for WLS
+    servicePassword: # Service Password for WLS
 
 workload-agent:
   image:
@@ -106,8 +106,8 @@ workload-agent:
   secret:
     installAdminUsername: # Install Admin Username for WLA
     installAdminPassword: # Install Admin Password for WLA
-    serviceUsername:  # Service Username for WLA
-    servicePassword:  # Service Password for WLA
+    serviceUsername: # Service Username for WLA
+    servicePassword: # Service Password for WLA
   nodeLabel:
     txt: TXT-ENABLED # The node label for TXT-ENABLED hosts<br> (**REQUIRED IF NODE IS TXT ENABLED**)
     suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
@@ -118,8 +118,8 @@ kbs:
   secret:
     installAdminUsername: # Install Admin Username for KBS
     installAdminPassword: # Install Admin Password for KBS
-    serviceUsername:  # Service Username for KBS
-    servicePassword:  # Service Password for KBS
+    serviceUsername: # Service Username for KBS
+    servicePassword: # Service Password for KBS
   config:
     keyManager: kmip # The Key manager for KBS (Allowed values: `kmip`)
     kmip:
@@ -129,8 +129,8 @@ kbs:
 
 wpm:
   secret:
-    serviceUsername:  # Service Username for WPM
-    servicePassword:  # Service Password for WPM
+    serviceUsername: # Service Username for WPM
+    servicePassword: # Service Password for WPM
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
@@ -148,29 +148,29 @@ global:
   controlPlaneLabel: <user input> # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` (k8s 1.23) or node-role.kubernetes.io/control-plane (k8s 1.24) in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
   versionUpgrade: false # Set this true when performing upgrading to next minor/major version
   currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
-  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade. Refer product guide for more information
+  hvsUrl: <user input> # HVS Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30443/hvs/v2
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
+  aasUrl: <user input> # AAS Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
 
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
     aasManagerName: <user input> # The image name of aas-manager container
+    dbVersionUpgradeImage: # The name of PostgresDB version upgrade image. Can be left empty during helm installation without upgrades, might be required during upgrades, refer product guide for more information
 
   config:
     dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
     nats:
       enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)  
-      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
+      servers: <user input> # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
+      serviceMode: <user input> # The communication model between TA and HVS<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
 
-  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30443/hvs/v2
-  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
-  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
-      
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share  # The path for storing persistent data on NFS
+      path: /mnt/nfs_share # The path for storing persistent data on NFS
   
   service:
     cms: 30445 # The service port for Certificate Management Service
@@ -184,10 +184,5 @@ global:
 
   aas:
     secret:
-      adminUsername:  # Admin Username for AAS
-      adminPassword:  # Admin Password for AAS
-
-
-
-
-
+      adminUsername: # Admin Username for AAS
+      adminPassword: # Admin Password for AAS

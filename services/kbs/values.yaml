@@ -4,7 +4,6 @@ nameOverride: "" # The name for KBS chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-# TODO: Services should be be able to be deployed in different namespaces
 dependentServices: # The dependent Service Name for deploying  Key broker Service chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
@@ -12,13 +11,13 @@ dependentServices: # The dependent Service Name for deploying  Key broker Servic
 image:
   svc:
     name: <user input> # The image name with which KBS image is pushed to registry<br> (**REQUIRED**)
-    pullPolicy: Always  # The pull policy for pulling from container registry for KBS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    pullPolicy: Always # The pull policy for pulling from container registry for KBS<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
   aasManager:
     name: <user input> # The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   keyManager: kmip # The Key manager for KBS (Allowed values: `kmip`)
@@ -31,7 +30,7 @@ config:
     rootCertPath: /etc/pykmip/certs/root_certificate.pem # The KMIP server root certificate absolute path
 
 aas:
-  url:  # Please update the url section if kbs is exposed via ingress
+  url: # Please update the url section if kbs is exposed via ingress
   secret:
     adminUsername: # Admin Username for AAS
     adminPassword: # Admin Password for AAS
@@ -43,7 +42,7 @@ secret:
 storage:
   nfs:
     server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-    reclaimPolicy: Retain  # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
     accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
     path: /mnt/nfs_share # The path for storing persistent data on NFS
     configSize: 10Mi # The configuration size for storing config for KBS in NFS path

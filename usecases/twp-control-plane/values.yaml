@@ -8,8 +8,8 @@ aas:
   image:
     name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
   secret:
-    dbUsername:  # DB Username for AAS DB
-    dbPassword:  # DB Password for AAS DB
+    dbUsername: # DB Username for AAS DB
+    dbPassword: # DB Password for AAS DB
   config:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
@@ -23,18 +23,18 @@ hvs:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB Default is 2GB
   secret:
-    dbUsername:  # DB Username for HVS DB
-    dbPassword:  # DB Password for HVS DB
+    dbUsername: # DB Username for HVS DB
+    dbPassword: # DB Password for HVS DB
     installAdminUsername: # Install Admin Username for HVS
     installAdminPassword: # Install Admin Password for HVS
-    serviceUsername:  # Service Username for HVS
-    servicePassword:  # Service Password for HVS
+    serviceUsername: # Service Username for HVS
+    servicePassword: # Service Password for HVS
 
 trustagent: # Provide values for trustagent-aas-manager if enabled, this is a job that creates service account for trustagent
   createTAServiceAccount: false # Set this to true, only when trustagent is not deployed through helm
   secret:
-    serviceUsername:  # Service Username for Tagent
-    servicePassword:  # Service Password for Tagent
+    serviceUsername: # Service Username for Tagent
+    servicePassword: # Service Password for Tagent
 
 nats:
   clientPort: 30222
@@ -44,7 +44,7 @@ nats-init:
     name: <user input> # The image name of nats-init container
   secret:
     installAdminUsername: # Install Admin Username for Nats init
-    installAdminPassword:  # Install Admin Password for Nats init
+    installAdminPassword: # Install Admin Password for Nats init
 
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
@@ -55,10 +55,10 @@ global-admin-generator:
     - HVS
 
 global:
-  controlPlaneHostname:  <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+  controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
   versionUpgrade: false # Set this true when performing upgrading to next minor/major version
   currentVersion: # Set the currently deployed version
-  dbVersionUpgrade: false # Set this to true when there is db version upgrade, say when postgres:11 needs upgrade to postgres:14
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade. Refer product guide for more information
 
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
@@ -70,21 +70,21 @@ global:
 
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
-    dbVersionUpgradeImage: # The image name of PostgresDB version upgrade
+    dbVersionUpgradeImage: # The name of PostgresDB version upgrade image. Can be left empty during helm installation without upgrades, might be required during upgrades, refer product guide for more information
     aasManagerName: <user input> # The image name of aas-manager image name
 
   config:
     dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
     nats:
       enabled: true # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: "nats://<DNS>:<Node-Port>"   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) e.g nats://192.1.2.4:30222
+      servers: # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) e.g nats://192.1.2.4:30222
 
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share  # The path for storing persistent data on NFS
+      path: /mnt/nfs_share # The path for storing persistent data on NFS
 
   service:
     cms: 30445 # The service port for Certificate Management Service
@@ -96,11 +96,11 @@ global:
 
   aas:
     secret:
-      adminUsername:  # Admin Username for AAS
-      adminPassword:  # Admin Password for AAS
+      adminUsername: # Admin Username for AAS
+      adminPassword: # Admin Password for AAS
 
   proxyEnabled: false # Set to true when running deploying behind corporate proxy
   httpProxy: <user input> # Set http_proxy url
   httpsProxy: <user input> # Set https_proxy url
-  allProxy: <user input>  # Set all_proxy url
+  allProxy: <user input> # Set all_proxy url
   noProxy: <user input> # Set no_proxy

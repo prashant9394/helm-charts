@@ -4,19 +4,18 @@ nameOverride: "" # The name for TAGENT AAS MANAGER chart (Default: .Chart.Name)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-# TODO: Services should be be able to be deployed in different namespaces
 dependentServices: # The dependent Service Name for deploying Trust agent chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
 
 secret:
-  serviceUsername:  # Service Username for Trust agent
-  servicePassword:  # Service Password for Trust agent
+  serviceUsername: # Service Username for Trust agent
+  servicePassword: # Service Password for Trust agent
 
 image:
   svc:
     pullPolicy: Always # The pull policy for pulling from container registry for tagent aas manager <br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input>
   aasManager:
     name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)

@@ -4,7 +4,6 @@ nameOverride: "" # The name for NATS chart<br> (Default: `.Chart.Name`)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-# TODO: Services should be be able to be deployed in different namespaces
 dependentServices: # The dependent Service Name for deploying NATS chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
@@ -12,7 +11,7 @@ dependentServices: # The dependent Service Name for deploying NATS chart, defaul
 image:
   svc:
     name: nats:2.7.2-alpine3.15 # The name of the NATS image <br> (**REQUIRED**)
-    pullPolicy: Always  # The pull policy for pulling from container registry for NATS<br> (Allowed values: `Always`/`IfNotPresent`)
+    pullPolicy: Always # The pull policy for pulling from container registry for NATS<br> (Allowed values: `Always`/`IfNotPresent`)
 
 securityContext:
   init: # The fsGroup id for init containers

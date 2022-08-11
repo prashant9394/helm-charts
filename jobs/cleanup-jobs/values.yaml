@@ -1,11 +1,11 @@
 # Default values for cleanup-secrets.
 
-nameOverride: "" # The name for CLEANUP-SECRETS chart (Default: .Chart.Name)
+nameOverride: "" # The name for CLEANUP-JOBS chart (Default: .Chart.Name)
 
 securityContext:
-  cleanupJobsInit: # The fsGroup id for init containers for AAS DB
+  cleanupJobsInit: # The fsGroup id for init containers for cleanup jobs
     fsGroup: 1001
-  cleanupJobs: # The security content for AAS DB Service Pod
+  cleanupJobs: # The security content for Cleanup jobs job
     runAsUser: 1001
     runAsGroup: 1001
     capabilities:

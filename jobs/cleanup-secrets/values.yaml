@@ -3,9 +3,9 @@
 nameOverride: "" # The name for CLEANUP-SECRETS chart (Default: .Chart.Name)
 
 securityContext:
-  cleanupSecretsInit: # The fsGroup id for init containers for AAS DB
+  cleanupSecretsInit: # The fsGroup id for init containers for Cleanup secret job
     fsGroup: 1001
-  cleanupSecrets: # The security content for AAS DB Service Pod
+  cleanupSecrets: # The security content for Cleanup secret job
     runAsUser: 1001
     runAsGroup: 1001
     capabilities:
