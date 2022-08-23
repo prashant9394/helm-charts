@@ -192,6 +192,9 @@ metadata:
               readOnly: true
             - name: tpmrm
               mountPath: /dev/tpmrm0
+            - name: ima-log
+              mountPath: /opt/ima/ascii_runtime_measurements
+              readOnly: true
             - name: uefi
               mountPath: /sys/firmware/dmi/tables/DMI
               readOnly: true
@@ -230,6 +233,9 @@ metadata:
         - name: tpmrm
           hostPath:
             path: /dev/tpmrm0
+        - name: ima-log
+          hostPath:
+            path: /sys/kernel/security/ima/ascii_runtime_measurements
         - name: uefi
           hostPath:
             path: /sys/firmware/dmi/tables/DMI
