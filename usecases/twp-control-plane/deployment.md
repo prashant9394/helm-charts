@@ -46,8 +46,6 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 ### Use Case Helm Charts 
 
-#### Foundational Security Usecases
-
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
 | Trusted-Workload-Placement Control-Plane | *cms*<br />*aas*<br />*hvs*<br />*nats*<br /> |

@@ -48,8 +48,6 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 ### Use Case Helm Charts 
 
-#### Foundational Security Usecases
-
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
 | Trusted-Workload-Placement Cloud-Service-Provider  | *ta*<br />*ihub*<br />*isecl-controller*<br />*isecl-scheduler*<br />*admission-controller*<br /> |
@@ -85,6 +83,8 @@ kubectl get csr isecl-scheduler.isecl -o jsonpath='{.status.certificate}' \
     | base64 --decode > server.crt
 kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
 ```
+
+*Note*: CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command `kubectl delete csr isecl-scheduler.isecl`
 
 ##### Create Secrets for Admission controller TLS Key-pair
 Create admission-controller-certs secrets for admission controller deployment
@@ -180,7 +180,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
-* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
+* Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)
 * cleanup the secrets for isecl-scheduler-certs and admission-controller-certs. ```kubectl delete secret -n <namespace> isecl-scheduler-certs admission-controller-certs```
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 

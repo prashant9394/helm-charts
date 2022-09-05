@@ -56,7 +56,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 * Add the chart repository
 ```shell script
-helm repo add isecl-helm --username= --password= https://amr-registry.caas.intel.com/chartrepo/isecl
+helm repo add isecl-helm https://intel-secl.github.io/helm-charts
 helm repo update
 ```
 
@@ -105,7 +105,7 @@ helm list -A
 
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments.
-* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
+* Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 

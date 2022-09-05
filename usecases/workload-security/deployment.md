@@ -82,6 +82,45 @@ kubectl get csr isecl-scheduler.isecl -o jsonpath='{.status.certificate}' \
 kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
 ```
 
+*Note*: CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command `kubectl delete csr isecl-scheduler.isecl` 
+
+##### Create Secrets for Admission controller TLS Key-pair
+Create admission-controller-certs secrets for admission controller deployment
+```shell script
+mkdir -p /tmp/adm-certs/tls-certs && cd /tmp/adm-certs/tls-certs
+openssl req -new -days 365 -newkey rsa:4096 -addext "subjectAltName = DNS:admission-controller.isecl.svc" -nodes -text -out server.csr -keyout server.key -sha384 -subj "/CN=system:node:<nodename>;/O=system:nodes"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: admission-controller.isecl
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d '\n')
+  signerName: kubernetes.io/kubelet-serving
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+kubectl certificate approve admission-controller.isecl
+kubectl get csr admission-controller.isecl -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+kubectl create secret tls admission-controller-certs --cert=/tmp/adm-certs/tls-certs/server.crt --key=/tmp/adm-certs/tls-certs/server.key -n isecl
+
+```
+
+Generate CA Bundle
+```shell script
+kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
+```
+Add the output base64 encoded string to value in caBundle sub field of admission-controller in usecase/trusted-workload-placement/values.yml in case of usecase deployment chart.
+
+*Note*: CSR needs to be deleted if we want to regenerate admission-controller-certs secret with command `kubectl delete csr admission-controller.isecl` 
+
 ##### Create Secrets for KBS KMIP Certificates
 Copy KMIP Client Certificate, Client Key and Root Certificate from KMIP Server to Node where KMIP secrets needs to be generated.
 

@@ -47,8 +47,6 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
 
 ### Use Case Helm Charts 
 
-#### Foundational Security Usecases
-
 | Use case                                | Helm Charts                                        |
 | --------------------------------------- | -------------------------------------------------- |
 | Trusted Workload Placement - Containers | *cms*<br />*aas*<br />*hvs*<br />*nats*<br />*isecl-controller*<br />*isecl-scheduler*<br />*admission-controller*<br />*ihub*<br />*ta* |
@@ -84,6 +82,8 @@ kubectl get csr isecl-scheduler.isecl -o jsonpath='{.status.certificate}' \
     | base64 --decode > server.crt
 kubectl create secret tls isecl-scheduler-certs --cert=/tmp/k8s-certs/tls-certs/server.crt --key=/tmp/k8s-certs/tls-certs/server.key -n isecl
 ```
+
+*Note*: CSR needs to be deleted if we want to regenerate isecl-scheduler-certs secret with command `kubectl delete csr isecl-scheduler.isecl` 
 
 ##### Create Secrets for Admission controller TLS Key-pair
 Create admission-controller-certs secrets for admission controller deployment
@@ -126,7 +126,7 @@ Add the output base64 encoded string to value in caBundle sub field of admission
 
 * Add the chart repository
 ```shell script
-helm repo add --username='' --password='' isecl-helm https://amr-registry.caas.intel.com/chartrepo/isecl/
+helm repo add isecl-helm https://intel-secl.github.io/helm-charts
 helm repo update
 ```
 
@@ -180,7 +180,7 @@ helm list -A
 Cleanup steps that needs to be done for a fresh deployment
 * Uninstall all the chart deployments
 * cleanup the secrets for isecl-scheduler-certs and admission-controller-certs. ```kubectl delete secret -n <namespace> isecl-scheduler-certs admission-controller-certs```
-* Cleanup the data at NFS mount and trustagent data mount on each nodes (/opt/trustagent)
+* Cleanup the data at NFS mount and trustagent data mount on each nodes (/etc/trustagent, /var/log/trustagent)
 * Remove all objects(secrets, rbac, clusterrole, service account) related namespace related to deployment ```kubectl delete ns <namespace>```. 
 
 **Note**: 
