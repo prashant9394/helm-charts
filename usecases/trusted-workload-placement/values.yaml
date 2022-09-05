@@ -98,7 +98,7 @@ global:
   controlPlaneLabel: microk8s.io/cluster # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` (k8s 1.23) or node-role.kubernetes.io/control-plane (k8s 1.24) in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s
   versionUpgrade: false # Set this true when performing upgrading to next minor/major version
   currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version
-  dbVersionUpgradeImage: # The name of PostgresDB version upgrade image. Can be left empty during helm installation without upgrades, might be required during upgrades, refer product guide for more information
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade. Refer product guide for more information
   hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30443/hvs/v2
   cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
   aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
