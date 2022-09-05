@@ -1,5 +1,5 @@
 apiVersion: v2
-name: trustagent
+name: trustagent-aas-manager
 description: A Helm chart for creating Trust agent service account
 
 # A chart can be either an 'application' or a 'library' chart.
