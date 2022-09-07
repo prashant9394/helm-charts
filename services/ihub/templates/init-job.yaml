@@ -25,6 +25,7 @@ spec:
               echo starting &&
               echo "Bootstrapping secrets" &&
               kubernetes_token=$(kubectl get secret -o jsonpath="{.items[?(@.metadata.name=='isecl-controller')].data.token}" -n {{ .Release.Namespace }} | base64 --decode) &&
+              kubectl delete secret k8s-token -n {{ .Release.Namespace }} --ignore-not-found=true &&
               kubectl create secret generic k8s-token -n {{ .Release.Namespace }} --from-literal=KUBERNETES_TOKEN=$kubernetes_token
       restartPolicy: Never
   backoffLimit: 4
