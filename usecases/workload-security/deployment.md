@@ -160,7 +160,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-export VERSION=v5.0.0
+export VERSION=5.0.0
 helm pull isecl-helm/Workload-Security --version $VERSION && tar -xzf Workload-Security-$VERSION.tgz Workload-Security/values.yaml
 helm install <helm release name> isecl-helm/Workload-Security --version $VERSION -f Workload-Security/values.yaml --create-namespace -n <namespace>
 ```

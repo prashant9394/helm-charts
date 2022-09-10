@@ -84,7 +84,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-export VERSION=v5.0.0
+export VERSION=5.0.0
 helm pull isecl-helm/Host-Attestation --version $VERSION && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml
 helm install <helm release name> isecl-helm/Host-Attestation --version $VERSION -f Host-Attestation/values.yaml --create-namespace -n <namespace>
 ```
