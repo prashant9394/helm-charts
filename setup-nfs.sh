@@ -6,13 +6,13 @@ EXPORT_DIRECTORY=${1}
 USER_ID=${2}
 CURR_DIR=`pwd`
 WORKER_NODE_SUBNET=${3}
-SERVICES="cms ihub kbs qvs isecl-k8s-scheduler isecl-k8s-controller admission-controller"
+SERVICES="cms ihub kbs isecl-k8s-scheduler isecl-k8s-controller admission-controller"
 SERVICES_WITH_DB="wls hvs authservice"
 BASE_PATH=$EXPORT_DIRECTORY/isecl
 LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
-VERSION=${VERSION:-v4.2.0}
+VERSION=${VERSION:-v5.0.0}
 
 if [ -z "$EXPORT_DIRECTORY" ]; then
   echo "Error: missing export directory. Aborting..."
@@ -60,7 +60,7 @@ for base_service in $services; do
   mkdir -p $service/$CONFIG_PATH
   chown -R $USER_ID:$USER_ID $service/$CONFIG_PATH
   chown -R $USER_ID:$USER_ID $service/$LOG_PATH
-  if [ $service == "$BASE_PATH/kbs" ]; then
+  if [ $base_service == "kbs" ]; then
     mkdir -p $service/opt
     chown -R $USER_ID:$USER_ID $service/opt
     cd $BASE_PATH/$base_service

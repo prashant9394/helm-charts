@@ -1,0 +1,6 @@
+# Default values for cms-tls-digest-secret-generator.
+
+nameOverride: "" # The name for CMS-TLS-DIGEST-SECRET-GENERATOR chart (Default: .Chart.Name)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname
+
+cmsTlsSha384:

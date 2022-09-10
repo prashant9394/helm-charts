@@ -38,6 +38,13 @@ Service with DB Volume Mounts
 
 
 {{/*
+Service with DB Volume Mounts
+*/}}
+{{- define "factory.volumeMountsSvcDbUpgrade" -}}
+{{ include "factory.volumeMountSecrets" . }}
+{{- end }}
+
+{{/*
 Service Base PV Volume Mount
 */}}
 {{- define "factory.volumeMountsBasePv" -}}

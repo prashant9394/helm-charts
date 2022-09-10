@@ -20,14 +20,14 @@ metadata:
         {{- include "factory.affinityAgents" . | nindent 8 }}
                   values:
                   - "{{ .Values.nodeLabel.txt }}"
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
               {{- end }}
             {{- end }}
             - name: URL
@@ -42,6 +42,95 @@ metadata:
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ .Values.dependentServices.hvs }}
+        {{- if .Values.global }}
+        {{- if .Values.global.versionUpgrade }}
+        - name: {{ include "factory.name" . }}-backup
+          image: busybox:1.32
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              {{- if eq .Values.global.currentVersion "v4.2.0" }}
+              cp -r /opt/{{ .Values.service.directoryName }}/configuration/* /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/ &&
+              cp -r /opt/{{ .Values.service.directoryName }}/configuration/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/
+              {{- else }}
+              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.global.currentVersion }}/* /etc/{{ .Values.service.directoryName }}/{{ .Chart.AppVersion }}/ &&
+              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.global.currentVersion }}/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/ &&
+              {{- end }}
+          volumeMounts:
+          {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-base
+              mountPath: /etc/{{ .Values.service.directoryName }}
+          {{- if eq .Values.global.currentVersion "v4.2.0" }}
+            - name: {{ include "factory.name" . }}-opt
+              mountPath: /opt/{{ .Values.service.directoryName }}
+          {{- end }}
+        - name: {{ include "factory.name" . }}-upgrade
+          {{- include "factory.imageContainer" . | indent 10 }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              if [ ! -f /etc/{{ .Values.service.directoryName }}/version ]; then /container_upgrade.sh; if [ $? -eq 0 ]; then echo {{ .Chart.AppVersion }} > /etc/{{ .Values.service.directoryName }}/version ; fi else echo 'skipping already upgraded to latest version' ; fi
+          env:
+            - name: CONFIG_DIR
+              value: "/etc/{{ .Values.service.directoryName }}"
+            - name: COMPONENT_VERSION
+              value: {{ .Values.global.currentVersion }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          volumeMounts:
+          {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /etc/{{ .Values.service.directoryName }}
+          {{- if eq .Values.global.currentVersion "v4.2.0" }}
+            - name: {{ include "factory.name" . }}-opt
+              mountPath: /opt/{{ .Values.service.directoryName }}
+          {{- end }}
+        {{- end }}
+        {{- else if .Values.versionUpgrade }}
+        - name: {{ include "factory.name" . }}-backup
+          image: busybox:1.32
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              {{- if eq ".Values.currentVersion" "v4.2.0" }}
+              cp -r /opt/{{ .Values.service.directoryName }}/configuration/* /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/ &&
+              cp -r /opt/{{ .Values.service.directoryName }}/configuration/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/
+              {{- else }}
+              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.currentVersion }}/* /etc/{{ .Values.service.directoryName }}/{{ .Chart.AppVersion }}/ &&
+              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.currentVersion }}/.setup_done /etc/{{ .Values.service.directoryName }}/{{ .Chart.AppVersion }}/
+              {{- end }}
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-base
+              mountPath: /etc/{{ .Values.service.directoryName }}
+          {{- if eq .Values.currentVersion "v4.2.0" }}
+            - name: {{ include "factory.name" . }}-opt
+              mountPath: /opt/{{ .Values.service.directoryName }}
+          {{- end }}
+        - name: {{ include "factory.name" . }}-upgrade
+          {{- include "factory.imageContainer" . | indent 10 }}
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              if [ ! -f /etc/{{ .Values.service.directoryName }}/version ]; then /container_upgrade.sh; if [ $? -eq 0 ]; then echo {{ .Chart.AppVersion }} > /etc/{{ .Values.service.directoryName }}/version ; fi else echo 'skipping already upgraded to latest version' ; fi
+          env:
+            - name: CONFIG_DIR
+              value: "/etc/{{ .Values.service.directoryName }}"
+            - name: COMPONENT_VERSION
+              value: {{ .Values.currentVersion }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          volumeMounts:
+          {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /etc/trustagent
+          {{- if eq .Values.currentVersion "v4.2.0" }}
+            - name: {{ include "factory.name" . }}-opt
+              mountPath: /opt/{{ .Values.service.directoryName }}
+          {{- end }}
+        {{- end }}
       tolerations:
         - key: "untrusted"
           operator: "Equal"
@@ -51,9 +140,7 @@ metadata:
           operator: "Equal"
           value: "true"
           effect: "NoExecute"
-      {{- if .Values.hostAliasEnabled }}
-        {{- toYaml .Values.aliases | nindent 6 }}
-      {{- end }}
+      {{- include "factory.hostAliases" . | nindent 6 }}
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -68,7 +155,7 @@ metadata:
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
               {{- end }}
             {{- end }}
             {{- include "factory.envBearerToken" . | nindent 12 }}
@@ -77,14 +164,14 @@ metadata:
             exec:
               command:
                 - cat
-                - /opt/trustagent/configuration/.setup_done
+                - /etc/trustagent/.setup_done
             initialDelaySeconds: 5
             failureThreshold: 60
             periodSeconds: 15
           volumeMounts:
             {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
             - name: {{ include "factory.name" . }}-config
-              mountPath: /opt/{{ include "factory.name" . }}/configuration
+              mountPath: /etc/{{ include "factory.name" . }}/
             - name: {{ include "factory.name" . }}-hostname
               mountPath: /etc/hostname
               readOnly: true
@@ -105,6 +192,9 @@ metadata:
               readOnly: true
             - name: tpmrm
               mountPath: /dev/tpmrm0
+            - name: ima-log
+              mountPath: /opt/ima/ascii_runtime_measurements
+              readOnly: true
             - name: uefi
               mountPath: /sys/firmware/dmi/tables/DMI
               readOnly: true
@@ -116,9 +206,10 @@ metadata:
               mountPath: /usr/sbin/txt-stat
       volumes:
         {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
-        - name: {{ include "factory.name" . }}-config
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-base
           hostPath:
-            path: /opt/trustagent/configuration
+            path: /etc/trustagent/
             type: DirectoryOrCreate
         - name: {{ include "factory.name" . }}-hostname
           hostPath:
@@ -141,17 +232,32 @@ metadata:
         - name: tpmrm
           hostPath:
             path: /dev/tpmrm0
+        - name: ima-log
+          hostPath:
+            path: /sys/kernel/security/ima/ascii_runtime_measurements
         - name: uefi
           hostPath:
             path: /sys/firmware/dmi/tables/DMI
-        #TODO: try to handle wla volume better
+        {{- if contains "Workload-Security" .Template.BasePath }}
         - name: wla-config-volume
           hostPath:
-            path: /etc/workload-agent
+            path: /etc/workload-agent/{{ .Chart.AppVersion }}
             type: DirectoryOrCreate
+        {{- end }}
         - name: txt-stat
           hostPath:
             path: /usr/sbin/txt-stat
+        {{- if .Values.global }}
+        {{- if eq .Values.global.currentVersion "v4.2.0" }}
+        - name: {{ include "factory.name" . }}-opt
+          hostPath:
+            path: /opt/trustagent/
+        {{- end }}
+        {{ else if eq .Values.currentVersion "v4.2.0" }}
+        - name: {{ include "factory.name" . }}-opt
+          hostPath:
+            path: /opt/trustagent/
+        {{- end }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- if .Values.config.tpmOwnerSecret }}
           {{- include "factory.volumeCredentials" . | nindent 12 }}

@@ -13,7 +13,7 @@
       - name: {{ .Values.image.svc.imagePullSecret }}
       {{- end }}
       {{- end }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
       initContainers:

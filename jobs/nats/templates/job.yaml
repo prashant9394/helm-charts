@@ -15,7 +15,18 @@ spec:
       labels:
         {{- include "nats.labels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ .Release.Namespace }}
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         - name: wait-for-aas
@@ -36,6 +47,8 @@ spec:
           env:
             - name: NATS_CERT_COMMON_NAME
               value: {{ .Values.config.CertCn }}
+            - name: NAMESPACE
+              value: {{ .Release.Namespace }}
             - name: CMS_K8S_ENDPOINT_URL
               value: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
             - name: NATS_CERT_SAN_LIST
@@ -61,18 +74,11 @@ spec:
       labels:
         {{- include "nats.labels" . | nindent 8 }}
     spec:
-      {{- if .Values.global }}
-      {{- if .Values.global.image.imagePullSecret }}
-      imagePullSecrets:
-      - name: {{ .Values.global.image.imagePullSecret }}
-      {{- end }}
-      {{- else }}
       {{- if .Values.image.imagePullSecret }}
       imagePullSecrets:
       - name: {{ .Values.image.imagePullSecret }}
       {{- end }}
-      {{- end }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       initContainers:
         - name: wait-for-aas
@@ -93,6 +99,8 @@ spec:
           env:
             - name: NATS_CERT_COMMON_NAME
               value: {{ .Values.config.CertCn }}
+            - name: NAMESPACE
+              value: {{ .Release.Namespace }}
             - name: CMS_K8S_ENDPOINT_URL
               value: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
             - name: NATS_CERT_SAN_LIST

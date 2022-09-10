@@ -11,18 +11,26 @@ The following table lists the configurable parameters of the Isecl-scheduler cha
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
-| `nameOverride` | The name for ISECL-SCHEDULER chart<br> <span style="color:blue">Default: `.Chart.name`</span> | `""` |
-| `controlPlaneLabel` | K8s control plane label.<br> <span style="color:red">Required</span>.<br> <span style="color:blue">Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`</span> | `""` |
-| `image.registry` | The image registry where ISECL-SCHEDULER image is pushed<br> <span style="color:red">Required</span>. | `""` |
-| `image.name` | The image name with which ISECL-SCHEDULER image is pushed to registry<br> <span style="color:red">Required</span>. | `""` |
-| `image.pullPolicy` | The pull policy for pulling from container registry for ISECL-SCHEDULER<br> <span style="color:red">Allowed values: `Always`/`IfNotPresent`</span> | `"Always"` |
+| `nameOverride` | The name for ISECL-SCHEDULER chart<br> (Default: `.Chart.Name`) | `""` |
+| `controlPlaneLabel` | K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s` | `"<user input>"` |
+| `dependentServices.ihub` |  | `"ihub"` |
+| `image.svc.name` | The image name with which ISECL-SCHEDULER image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
+| `image.svc.pullPolicy` | The pull policy for pulling from container registry for ISECL-SCHEDULER<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `securityContext.init.fsGroup` |  | `1001` |
-| `securityContext.isecl-scheduler.runAsUser` |  | `1001` |
-| `securityContext.isecl-scheduler.runAsGroup` |  | `1001` |
-| `securityContext.isecl-scheduler.capabilities.drop` |  | `["all"]` |
-| `securityContext.isecl-scheduler.allowPrivilegeEscalation` |  | `false` |
+| `securityContext.iseclScheduler.runAsUser` |  | `1001` |
+| `securityContext.iseclScheduler.runAsGroup` |  | `1001` |
+| `securityContext.iseclScheduler.capabilities.drop` |  | `["all"]` |
+| `securityContext.iseclScheduler.allowPrivilegeEscalation` |  | `false` |
+| `service.directoryName` |  | `"isecl-k8s-scheduler"` |
 | `service.containerPort` | The containerPort on which CMS can listen to traffic | `8888` |
 | `service.port` | The externally exposed NodePort on which CMS can listen to external traffic | `30888` |
+| `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
+| `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
+| `storage.nfs.path` | The path for storing persistent data on NFS | `"/mnt/nfs_share"` |
+| `storage.nfs.logsSize` | The logs size for storing logs for KBS in NFS path | `"1Gi"` |
+| `storage.nfs.baseSize` | The base volume size (configSize + logSize) | `"1Gi"` |
 
 
 

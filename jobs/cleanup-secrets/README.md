@@ -1,13 +1,13 @@
 
-Cleanup Secrets  
-===============
+Cleanup-secrets
+===========
 
 A Helm chart for cleaning up secrets post helm uninstall of a release
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the CLEANUP-SECRETS chart and their default values.
+The following table lists the configurable parameters of the Cleanup-secrets chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
@@ -17,6 +17,7 @@ The following table lists the configurable parameters of the CLEANUP-SECRETS cha
 | `securityContext.cleanupSecrets.runAsGroup` |  | `1001` |
 | `securityContext.cleanupSecrets.capabilities.drop` |  | `["all"]` |
 | `securityContext.cleanupSecrets.allowPrivilegeEscalation` |  | `false` |
+| `factory.nameOverride` |  | `""` |
 
 
 

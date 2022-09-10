@@ -1,0 +1,20 @@
+name: OnMergeRelease
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  docker-push:
+    runs-on: [ self-hosted ]
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Push Helm Charts
+      run: make push
+      

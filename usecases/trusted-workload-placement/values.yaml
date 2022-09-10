@@ -8,17 +8,8 @@ aas:
   image:
     name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
   secret:
-    dbUsername:  # DB Username for AAS DB
-    dbPassword:  # DB Password for AAS DB
-
-aas-manager:
-  image:
-    name: <user input> # Authentication & Authorization Manager image name<br> (**REQUIRED**)
-  secret:
-    superAdminUsername:
-    superAdminPassword:
-    globalAdminUsername:
-    globalAdminPassword:
+    dbUsername: # DB Username for AAS DB
+    dbPassword: # DB Password for AAS DB
 
 hvs:
   image:
@@ -26,9 +17,15 @@ hvs:
   config:
     requireEKCertForHostProvision: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
     verifyQuoteForHostRegistration: false # If set to true enforce ta hardening <br> (Allowed values: `true`\`false`)
+    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
   secret:
-    dbUsername:  # DB Username for HVS DB
-    dbPassword:  # DB Password for HVS DB
+    dbUsername: # DB Username for HVS DB
+    dbPassword: # DB Password for HVS DB
+    installAdminUsername: # Install Admin Username for HVS
+    installAdminPassword: # Install Admin Password for HVS
+    serviceUsername: # Service Username for HVS
+    servicePassword: # Service Password for HVS
 
 trustagent:
   image:
@@ -39,7 +36,8 @@ trustagent:
     suefi: "" # The node label for SUEFI-ENABLED hosts (**REQUIRED IF NODE IS SUEFI ENABLED**)
 
   config:
-    tpmOwnerSecret:  # The TPM owner secret if TPM is already owned
+    tpmOwnerSecret: # The TPM owner secret if TPM is already owned
+    tpmEndorsementSecret: # The TPM endorsement secret if TPM is already owned
 
   hostAliasEnabled: false # Set this to true for using host aliases and also add entries accordingly in ip, hostname entries. hostalias is required when ingress is deployed and pods are not able to resolve the domain names
   aliases:
@@ -48,6 +46,18 @@ trustagent:
         hostnames:
           - ""
           - ""
+  secret:
+    installAdminUsername: # Install Admin Username for TA
+    installAdminPassword: # Install Admin Password for TA
+
+global-admin-generator:
+  enable: false # Set this to true for generating global admin user account
+  secret:
+    globalAdminUsername:
+    globalAdminPassword:
+  services_list: # Services list for global admin token generation. Accepted values HVS, WLS, KBS, TA
+    - HVS
+    - TA
 
 nats:
   clientPort: 30222
@@ -55,6 +65,9 @@ nats:
 nats-init:
   image:
     name: <user input> # The image name of nats-init container
+  secret:
+    installAdminUsername: # Install Admin Username for Nats init
+    installAdminPassword: # Install Admin Password for Nats init
 
 isecl-controller:
   image:
@@ -68,43 +81,51 @@ ihub:
   image:
     name: <user input> # Integration Hub Service image name<br> (**REQUIRED**)
   k8sApiServerPort: 6443
+  dependentServices:
+    hvs: hvs
+  secret:
+    installAdminUsername: # Install Admin Username for IHub
+    installAdminPassword: # Install Admin Password for IHub
+    serviceUsername: # Service Username for IHub
+    servicePassword: # Service Password for IHub
 
 isecl-scheduler:
   image:
     name: <user input> # ISecL Scheduler image name<br> (**REQUIRED**)
 
-admission-controller:
-  caBundle: <user input> #CA Bundle is used for signing new TLS certificates. value can be obtained by running kubectl config view --raw --minify --flatten -o jsonpath='{.clusters[].cluster.certificate-authority-data}'
-  
 global:
   controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
-  controlPlaneLabel: microk8s.io/cluster #K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s`
-  
+  controlPlaneLabel: microk8s.io/cluster # K8s control plane label<br> (**REQUIRED**)<br> Example: `node-role.kubernetes.io/master` (k8s 1.23) or node-role.kubernetes.io/control-plane (k8s 1.24) in case of `kubeadm`/`microk8s.io/cluster` in case of `microk8s
+  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
+  currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade. Refer product guide for more information
+  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30443/hvs/v2
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
+  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
+
   image:
     pullPolicy: Always # The pull policy for pulling from container registry<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
+    aasManagerName: <user input> # The image name of aas-manager image name
+    dbVersionUpgradeImage: # The image name of PostgresDB version upgrade. Not required during helm install, might be required during upgrades, refer product guide for more information
 
   config:
     dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
     nats:
       enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-      servers: <user input>   # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)  
-      serviceMode: <user input> # The model for TA<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
+      servers: <user input> # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
+      serviceMode: <user input> # The communication model between TA and HVS<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
 
-  hvsUrl: <user input> # Hvs Base Url, Do not include "/" at the end. e.g for ingress https://hvs.isecl.com/hvs/v2 , for nodeport  https://<control-plane-hostname/control-plane-IP>:30443/hvs/v2
-  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
-  aasUrl: <user input> # Authservice Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
-      
   storage:
     nfs:
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-      path: /mnt/nfs_share  # The path for storing persistent data on NFS
+      path: /mnt/nfs_share # The path for storing persistent data on NFS
   
   service:
     cms: 30445 # The service port for Certificate Management Service
     aas: 30444 # The service port for Authentication Authorization Service
-    hvs: 30443 # The service port for SGX Host Verification Service
+    hvs: 30443 # The service port for Host Verification Service
     ta: 31443 # The service port for Trust Agent
   
   ingress:
@@ -112,15 +133,5 @@ global:
 
   aas:
     secret:
-      adminUsername:  # Admin Username for AAS
-      adminPassword:  # Admin Password for AAS
-
-  hvs:
-    secret:
-      serviceUsername:  # Admin Username for HVS
-      servicePassword:  # Admin Password for HVS
-
-  ihub:
-    secret:
-      serviceUsername:  # Admin Username for IHub
-      servicePassword:  # Admin Password for IHub
+      adminUsername: # Admin Username for AAS
+      adminPassword: # Admin Password for AAS

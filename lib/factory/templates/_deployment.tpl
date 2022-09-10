@@ -12,6 +12,8 @@ metadata:
     {{- include "factory.labelsSvc" . | nindent 4 }}
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "factory.labelsSvcSelector" . | nindent 6 }}
@@ -35,6 +37,8 @@ metadata:
     {{- include "factory.labelsChart" . | nindent 4 }}
     {{- include "factory.labelsDb" . | nindent 4 }}
 spec:
+  strategy:
+    type: Recreate
   replicas: 1
   selector:
     matchLabels:

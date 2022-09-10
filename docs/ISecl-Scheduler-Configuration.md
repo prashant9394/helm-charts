@@ -1,6 +1,3 @@
-## Configure kube-scheduler to establish communication with ISecl-scheduler.
-ISecl Scheduler acts as a extended filter for Kubernetes base scheduler.
-
 * Create a file called kube-scheduler-configuration.yml
 ```yaml
 ---

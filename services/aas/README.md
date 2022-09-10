@@ -13,7 +13,10 @@ The following table lists the configurable parameters of the Aas chart and their
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for AAS chart<br> (Default: `.Chart.Name`) | `""` |
 | `controlPlaneHostname` | K8s control plane IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
+| `versionUpgrade` | Set this true when performing upgrading to next minor/major version | `false` |
+| `currentVersion` | Set the currently deployed version | `null` |
 | `dependentServices.cms` |  | `"cms"` |
+| `config.envVarPrefix` |  | `"AAS"` |
 | `config.dbPort` | PostgreSQL DB port | `5432` |
 | `config.dbSSL` | PostgreSQL DB SSL<br> (Allowed: `on`/`off`) | `"on"` |
 | `config.dbSSLCert` | PostgreSQL DB SSL Cert | `"/etc/postgresql/secrets/server.crt"` |
@@ -22,16 +25,21 @@ The following table lists the configurable parameters of the Aas chart and their
 | `config.dbListenAddresses` | PostgreSQL DB Listen Address | `"*"` |
 | `config.dbName` | AAS DB Name | `"aasdb"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
-| `secret.dbUsername` | DB Username for AAS DB | `"aasdbuser"` |
-| `secret.dbPassword` | DB Password for AAS DB | `"aasdbpassword"` |
-| `secret.adminUsername` | Admin Username for AAS | `"aasAdminUser"` |
-| `secret.adminPassword` | Admin Password for AAS | `"aasAdminPass"` |
-| `image.aasdb.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
-| `image.aasdb.name` | The image name of PostgreSQL | `"postgres:11.7"` |
-| `image.aasdb.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aas.registry` | The image registry where AAS image is pushed<br> (**REQUIRED**) | `"<user input>"` |
-| `image.aas.name` | The image name with which CMS image is pushed to registry | `"<user input>"` |
-| `image.aas.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
+| `config.createCredentials` | Trigger to run create-credentials setup task when set to True. Default is False | `true` |
+| `config.dbMaxConnections` | Determines the maximum number of concurrent connections to the database server. Default is 200 | `200` |
+| `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
+| `secret.dbUsername` | DB Username for AAS DB | `null` |
+| `secret.dbPassword` | DB Password for AAS DB | `null` |
+| `secret.adminUsername` | Admin Username for AAS | `null` |
+| `secret.adminPassword` | Admin Password for AAS | `null` |
+| `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
+| `image.db.name` | The image name of PostgreSQL | `"postgres:14.2"` |
+| `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.name` | The image name with which AAS image is pushed to registry | `"<user input>"` |
+| `image.svc.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.initName` | The image name of init container | `"<user input>"` |
 | `storage.nfs.server` | The NFS Server IP/Hostname | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
@@ -39,6 +47,7 @@ The following table lists the configurable parameters of the Aas chart and their
 | `storage.nfs.dbSize` | The DB size for storing DB data for AAS in NFS path | `"1Gi"` |
 | `storage.nfs.configSize` | The configuration size for storing config for AAS in NFS path | `"10Mi"` |
 | `storage.nfs.logsSize` | The logs size for storing logs for AAS in NFS path | `"1Gi"` |
+| `storage.nfs.baseSize` | The base volume size (configSize + logSize + dbSize) | `"2.1Gi"` |
 | `securityContext.aasdbInit.fsGroup` |  | `1001` |
 | `securityContext.aasdb.runAsUser` |  | `1001` |
 | `securityContext.aasdb.runAsGroup` |  | `1001` |
@@ -47,11 +56,13 @@ The following table lists the configurable parameters of the Aas chart and their
 | `securityContext.aas.runAsGroup` |  | `1001` |
 | `securityContext.aas.capabilities.drop` |  | `["all"]` |
 | `securityContext.aas.allowPrivilegeEscalation` |  | `false` |
+| `service.directoryName` |  | `"authservice"` |
 | `service.cms.containerPort` | The containerPort on which CMS can listen | `8445` |
 | `service.cms.port` | The externally exposed NodePort on which CMS can listen to external traffic | `30445` |
 | `service.aasdb.containerPort` | The containerPort on which AAS DB can listen | `5432` |
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
+| `service.ingress.enable` | Accept true or false to notify ingress rules are enable or disabled | `false` |
 
 
 

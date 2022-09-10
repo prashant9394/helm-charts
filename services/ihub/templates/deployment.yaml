@@ -15,14 +15,15 @@
       {{- end }}
       securityContext:
         {{- toYaml .Values.securityContext.init | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       initContainers:
+        {{- if .Values.dependentServices.hvs }}
         - name: wait-for-hvs
           {{- include "factory.imageInitContainer" . | indent 10 }}
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
               {{- end }}
             {{- end }}
             - name: URL
@@ -37,15 +38,27 @@
               value: {{.Values.dependentServices.hvs }}
             - name: COMPONENT
               value: {{ include "factory.name" . }}
+        {{- end}}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:
             {{- toYaml .Values.securityContext.ihub | nindent 12 }}
           volumeMounts:
             {{- include "factory.volumeMountsBasePv" . | nindent 12 }}
-      {{- if .Values.hostAliasEnabled }}
-        {{- toYaml .Values.aliases | nindent 6 }}
-      {{- end }}
+        {{- if .Values.global }}
+        {{- if .Values.global.versionUpgrade }}
+        {{- include "factory.waitForUpgradeService" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
+        {{- end}}
+        {{- else}}
+        {{- if .Values.versionUpgrade }}
+        {{- include "factory.waitForUpgradeService" . | nindent 8 }}
+          securityContext:
+            {{- toYaml .Values.securityContext.ihub | nindent 12 }}
+        {{- end }}
+        {{- end }}
+      {{- include "factory.hostAliases" . | nindent 6 }}
       containers:
         - name: {{ include "factory.name" . }}
           {{- include "factory.imageContainer" . | indent 10 }}
@@ -54,7 +67,7 @@
           env:
             {{- if .Values.global }}
               {{- if .Values.global.proxyEnabled }}
-              {{- include "factory.proxy" . | nindent 12 }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
               {{- end }}
             {{- end }}
             {{- include "factory.envCmsSha384" . | nindent 12 }}

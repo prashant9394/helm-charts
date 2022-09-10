@@ -1,22 +1,24 @@
 
-AAS-DB TLS Certificate Generator  
-===============================
+Aasdb-cert-generator
+===========
 
-A Helm chart for generating tls certs for database deployments
+A Helm chart for creating aasdb certificates
 
 
 ## Configuration
 
-The following table lists the configurable parameters of the AASDB-CERT-GENERATOR chart and their default values.
+The following table lists the configurable parameters of the Aasdb-cert-generator chart and their default values.
 
 | Parameter                | Description             | Default        |
 | ------------------------ | ----------------------- | -------------- |
 | `nameOverride` | The name for AASDB-CERT-GENERATOR chart (Default: .Chart.Name) | `""` |
+| `controlPlaneHostname` | K8s control plane IP/Hostname | `"<user input>"` |
 | `securityContext.aasdbCertGeneratorInit.fsGroup` |  | `1001` |
 | `securityContext.aasdbCertGenerator.runAsUser` |  | `1001` |
 | `securityContext.aasdbCertGenerator.runAsGroup` |  | `1001` |
 | `securityContext.aasdbCertGenerator.capabilities.drop` |  | `["all"]` |
 | `securityContext.aasdbCertGenerator.allowPrivilegeEscalation` |  | `false` |
+| `factory.nameOverride` |  | `""` |
 
 
 

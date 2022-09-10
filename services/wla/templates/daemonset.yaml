@@ -1,0 +1,82 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.daemonSetCommonHeaderSpec" . }}
+metadata:
+  name: {{ include "factory.name" . }}
+{{- include "factory.daemonSetCommonSpec" . }}
+    spec:
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
+      affinity:
+        {{- include "factory.affinityAgents" . | nindent 8 }}
+                  values:
+                  - "{{ .Values.nodeLabel.suefi }}"
+                  - "{{ .Values.nodeLabel.txt }}"
+      serviceAccountName: {{ include "factory.name" . }}
+      initContainers:
+        - name: wait-for-trustagent
+          image: busybox:1.32
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              while [ ! $(ls /etc/trustagent/.setup_done 2> /dev/null) ]; do sleep 5; done
+          volumeMounts:
+            - name: {{ .Values.dependentServices.ta }}-config
+              mountPath: /etc/trustagent
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            privileged: true
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+            {{- include "factory.globalProxy" . | nindent 12 }}
+            {{- end }}
+   	    {{- end }}
+            {{- include "factory.envBearerToken" . | nindent 12 }}
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          readinessProbe:
+            {{- include "factory.probeReadiness" . | nindent 12 }}
+          volumeMounts:
+            {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /etc/workload-agent/
+            - name: {{ include "factory.name" . }}-socket
+              mountPath: /var/run/workload-agent
+            - name: {{ include "factory.name" . }}-secrets
+              mountPath: /etc/secrets
+              readOnly: true
+            - name: {{ .Values.dependentServices.ta }}-config
+              mountPath: /etc/trustagent
+            - name: tpmrm
+              mountPath: /dev/tpmrm0
+      volumes:
+        {{- include "factory.volumeSvcLogsDaemonset" . | nindent 8 }}
+        {{- include "factory.volumeSvcConfigDaemonset" . | nindent 8 }}
+        - name: {{ include "factory.name" . }}-socket
+          hostPath:
+            path: /var/run/workload-agent
+            type: DirectoryOrCreate
+        - name: tpmrm
+          hostPath:
+            path: /dev/tpmrm0
+        - name: {{ .Values.dependentServices.ta }}-config
+          hostPath:
+            path: /etc/trustagent/{{ .Chart.AppVersion }}
+            type: DirectoryOrCreate
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
+        {{- include "factory.volumeCredentials" . | nindent 12 }}

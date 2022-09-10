@@ -18,11 +18,11 @@ spec:
     spec:
       securityContext:
         {{- toYaml .Values.securityContext.cleanupSecretsInit | nindent 8 }}
-      serviceAccountName: {{ .Release.Namespace }}
+      serviceAccountName: {{ include "factory.name" . }}
       restartPolicy: Never
       containers:
         - name: cleanup-secrets
-          image: bitnami/kubectl:1.22
+          image: bitnami/kubectl:1.23
           imagePullPolicy: Always
           securityContext:
             {{- toYaml .Values.securityContext.cleanupSecrets | nindent 12 }}
@@ -30,4 +30,4 @@ spec:
           args:
             - >
               echo starting &&
-              kubectl delete secrets -n {{ .Release.Namespace }} --field-selector type=Opaque && kubectl delete cm --all -n {{ .Release.Namespace }}
+              kubectl delete secrets -n {{ .Release.Namespace }} --field-selector=type=Opaque,metadata.name!=kbs-kmip-certs && kubectl delete cm --all -n {{ .Release.Namespace }}

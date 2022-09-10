@@ -1,4 +1,4 @@
-{{/* 
+{{/*
 Wait for Database bootstrap
 */}}
 {{- define "factory.initWaitForDb" -}}
@@ -13,7 +13,7 @@ Wait for Database bootstrap
 {{- end }}
 
 
-{{/* 
+{{/*
 Wait for CMS-TLS-SHA384, BEARER-TOKEN
 */}}
 {{- define "factory.initWaitForCmsSha384BearerToken" -}}
@@ -34,7 +34,7 @@ Wait for CMS-TLS-SHA384, BEARER-TOKEN
     - name: BEARER_TOKEN
       valueFrom:
         secretKeyRef:
-          name: bearer-token
+          name: {{ include "factory.name" . }}-bearer-token
           key: BEARER_TOKEN
   volumeMounts:
     - name: {{ include "factory.name" . }}-secrets
@@ -42,8 +42,7 @@ Wait for CMS-TLS-SHA384, BEARER-TOKEN
       readOnly: true
 {{- end }}
 
-
-{{/* 
+{{/*
 Change Ownership for log path
 */}}
 {{- define "factory.initChownLogPath" -}}
@@ -64,14 +63,16 @@ Change Ownership for log path
 Associate db volume with appropriate version
 */}}
 {{- define "factory.initCommonSpecLinkDBVolumes" -}}
-- name: link-volumes
+- name: link-db-volumes
   image: busybox:1.32
   command: ["/bin/sh", "-c"]
   args:
     - >
       cd {{ .Values.service.directoryName }} && ln -sfT {{.Chart.AppVersion }}/db db
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
 {{- end }}
-
 
 {{/*
 Associate config and log volumes with appropriate version
@@ -84,5 +85,67 @@ Associate config and log volumes with appropriate version
     - >
       cd {{ .Values.service.directoryName }} &&
       ln -sfT {{.Chart.AppVersion }}/config config &&
+      if [ -d "{{.Chart.AppVersion }}/opt" ]; then ln -sfT {{.Chart.AppVersion }}/opt opt ; fi &&
       ln -sfT {{.Chart.AppVersion }}/logs logs
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
+{{- end }}
+
+{{/*
+Backup job for services
+*/}}
+{{- define "factory.backupService" -}}
+- name: {{ include "factory.name" . }}-backup-job
+  image: busybox:1.32
+  command: ["/bin/sh", "-c"]
+  {{- $dirName := .Values.service.directoryName }}
+  {{- if .Values.global }}
+  args:
+    - >
+      if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
+      ls /{{ $dirName }}/ &&
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
+      {{- if not (.Values.global.dbVersionUpgrade) }}
+      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      {{- end }}
+      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
+      if [ -d "/{{ $dirName }}/{{.Values.global.currentVersion}}/opt" ]; then
+        cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/opt /{{ $dirName }}/{{.Chart.AppVersion }}/opt
+      fi
+  {{- else}}
+  args:
+    - >
+      if [ -f "/{{ $dirName }}/{{.Chart.AppVersion }}/config/version" ]; then echo "already data backed up skipping..."; exit 0; fi &&
+      ls /{{ $dirName }}/ &&
+      mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
+      {{- if not (.Values.dbVersionUpgrade) }}
+      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      {{- end }}
+      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
+      if [ -d "/{{ $dirName }}/{{.Values.currentVersion}}/opt" ]; then
+        cp -r /{{ $dirName }}/{{.Values.currentVersion}}/opt /{{ $dirName }}/{{.Chart.AppVersion }}/opt
+      fi
+  {{- end}}
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ $dirName }}/
+{{- end }}
+
+{{/*
+Wait job for service upgrades
+*/}}
+{{- define "factory.waitForUpgradeService" -}}
+- name: {{ include "factory.name" . }}-wait-for-upgrade-job
+  image: bitnami/kubectl:1.23
+  command: ["/bin/sh", "-c"]
+  args:
+    - >
+      if [ ! -f "/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/config/version" ]; then
+         kubectl wait --for=condition=complete --timeout=2m job/{{ include "factory.name" . }}-upgrade -n {{ .Release.Namespace }}
+         echo {{.Chart.AppVersion }} > /{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/config/version
+      fi
+  volumeMounts:
+    - name: {{ include "factory.name" . }}-base
+      mountPath: /{{ .Values.service.directoryName }}/
 {{- end }}

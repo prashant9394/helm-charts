@@ -1,0 +1,84 @@
+# Default values for WLS
+
+nameOverride: "" # The name for WLS chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+dependentServices: # The dependent Service Name for deploying  Cerificate Management Service chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  hvs: hvs
+
+config:
+  envVarPrefix: WLS
+
+aas:
+# Please update the url section if aas is exposed via ingress
+  url:
+  secret: 
+    adminUsername: # Admin Username for AAS
+    adminPassword: # Admin Password for AAS
+
+    # The values provided for adminUsername and adminPassword here should be same as that of provided for aas.secret.adminUsername and aas.secret.adminPassword in values.yaml file for ihub chart
+    #
+
+secret:
+  installAdminUsername: # Install Admin Username for WLS
+  installAdminPassword: # Install Admin Password for WLS
+  serviceUsername: # Service Username for WLS
+  servicePassword: # Service Password for WLS
+
+image:
+  svc:
+    name: <user input> # The image name with which WLS image is pushed to registry<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for WLS<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    
+storage:
+  nfs:
+    server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+    reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
+    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    path: /mnt/nfs_share # The path for storing persistent data on NFS
+    configSize: 10Mi # The configuration size for storing config for WLS in NFS path
+    logsSize: 1Gi # The logs size for storing logs for WLS in NFS path
+    baseSize: 1.1Gi # The base volume size (configSize + logSize)
+
+securityContext:
+  wlsInit: # The fsGroup id for init containers for WLS
+    fsGroup: 1001
+  wls: # The security content for WLS Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+      
+service:
+  directoryName: wls
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+  aas: 
+    containerPort: 8444 # The containerPort on which AAS can listen
+  hvs:
+    containerPort: 8443 # The containerPort on which HVS can listen
+  wls:
+    containerPort: 5000 # The containerPort on which WLS can listen 
+    port: 30447 # The externally exposed NodePort on which WLS can listen to external traffic
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled

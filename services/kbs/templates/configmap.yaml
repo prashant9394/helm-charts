@@ -1,0 +1,24 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  AAS_API_URL: https://{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  KMIP_SERVER_IP: {{ .Values.config.kmip.serverIp }}
+  KMIP_HOSTNAME: {{ .Values.config.kmip.serverHostname }}
+  KMIP_SERVER_PORT: "{{ .Values.config.kmip.serverPort }}"
+  KMIP_CLIENT_CERT_PATH: {{ .Values.config.kmip.clientCertPath }}
+  KMIP_CLIENT_KEY_PATH: {{ .Values.config.kmip.clientKeyPath }}
+  KMIP_ROOT_CERT_PATH: {{ .Values.config.kmip.rootCertPath }}
+  KEY_MANAGER: {{ .Values.config.keyManager }}
+  {{- if .Values.global }}
+  ENDPOINT_URL:  https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.kbs }}/kbs/v1/
+  TLS_SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  ENDPOINT_URL:  https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.kbs.containerPort }}/kbs/v1/
+  TLS_SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}

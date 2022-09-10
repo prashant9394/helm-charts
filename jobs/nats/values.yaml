@@ -1,11 +1,10 @@
-# Default values for nats.
+# Default values for nats-init.
 
-nameOverride: "" # The name for AAS-MANAGER chart (Default: .Chart.Name)
+nameOverride: "" # The name for NATS-INIT Job chart (Default: .Chart.Name)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname
 
 # Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
-# TODO: Services should be be able to be deployed in different namespaces
-dependentServices: # The dependent Service Name for deploying NATS chart, default is the chart name and override is from nameOverride value.
+dependentServices: # The dependent Service Name for deploying NATS-INIT chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
 
@@ -16,8 +15,13 @@ config:
 image:
   name: <user input> # The image name with which NATS image is pushed to registry
   pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: Always/IfNotPresent)
-  initName: <user input> # The image name of init container
-  imagePullSecret: <user input>  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+  imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+  aasManager:
+    name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+  svc:
+    initName: <user input> # The image name of init container
 
 securityContext:
   init: # The fsGroup id for init containers for NATS
@@ -30,6 +34,17 @@ securityContext:
       drop:
         - all
     allowPrivilegeEscalation: false
+
+aas:
+  # Please update the url section if aas is exposed via ingress
+  url:
+  secret:
+    adminUsername: # Admin Username for AAS
+    adminPassword: # Admin Password for AAS
+
+secret:
+  installAdminUsername: # Admin Username for NATS Init
+  installAdminPassword: # Admin Password for NATS Init
 
 service:
   directoryName: nats

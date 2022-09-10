@@ -1,6 +1,6 @@
 # Default values for aasdb-cert-generator.
 
-nameOverride: "" # The name for AAS-MANAGER chart (Default: .Chart.Name)
+nameOverride: "" # The name for AASDB-CERT-GENERATOR chart (Default: .Chart.Name)
 controlPlaneHostname: <user input> # K8s control plane IP/Hostname
 
 securityContext:

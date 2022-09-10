@@ -39,7 +39,7 @@ AAS Bearer Token Volume
 */}}
 {{- define "factory.volumeAasBearerToken" -}}
 - secret:
-    name: bearer-token
+    name: {{ include "factory.name" . }}-bearer-token
 {{- end }}
 
 {{/*
@@ -79,10 +79,6 @@ Logs Service Volume
     claimName: {{ include "factory.name" . }}-logs
 {{- end}}
 
-
-{{/*
-#TODO-relook later
-*/}}
 {{/*
 Service with DB Volumes
 */}}
@@ -112,6 +108,14 @@ AAS Service Volumes
 {{ include "factory.volumeAasBootstrapToken" . | indent 4 }}    
 {{- end}}
 
+{{/*
+DB Version Upgrade Service Volumes
+*/}}
+{{- define "factory.volumesSvcDbCredentials" -}}
+{{ include "factory.volumeProjectedSecrets" . }}
+{{- include "factory.volumeDbCredentials" . | nindent 4 }}
+{{- end}}
+
 
 {{/*
 DB Service Volumes
@@ -137,7 +141,7 @@ Config Daemonset Volume
 {{- define "factory.volumeSvcConfigDaemonset" -}}
 - name: {{ include "factory.name" . }}-config
   hostPath:
-    path: /etc/{{ include "factory.name" . }}
+    path: /etc/{{ include "factory.name" . }}/{{ .Chart.AppVersion }}
     type: DirectoryOrCreate
 {{- end}}
 
@@ -151,4 +155,3 @@ Logs Daemonset Volume
     path: /var/log/{{ include "factory.name" . }}
     type: DirectoryOrCreate
 {{- end}}
-
