@@ -45,7 +45,7 @@ For more details on the product, installation and deployment strategies, please 
 
 ### Release Notes
 
-[https://intel-secl.github.io/docs/4.2/ReleaseNotes/ReleaseNotes](https://intel-secl.github.io/docs/4.2/ReleaseNotes/ReleaseNotes)
+[https://intel-secl.github.io/docs/5.0/ReleaseNotes/ReleaseNotes](https://intel-secl.github.io/docs/5.0/ReleaseNotes/ReleaseNotes)
 
 ### Issues
 
