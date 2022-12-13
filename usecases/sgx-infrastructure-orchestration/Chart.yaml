@@ -1,0 +1,89 @@
+apiVersion: v2
+name: SGX-Infrastructure-Orchestration
+description: A Helm chart for Deploying ISecL-DC SGX Infrastructure and Orchestration use cases
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+#kubeVersion: "= 1.23"
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 5.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "v5.0.0"
+
+dependencies:
+  - name: factory
+    repository: file://../../lib/factory/ 
+    version: 5.0.0
+  - name: cleanup-secrets
+    repository: file://../../jobs/cleanup-secrets/
+    version: 5.0.0
+  - name: cleanup-jobs
+    repository: file://../../jobs/cleanup-jobs/
+    version: 5.0.0
+  - name: sagent-aas-manager
+    repository: file://../../jobs/sagent-aas-mgr/
+    version: 5.0.0    
+  - name: aasdb-cert-generator
+    repository: file://../../jobs/aasdb-cert-generator/
+    version: 5.0.0
+  - name: scsdb-cert-generator
+    repository: file://../../jobs/scsdb-cert-generator/
+    version: 5.0.0
+  - name: shvsdb-cert-generator
+    repository: file://../../jobs/shvsdb-cert-generator/
+    version: 5.0.0  
+  - name: global-admin-generator
+    repository: file://../../jobs/global-admin-generator/
+    version: 5.0.0     
+  - name: cms
+    repository: file://../../services/cms/ 
+    version: 5.0.0
+  - name: aas
+    repository: file://../../services/aas/ 
+    version: 5.0.0
+  - name: isecl-controller
+    repository: file://../../services/isecl-controller/ 
+    version: 5.0.0
+  - name: ihub
+    repository: file://../../services/ihub/ 
+    version: 5.0.0
+  - name: isecl-scheduler
+    repository: file://../../services/isecl-scheduler/ 
+    version: 5.0.0    
+  - name: kbs
+    repository: file://../../services/kbs/
+    version: 5.0.0
+  - name: scs
+    repository: file://../../services/scs/
+    version: 5.0.0
+  - name: sqvs
+    repository: file://../../services/sqvs/
+    version: 5.0.0
+  - name: shvs
+    repository: file://../../services/shvs/
+    version: 5.0.0    
+  - name: sagent
+    repository: file://../../services/sagent/
+    version: 5.0.0    
+
+maintainers:
+- name: JJ
+  email: johnny.jacob@intel.com
+- name: PraveenRaj R
+  email: praveenrajr@intel.com
+- name: rana19
+  email: raghavender.nagarajan@intel.com
