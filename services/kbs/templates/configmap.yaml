@@ -8,6 +8,8 @@ metadata:
 data:
   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
   AAS_API_URL: https://{{.Values.dependentServices.aas}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  SQVS_URL: https://{{.Values.dependentServices.sqvs}}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.sqvs.containerPort }}/svs/v1
+  SKC_CHALLENGE_TYPE: {{ .Values.config.skcChallengeType }}
   KMIP_SERVER_IP: {{ .Values.config.kmip.serverIp }}
   KMIP_HOSTNAME: {{ .Values.config.kmip.serverHostname }}
   KMIP_SERVER_PORT: "{{ .Values.config.kmip.serverPort }}"
@@ -22,3 +24,4 @@ data:
   ENDPOINT_URL:  https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.kbs.containerPort }}/kbs/v1/
   TLS_SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
   {{- end }}
+  SESSION_EXPIRY_TIME: "60"

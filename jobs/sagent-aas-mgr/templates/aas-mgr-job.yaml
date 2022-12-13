@@ -1,0 +1,5 @@
+{{- if .Values.createSagentServiceAccount }}
+{{- include "factory.headers" . }}
+---
+{{- include "factory.getAasUserAndRoles" . }}
+{{- end }}

@@ -27,6 +27,34 @@
                {{- end }}
             }
          ]
-      }
+      },
+      {
+         "username": "{{ .Values.secret.serviceUsername }}",
+         "password": "{{ .Values.secret.servicePassword }}",
+         "print_bearer_token": true,
+         "roles": [
+           {
+             "service": "SQVS",
+             "name": "QuoteVerifier",
+             "permissions": [
+             "*:*:*"
+             ]
+           },
+           {
+            "service": "AAS",
+             "name": "UserManager",
+             "permissions": [
+             "users:retrieve:*"
+             ]
+           },
+           {
+            "service": "AAS",
+             "name": "UserRoleManager",
+             "permissions": [
+             "user_roles:retrieve:*"
+             ]
+           }
+         ]
+       }
    ]
 }

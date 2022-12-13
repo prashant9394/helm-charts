@@ -11,12 +11,26 @@ data:
   KUBERNETES_URL: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.k8sApiServerPort }}/
   AAS_API_URL: {{ .Values.global.aasUrl }}
   CMS_BASE_URL: {{ .Values.global.cmsUrl }}
+  {{- if and .Values.dependentServices.hvs .Values.dependentServices.shvs }}
   HVS_BASE_URL: {{ .Values.global.hvsUrl }}
+  SHVS_BASE_URL: {{ .Values.global.shvsUrl }}
+  {{- else if .Values.dependentServices.hvs }}
+  HVS_BASE_URL: {{ .Values.global.hvsUrl }}
+  {{- else if .Values.dependentServices.shvs }}
+  SHVS_BASE_URL: {{ .Values.global.shvsUrl }}
+  {{- end}}
   {{- else }}
   KUBERNETES_URL: https://{{ .Values.controlPlaneHostname }}:{{ .Values.k8sApiServerPort }}/
   AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1/
   CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1/
+  {{- if and .Values.dependentServices.hvs .Values.dependentServices.shvs }}
   HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  SHVS_BASE_URL: https://{{ .Values.dependentServices.shvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.shvs.containerPort }}/sgx-hvs/v2
+  {{- else if .Values.dependentServices.hvs }}
+  HVS_BASE_URL: https://{{ .Values.dependentServices.hvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.hvs.containerPort }}/hvs/v2
+  {{- else if .Values.dependentServices.shvs }}
+  SHVS_BASE_URL: https://{{ .Values.dependentServices.shvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.shvs.containerPort }}/sgx-hvs/v2
+  {{- end}}
   {{- end}}
   TENANT: KUBERNETES
   KUBERNETES_CRD: custom-isecl

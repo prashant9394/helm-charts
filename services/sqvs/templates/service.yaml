@@ -1,0 +1,28 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.serviceCommonSpec" . }}
+  {{- if .Values.global }}
+  {{- if .Values.global.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.sqvs.containerPort }}
+      targetPort: {{ .Values.service.sqvs.containerPort }}
+  {{- else }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.service.sqvs.containerPort }}
+      targetPort: {{ .Values.service.sqvs.containerPort }}
+      nodePort: {{ .Values.global.service.sqvs }}
+  {{- end }}
+  {{- else if .Values.service.ingress.enable }}
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.service.sqvs.containerPort }}
+      targetPort: {{ .Values.service.sqvs.containerPort }}
+  {{- else }}
+  type: NodePort
+  ports:
+    - port: {{ .Values.service.sqvs.containerPort }}
+      targetPort: {{ .Values.service.sqvs.containerPort }}
+      nodePort: {{ .Values.service.sqvs.port }}
+  {{- end }}

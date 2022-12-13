@@ -12,6 +12,7 @@ dependentServices: # The dependent Service Name for deploying  IHUB chart, defau
   cms: cms
   aas: aas
   hvs: # Set this to hvs for Host-Attestation, TWP, WS and TWP CSP usecases
+  shvs: # Set this to shvs for SGX Orchestration use case.
   iseclController: isecl-controller
   
 image:
@@ -86,3 +87,6 @@ service:
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
   hvs:
     containerPort: 8443 # The containerPort on which HVS can listen
+  shvs:
+    containerPort: 13000 # The containerPort on which shvs can listen
+    port: 30500    

@@ -1,0 +1,14 @@
+# Default values for shvsdb-cert-generator.
+
+nameOverride: "" # The name for SHVS DB chart (Default: .Chart.Name)
+
+securityContext:
+  shvsdbCertGeneratorInit: # The fsGroup id for init containers for SHVS DB Secret generator job
+    fsGroup: 1001
+  shvsdbCertGenerator: # The security content for SHVS DB Secret generator job
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false

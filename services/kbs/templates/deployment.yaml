@@ -58,6 +58,7 @@
         {{- include "factory.volumesBasePV" . | nindent 8 }}
         {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
         {{- include "factory.volumeAasBearerToken" . | nindent 12 }}
+        {{- include "factory.volumeCredentials" . | nindent 12 }}
         - name: {{ include "factory.name" . }}-kmip-certs
           secret:
             secretName: {{ include "factory.name" . }}-kmip-certs
