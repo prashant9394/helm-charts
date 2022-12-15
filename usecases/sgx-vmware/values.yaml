@@ -1,0 +1,91 @@
+---
+# The below section can be used to override additional values defined under each of the dependent charts
+cms:
+  image:
+    name: <user input> # Certificate Management Service image name<br> (**REQUIRED**)
+
+aas:
+  image:
+    name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
+  secret:
+    dbUsername: <user input> # DB Username for AAS DB
+    dbPassword: <user input> # DB Password for AAS DB
+  config:
+    dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
+    dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
+
+global-admin-generator:
+  enable: false # Set this to true for generating global admin user account
+  secret:
+    globalAdminUsername:
+    globalAdminPassword:
+  services_list: # Services list for global admin token generation. Accepted values KBS, SCS, SQVS
+    - SCS
+
+scs:
+  image: 
+    name: <user input> #SGX Caching Service image name<br> (**REQUIRED**)
+  secret:
+    adminUsername: <user input>
+    adminPassword: <user input>
+    dbUsername: <user input>
+    dbPassword: <user input>
+    serviceUsername: <user input>
+    servicePassword: <user input>  
+ 
+sagent:
+  image:
+    name: <user input> #SGX agent image name<br> (**REQUIRED**)
+  secret:
+    cccAdminUsername: <user input>  #ccc admin token username
+    cccAdminPassword: <user input> #ccc admin token password
+  config:
+    isShvsRequired: "false" # set this to false for this usecase
+
+sagent-aas-manager: # Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent
+  createSagentServiceAccount: # Set this to true, only when sagent is not deployed through helm
+  secret:
+    cccAdminUsername: <user input>  #ccc admin token username
+    cccAdminPassword: <user input> #ccc admin token password
+
+global:
+  controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+  versionUpgrade: false # Set this true when performing upgrading to next minor/major version
+  currentVersion: "" # Set the currently deployed version, required only when performing upgrading to next minor/major version
+  dbVersionUpgrade: false # Set this to true when there is db version upgrade. Refer product guide for more information
+  cmsUrl: <user input> # CMS Base Url, Do not include "/" at the end. e.g for ingress https://cms.isecl.com/cms/v2 , for nodeport https://<control-plane-hostname/control-plane-IP>:30445/cms/v1
+  aasUrl: <user input> # AAS Base Url, Do not include "/" at the end. e.g for ingress https://aas.isecl.com/aas/v1 , for nodeport https://<control-plane-hostname/control-plane-IP>:30444/aas/v1
+
+  image:
+    pullPolicy: Always # The pull policy for pulling from container registry (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
+    aasManagerName: <user input> # The image name of aas-manager image name
+    dbVersionUpgradeImage: # The name of PostgresDB version upgrade image. Can be left empty during helm installation without upgrades, might be required during upgrades, refer product guide for more information
+
+  config:
+    dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
+    nats:
+      enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
+      servers: <user input> # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**)
+      serviceMode: <user input> # The communication model between TA and HVS<br> (Allowed values: `outbound`)<br> (**REQUIRED IF ENABLED**)
+    intelProvisioningServer: <user input> # Provide Intel provisioning server Url
+    intelProvisioningServerApiKey: <user input> # Provide actual Intel Provisioning Server Api Key
+
+  storage:
+    nfs:
+      server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
+      path: /mnt/nfs_share # The path for storing persistent data on NFS
+
+  service:
+    cms: 30445 # The service port for Certificate Management Service
+    aas: 30444 # The service port for Authentication Authorization Service
+    scs: 30502 # The service port for SGX Caching Service
+
+  ingress:
+    enable: false # Accept true or false to notify ingress rules are enable or disabled
+
+  aas:
+    secret:
+      adminUsername: <user input> # Service Username for AAS
+      adminPassword: <user input> # Service Password for AAS
