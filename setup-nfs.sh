@@ -12,7 +12,7 @@ BASE_PATH=$EXPORT_DIRECTORY/isecl
 LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
-VERSION=${VERSION:-v5.0.0}
+VERSION=${VERSION:-v5.1.0}
 
 if [ -z "$EXPORT_DIRECTORY" ]; then
   echo "Error: missing export directory. Aborting..."

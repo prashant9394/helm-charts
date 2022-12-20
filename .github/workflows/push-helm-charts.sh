@@ -2,7 +2,7 @@
 
 echo -e "\n\n Assuming this script will be run inside helm charts repo with harbor configuration being done."
 
-VERSION=${VERSION:-v5.0.0}
+VERSION=${VERSION:-v5.1.0}
 TIMEOUT=${TIMEOUT:-60}
 
 for service in services/*

@@ -141,7 +141,7 @@ helm search repo --versions
 #### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
-* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v5.0.0) as version for each image
+* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v5.1.0) as version for each image
 * The NFS server setup is done either using sample script [instructions](../../docs/NFS-Setup.md) or by the user itself
 * The K8s non-managed cluster is up and running
 * Helm 3 is installed
@@ -155,7 +155,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-export VERSION=5.0.0
+export VERSION=5.1.0
 helm pull isecl-helm/Trusted-Workload-Placement --version $VERSION && tar -xzf Trusted-Workload-Placement-$VERSION.tgz Trusted-Workload-Placement/values.yaml
 helm install <helm release name> isecl-helm/Trusted-Workload-Placement --version $VERSION -f Trusted-Workload-Placement/values.yaml --create-namespace -n <namespace>
 ```

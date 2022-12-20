@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 APPNAME := isecl
 REPO := amr-registry.caas.intel.com/isecl
-VERSION := v5.0.0
+VERSION := v5.1.0
 
 lint:
 	./.github/workflows/lint-helm-charts.sh
