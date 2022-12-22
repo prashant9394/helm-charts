@@ -54,7 +54,7 @@ metadata:
               cp -r /opt/{{ .Values.service.directoryName }}/configuration/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/
               {{- else }}
               cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.global.currentVersion }}/* /etc/{{ .Values.service.directoryName }}/{{ .Chart.AppVersion }}/ &&
-              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.global.currentVersion }}/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/ &&
+              cp -r /etc/{{ .Values.service.directoryName }}/{{ .Values.global.currentVersion }}/.setup_done /etc/{{ .Values.service.directoryName }}/{{.Chart.AppVersion }}/ 
               {{- end }}
           volumeMounts:
           {{- include "factory.volumeMountSvcLogs" . | nindent 12 }}
