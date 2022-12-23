@@ -17,11 +17,11 @@ The following table lists the configurable parameters of the Kbs chart and their
 | `dependentServices.aas` |  | `"aas"` |
 | `image.svc.name` | The image name with which KBS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for KBS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
 | `image.svc.initName` | The image name of init container | `"<user input>"` |
 | `image.aasManager.name` | The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
 | `config.keyManager` | The Key manager for KBS (Allowed values: `kmip`) | `"kmip"` |
 | `config.kmip.serverIp` | The KMIP server IP | `"<user input>"` |
 | `config.kmip.serverHostname` | The KMIP server IP/hostname. Provide same value which is provided during KMIP certificate generation. | `"<user input>"` |
@@ -34,6 +34,8 @@ The following table lists the configurable parameters of the Kbs chart and their
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
 | `secret.installAdminUsername` | Install Admin Username for KBS | `null` |
 | `secret.installAdminPassword` | Install Admin Password for KBS | `null` |
+| `secret.serviceUsername` | Service Password for KBS | `null` |
+| `secret.servicePassword` | Service Password for KBS | `null` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |

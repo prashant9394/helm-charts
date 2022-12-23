@@ -17,12 +17,12 @@ image:
   svc:
     name: <user input> # The image registry where sgx-agent image is pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for sgx-agent <br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> 
   aasManager:
-    name:   # The image name with which AAS manager image is pushed to registry
+    name: <user input> # The image name with which AAS manager image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   refreshInterval: <user input> #Refresh Interval
@@ -36,17 +36,6 @@ aas:
   secret:
     adminUsername:  # Admin Username for AAS
     adminPassword:  # Admin Password for AAS
-
-storage:
-  nfs:
-    server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
-    reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
-    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
-    path: /mnt/nfs_share # The path for storing persistent data on NFS
-    dbSize: 5Gi # The DB size for storing DB data for SCS in NFS path
-    configSize: 10Mi # The configuration size for storing config for SCS in NFS path
-    logsSize: 1Gi # The logs size for storing logs for SCS in NFS path
-    baseSize: 6.1Gi # The base volume size (configSize + logSize + dbSize)
 
 securityContext:
   aasManager: # The security content for AAS-MANAGER Pod
@@ -71,7 +60,7 @@ service:
     port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
   scs:
     containerPort: 9000 # The containerPort on which scs can listen
-    port: 30501   # The externally exposed NodePort on which scs can listen to external traffic
+    port: 30502   # The externally exposed NodePort on which scs can listen to external traffic
   shvs:
     containerPort: 13000 # The containerPort on which shvs can listen
     port: 30500
@@ -79,7 +68,7 @@ service:
 secret:
   cccAdminUsername:  #ccc admin token username
   cccAdminPassword:  #ccc admin token password
-  
+
 proxy:
   proxyEnabled: false # If proxy is enabled, then set to true
   http_proxy:  # set HTTP Proxy value

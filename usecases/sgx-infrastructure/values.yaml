@@ -8,8 +8,8 @@ aas:
   image:
     name: <user input> # Authentication & Authorization Service image name<br> (**REQUIRED**)
   secret:
-    dbUsername: <user input> # DB Username for AAS DB
-    dbPassword: <user input> # DB Password for AAS DB
+    dbUsername: # DB Username for AAS DB
+    dbPassword: # DB Password for AAS DB
   config:
     dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
     dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
@@ -17,8 +17,8 @@ aas:
 global-admin-generator:
   enable: false # Set this to true for generating global admin user account
   secret:
-    globalAdminUsername:
-    globalAdminPassword:
+    globalAdminUsername: 
+    globalAdminPassword: 
   services_list: # Services list for global admin token generation. Accepted values KBS, SCS, SQVS
     - KBS
     - SCS
@@ -28,48 +28,43 @@ scs:
   image: 
     name: <user input> #SGX Caching Service image name<br> (**REQUIRED**)
   secret:
-    adminUsername: <user input>
-    adminPassword: <user input>
-    dbUsername: <user input>
-    dbPassword: <user input>
-    serviceUsername: <user input>
-    servicePassword: <user input>  
+    adminUsername: 
+    adminPassword: 
+    dbUsername: 
+    dbPassword: 
+    serviceUsername: 
+    servicePassword:  
  
 sqvs:
   image:
-    name: <user input> #SGX Verification service image name<br> (**REQUIRED**)
-  config:
-    sgxTrustedRootCaPath: 
-    signQuoteResponse: 
-    responseSigningKeyLength: 
-    includeToken:  
+    name: <user input> #SGX Verification service image name<br> (**REQUIRED**) 
   secret:
-    serviceUsername: <user input>
-    servicePassword: <user input>    
+    serviceUsername: 
+    servicePassword:     
 
 sagent:
   image:
     name: <user input> #SGX agent image name<br> (**REQUIRED**)
   secret:
-    cccAdminUsername: <user input>  #ccc admin token username
-    cccAdminPassword: <user input> #ccc admin token password
+    cccAdminUsername:  #ccc admin token username
+    cccAdminPassword:  #ccc admin token password
   config:
     isShvsRequired: "false" # set this to false for this usecase
 
 sagent-aas-manager: # Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent
-  createSagentServiceAccount: # Set this to true, only when sagent is not deployed through helm
+  createSagentServiceAccount: <user input> # Set this to true, only when sagent is not deployed through helm
   secret:
-    cccAdminUsername: <user input>  #ccc admin token username
-    cccAdminPassword: <user input> #ccc admin token password
+    cccAdminUsername:  #ccc admin token username
+    cccAdminPassword:  #ccc admin token password
 
 kbs:
   image:
     name: <user input> # KBS image name<br> (**REQUIRED**)
   secret:
-    installAdminUsername: <user input> # Install Admin Username for KBS
-    installAdminPassword: <user input> # Install Admin Password for KBS
-    serviceUsername: <user input> # Service Username for KBS
-    servicePassword: <user input> # Service Password for KBS
+    installAdminUsername: # Install Admin Username for KBS
+    installAdminPassword: # Install Admin Password for KBS
+    serviceUsername: # Service Username for KBS
+    servicePassword: # Service Password for KBS
   config:
     keyManager: kmip # The Key manager for KBS (Allowed values: `kmip`)
     kmip:
@@ -118,5 +113,5 @@ global:
 
   aas:
     secret:
-      adminUsername: <user input> # Service Username for AAS
-      adminPassword: <user input> # Service Password for AAS
+      adminUsername: # Service Username for AAS
+      adminPassword: # Service Password for AAS

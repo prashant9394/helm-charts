@@ -24,25 +24,23 @@ config:
   dbhostSSLPodRange: 10.1.0.0/8 # PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16).
   dbMaxConnections: 200 # Determines the maximum number of concurrent connections to the database server. Default is 200
   dbSharedBuffers: 2GB # Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB
-  nats:
-    enabled: false # Enable/Disable NATS mode<br> (Allowed values: `true`\`false`)
-    servers: "" # NATS Server IP/Hostname
-    serviceMode: "" # The communication model between TA and SCS<br> (Allowed values: `outbound`)
+  intelProvisioningServer: <user input> # Provide Intel provisioning server Url
+  intelProvisioningServerApiKey: <user input> # Provide actual Intel Provisioning Server Api Key  
     
 aas:
 # Please update the url section if aas is exposed via ingress
-  url:
+  url: <user input>
   secret: 
-    adminUsername: # Admin Username for AAS
-    adminPassword: # Admin Password for AAS
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
 
 secret:
-  dbUsername: # DB Username for SCS DB
-  dbPassword: # DB Password for SCS DB
-  serviceUsername: # Admin Username for SCS
-  servicePassword: # Admin Password for SCS
-  installAdminUsername: # Admin Username for SCS
-  installAdminPassword: # Admin Password for SCS
+  dbUsername:  # DB Username for SCS DB
+  dbPassword:  # DB Password for SCS DB
+  serviceUsername:  # Admin Username for SCS
+  servicePassword:  # Admin Password for SCS
+  installAdminUsername:  # Admin Username for SCS
+  installAdminPassword:  # Admin Password for SCS
 
 image:
   db:
@@ -53,12 +51,12 @@ image:
   svc:
     name: <user input> # The image name with which SCS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for SCS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> 
   aasManager:
     name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
   nfs:

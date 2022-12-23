@@ -22,26 +22,26 @@ The following table lists the configurable parameters of the Host-attestation ch
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
 | `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values KBS | `["KBS"]` |
 | `scs.image.name` | SGX Caching Service image name<br> (**REQUIRED**) | `"<user input>"` |
-| `scs.secret.adminUsername` |  | `"<user input>"` |
-| `scs.secret.adminPassword` |  | `"<user input>"` |
-| `scs.secret.dbUsername` | DB Username for SCS DB | `"<user input>"` |
-| `scs.secret.dbPassword` | DB Password for SCS DB | `"<user input>"` |
-| `scs.secret.serviceUsername` |  | `"<user input>"` |
-| `scs.secret.servicePassword` |  | `"<user input>"` |
+| `scs.secret.adminUsername` |  | `null` |
+| `scs.secret.adminPassword` |  | `null` |
+| `scs.secret.dbUsername` | DB Username for SCS DB | `null` |
+| `scs.secret.dbPassword` | DB Password for SCS DB | `null` |
+| `scs.secret.serviceUsername` |  | `null` |
+| `scs.secret.servicePassword` |  | `null` |
 | `shvs.image.name` | SGX HVS image name<br> (**REQUIRED**) | `"<user input>"` |
-| `shvs.secret.adminUsername` |  | `"<user input>"` |
-| `shvs.secret.adminPassword` |  | `"<user input>"` |
-| `shvs.secret.dbUsername` | DB Username for SHVS DB | `"<user input>"` |
-| `shvs.secret.dbPassword` | DB Password for SHVS DB | `"<user input>"` |
-| `shvs.secret.serviceUsername` |  | `"<user input>"` |
-| `shvs.secret.servicePassword` |  | `"<user input>"` |
+| `shvs.secret.adminUsername` |  | `null` |
+| `shvs.secret.adminPassword` |  | `null` |
+| `shvs.secret.dbUsername` | DB Username for SHVS DB | `null` |
+| `shvs.secret.dbPassword` | DB Password for SHVS DB | `null` |
+| `shvs.secret.serviceUsername` |  | `null` |
+| `shvs.secret.servicePassword` |  | `null` |
 | `sagent.image.name` | SGX agent image name<br> (**REQUIRED**) | `"<user input>"` |
 | `sagent.config.isShvsRequired` | set this to true for this usecase | `"true"` |
-| `sagent.secret.cccAdminUsername` | ccc admin token username | `"<user input>"` |
-| `sagent.secret.cccAdminPassword` | ccc admin token password | `"<user input>"` |
-| `sagent-aas-manager.createSagentServiceAccount` | Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent | `null` |
-| `sagent-aas-manager.cccAdminUsername` | ccc admin token username | `"<user input>"` |
-| `sagent-aas-manager.cccAdminPassword` | ccc admin token password | `"<user input>"` |
+| `sagent.secret.cccAdminUsername` | ccc admin token username | `null` |
+| `sagent.secret.cccAdminPassword` | ccc admin token password | `null` |
+| `sagent-aas-manager.createSagentServiceAccount` | Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent | `"<user input>"` |
+| `sagent-aas-manager.cccAdminUsername` | ccc admin token username | `null` |
+| `sagent-aas-manager.cccAdminPassword` | ccc admin token password | `null` |
 | `isecl-controller.image.name` | ISecL Controller Service image name<br> (**REQUIRED**) | `"<user input>"` |
 | `isecl-controller.nodeTainting.taintRegisteredNodes` | If set to true, taints the node which are joined to the k8s cluster. (Allowed values: `true`\`false`) | `false` |
 | `isecl-controller.nodeTainting.taintRebootedNodes` | If set to true, taints the node which are rebooted in the k8s cluster. (Allowed values: `true`\`false`) | `false` |

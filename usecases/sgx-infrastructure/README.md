@@ -22,26 +22,22 @@ The following table lists the configurable parameters of the Host-attestation ch
 | `global-admin-generator.secret.globalAdminPassword` |  | `null` |
 | `global-admin-generator.services_list` | Services list for global admin token generation. Accepted values KBS | `["KBS"]` |
 | `scs.image.name` | SGX Caching Service image name<br> (**REQUIRED**) | `"<user input>"` |
-| `scs.secret.adminUsername` |  | `"<user input>"` |
-| `scs.secret.adminPassword` |  | `"<user input>"` |
-| `scs.secret.dbUsername` | DB Username for SCS DB | `"<user input>"` |
-| `scs.secret.dbPassword` | DB Password for SCS DB | `"<user input>"` |
-| `scs.secret.serviceUsername` |  | `"<user input>"` |
-| `scs.secret.servicePassword` |  | `"<user input>"` |
+| `scs.secret.adminUsername` |  | `null` |
+| `scs.secret.adminPassword` |  | `null` |
+| `scs.secret.dbUsername` | DB Username for SCS DB | `null` |
+| `scs.secret.dbPassword` | DB Password for SCS DB | `null` |
+| `scs.secret.serviceUsername` |  | `null` |
+| `scs.secret.servicePassword` |  | `null` |
 | `sqvs.image.name` | SGX Verification service image name<br> (**REQUIRED**) | `"<user input>"` |
-| `sqvs.config.sgxTrustedRootCaPath` |  | `null` |
-| `sqvs.config.signQuoteResponse` |  | `null` |
-| `sqvs.config.responseSigningKeyLength` |  | `null` |
-| `sqvs.config.includeToken` |  | `null` |
 | `sqvs.secret.serviceUsername` |  | `null` |
 | `sqvs.secret.servicePassword` |  | `null` |
 | `sagent.image.name` | SGX agent image name<br> (**REQUIRED**) | `"<user input>"` |
 | `sagent.config.isShvsRequired` | set this to false for this usecase | `"false"` |
-| `sagent.secret.cccAdminUsername` | ccc admin token username | `"<user input>"` |
-| `sagent.secret.cccAdminPassword` | ccc admin token password | `"<user input>"` |
-| `sagent-aas-manager.createSagentServiceAccount` | Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent | `null` |
-| `sagent-aas-manager.cccAdminUsername` | ccc admin token username | `"<user input>"` |
-| `sagent-aas-manager.cccAdminPassword` | ccc admin token password | `"<user input>"` |
+| `sagent.secret.cccAdminUsername` | ccc admin token username | `null` |
+| `sagent.secret.cccAdminPassword` | ccc admin token password | `null` |
+| `sagent-aas-manager.createSagentServiceAccount` | Provide values for sagent-aas-manager if enabled, this is a job that creates service account for sagent | `"<user input>"` |
+| `sagent-aas-manager.cccAdminUsername` | ccc admin token username | `null` |
+| `sagent-aas-manager.cccAdminPassword` | ccc admin token password | `null` |
 | `kbs.image.name` | KBS image name<br> (**REQUIRED**) | `"<user input>"` |
 | `kbs.secret.installAdminUsername` | Install Admin Username for KBS | `null` |
 | `kbs.secret.installAdminPassword` | Install Admin Password for KBS | `null` |

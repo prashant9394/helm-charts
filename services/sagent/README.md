@@ -20,11 +20,11 @@ The following table lists the configurable parameters of the Sagent chart and th
 | `dependentServices.shvs` |  | `"shvs"` |
 | `image.svc.name` | The image registry where sgx-agent image is pushed<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for sgx-agent <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
 | `image.svc.initName` |  | `"<user input>"` |
-| `image.aasManager.name` | The image name with which AAS manager image is pushed to registry | `null` |
+| `image.aasManager.name` | The image name with which AAS manager image is pushed to registry | `"<user input>"` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
 | `config.refreshInterval` | Refresh Interval | `"<user input>"` |
 | `config.retryCount` | Retry count | `5` |
 | `config.validityDays` | Validity Days (Note: Value needs to be provided in quotes) | `7` |
@@ -32,14 +32,6 @@ The following table lists the configurable parameters of the Sagent chart and th
 | `aas.url` |  | `null` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
-| `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
-| `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
-| `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
-| `storage.nfs.path` | The path for storing persistent data on NFS | `"/mnt/nfs_share"` |
-| `storage.nfs.dbSize` | The DB size for storing DB data for SCS in NFS path | `"5Gi"` |
-| `storage.nfs.configSize` | The configuration size for storing config for SCS in NFS path | `"10Mi"` |
-| `storage.nfs.logsSize` | The logs size for storing logs for SCS in NFS path | `"1Gi"` |
-| `storage.nfs.baseSize` | The base volume size (configSize + logSize + dbSize) | `"6.1Gi"` |
 | `securityContext.aasManager.runAsUser` |  | `1001` |
 | `securityContext.aasManager.runAsGroup` |  | `1001` |
 | `securityContext.aasManager.capabilities.drop` |  | `["all"]` |
@@ -52,7 +44,7 @@ The following table lists the configurable parameters of the Sagent chart and th
 | `service.aas.containerPort` | The containerPort on which AAS can listen | `8444` |
 | `service.aas.port` | The externally exposed NodePort on which AAS can listen to external traffic | `30444` |
 | `service.scs.containerPort` | The containerPort on which scs can listen | `9000` |
-| `service.scs.port` | The externally exposed NodePort on which scs can listen to external traffic | `30501` |
+| `service.scs.port` | The externally exposed NodePort on which scs can listen to external traffic | `30502` |
 | `service.shvs.containerPort` | The containerPort on which shvs can listen | `13000` |
 | `service.shvs.port` |  | `30500` |
 | `secret.cccAdminUsername` | ccc admin token username | `null` |

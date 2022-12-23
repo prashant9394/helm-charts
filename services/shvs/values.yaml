@@ -26,10 +26,12 @@ config:
 
 # The values provided for serviceUsername and servicePassword here should be same as that of provided for aas.shvs.secret.serviceUsername and aas.shvs.secret.servicePassword in values.yaml file for aas-manager chart
 secret:
-  dbUsername:  # DB Username for SHVS DB
-  dbPassword:  # DB Password for SHVS DB
-  superAdminUsername: <user input> # Install Admin Username for SHVS
-  superAdminPassword: <user input> # Install Admin Password for SHVS
+  adminUsername: # Install Admin Username for SHVS
+  adminPassword: # Install Admin Password for SHVS
+  dbUsername: # DB Username for SHVS DB
+  dbPassword: # DB Password for SHVS DB 
+  serviceUsername: # Service Username for SHVS
+  servicePassword: # Service Username for SHVS
 
 aas:
   url: <user input> # Please update the url section if shvs is exposed via ingress
@@ -45,11 +47,12 @@ image:
   svc:
     name: <user input> # The image name with which SHVS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for SHVS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> # The image name of init container
   aasManager:
     name: <user input> # The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
   nfs:

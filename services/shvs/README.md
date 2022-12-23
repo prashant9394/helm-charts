@@ -28,10 +28,12 @@ The following table lists the configurable parameters of the Shvs chart and thei
 | `config.dbSharedBuffers` | Determines how much memory is dedicated to PostgreSQL to use for caching data. Default is 2GB | `"2GB"` |
 | `config.dbSSLMode` | PostgreSQL DB SSL Mode | `"verify-full"` |
 | `config.dbhostSSLPodRange` | PostgreSQL DB Host Address(IP address/subnet-mask). IP range varies for different k8s network plugins(Ex: Flannel - 10.1.0.0/8 (default), Calico - 192.168.0.0/16). | `"10.1.0.0/8"` |
+| `secret.adminUsername` | Install Admin Username for SHVS | `null` |
+| `secret.adminPassword` | Install Admin Password for SHVS | `null` |
 | `secret.dbUsername` | DB Username for SHVS DB | `null` |
 | `secret.dbPassword` | DB Password for SHVS DB | `null` |
-| `secret.superAdminUsername` | Install Admin Username for SHVS | `"<user input>"` |
-| `secret.superAdminPassword` | Install Admin Password for SHVS | `"<user input>"` |
+| `secret.serviceUsername` | Service Username for SHVS | `null` |
+| `secret.servicePassword` | Service Username for SHVS | `null` |
 | `aas.url` | Please update the url section if shvs is exposed via ingress | `"<user input>"` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
@@ -40,10 +42,11 @@ The following table lists the configurable parameters of the Shvs chart and thei
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
 | `image.svc.name` | The image name with which SHVS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for SHVS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
+| `image.svc.initName` | The image name of init container | `"<user input>"` |
 | `image.aasManager.name` | The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |
