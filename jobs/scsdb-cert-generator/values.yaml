@@ -1,0 +1,14 @@
+# Default values for scsdb-cert-generator.
+
+nameOverride: "" # The name for SCS DB chart (Default: .Chart.Name)
+
+securityContext:
+  scsdbCertGeneratorInit: # The fsGroup id for init containers for SCS DB Secret generator job
+    fsGroup: 1001
+  scsdbCertGenerator: # The security content for SCS DB Secret generator job
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false

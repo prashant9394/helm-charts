@@ -32,7 +32,7 @@ Below steps guide in the process for installing isecl-helm charts on a kubernete
   ./get_helm.sh
   ```
 
-* For building container images Refer here for [instructions](https://github.com/intel-secl/docs/blob/v4.2/develop/docs/quick-start-guides/Foundational%20%26%20Workload%20Security%20-%20Containerization/5Build.md)  
+* For building container images Refer here for [instructions](https://intel-secl.github.io/docs/5.0/product-guides/Foundational%20%26%20Workload%20Security/23.9%20Building%20the%20Intel%20SecL-DC%20Container%20Images/)  
 
 * Setup NFS, Refer [instructions](../../docs/NFS-Setup.md) for setting up and configuring NFS Server
 
@@ -70,7 +70,7 @@ helm search repo --versions
 #### Update `values.yaml` for Use Case chart deployments
 
 Some assumptions before updating the `values.yaml` are as follows:
-* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v5.0.0) as version for each image
+* The images are built on the build machine and images are pushed to a registry tagged with `release_version`(e.g:v5.1.0) as version for each image
 * The NFS server setup is done either using sample script [instructions](../../docs/NFS-Setup.md) or by the user itself
 * The K8s non-managed cluster is up and running
 * Helm 3 is installed
@@ -84,7 +84,7 @@ e.g For ingress. hvsUrl: https://hvs.isecl.com/hvs/v2
 #### Use Case charts Deployment
 
 ```shell script
-export VERSION=v5.0.0
+export VERSION=5.1.0
 helm pull isecl-helm/Host-Attestation --version $VERSION && tar -xzf Host-Attestation-$VERSION.tgz Host-Attestation/values.yaml
 helm install <helm release name> isecl-helm/Host-Attestation --version $VERSION -f Host-Attestation/values.yaml --create-namespace -n <namespace>
 ```

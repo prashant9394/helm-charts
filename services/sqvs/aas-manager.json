@@ -1,0 +1,30 @@
+{
+	{{- if .Values.global }}
+	"aas_api_url": "{{ .Values.global.aasUrl }}",
+	"aas_admin_username": "{{ .Values.global.aas.secret.adminUsername }}",
+	"aas_admin_password": "{{ .Values.global.aas.secret.adminPassword }}",
+	{{- else }}
+	"aas_api_url": "{{ .Values.aas.url }}",
+	"aas_admin_username": "{{ .Values.aas.secret.adminUsername }}",
+	"aas_admin_password": "{{ .Values.aas.secret.adminPassword }}",
+	{{- end }}
+	"users_and_roles":[
+		{
+            "username": "{{ .Values.secret.serviceUsername }}",
+            "password": "{{ .Values.secret.servicePassword }}",
+			  "print_bearer_token": true,
+			  "roles":[
+				  {
+					 "service": "CMS",
+					 "name": "CertApprover",
+					 "context":"CN=SQVS TLS Certificate;SAN=*;certType=TLS"
+				  },
+				  {
+					"service": "CMS",
+					"name": "CertApprover",
+					"context": "CN=SQVS QVL Response Signing Certificate;SAN=*;certType=TLS"
+				  }
+			  ]
+		 }
+	 ]
+  }

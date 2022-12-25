@@ -1,0 +1,80 @@
+# Default values for sgx-agent.
+
+nameOverride: "" # The name for sgx-agent chart<br> (Default: `.Chart.Name`)
+controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIRED**)
+nodeLabel: 
+  sgxEnabled: SGX-ENABLED # The node label for SGX-ENABLED hosts<br> (**REQUIRED IF NODE IS SGX ENABLED**)
+
+# Warning: Ensure that the naming is applied consistently for all dependent services when modifying nameOverride
+# TODO: Services should be be able to be deployed in different namespaces
+dependentServices: # The dependent Service Name for deploying  Cerificate Management Service chart, default is the chart name and override is from nameOverride value.
+  cms: cms
+  aas: aas
+  scs: scs
+  shvs: shvs
+
+image:
+  svc:
+    name: <user input> # The image registry where sgx-agent image is pushed<br> (**REQUIRED**)
+    pullPolicy: Always # The pull policy for pulling from container registry for sgx-agent <br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    initName: <user input> 
+  aasManager:
+    name: <user input> # The image name with which AAS manager image is pushed to registry
+    pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+
+config:
+  refreshInterval: <user input> #Refresh Interval
+  retryCount: 5 #Retry count
+  validityDays: 7 #Validity Days (Note: Value needs to be provided in quotes)
+  isShvsRequired: "true" # set this to true for service based deployment
+
+aas:
+  # Please update the url section if aas is exposed via ingress
+  url:
+  secret:
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
+
+securityContext:
+  aasManager: # The security content for AAS-MANAGER Pod
+    runAsUser: 1001
+    runAsGroup: 1001
+    capabilities:
+      drop:
+        - all
+    allowPrivilegeEscalation: false
+  aasManagerInit: # The fsGroup id for init containers for AAS DB
+    fsGroup: 1001
+  sagent: # The fsGroup id for SGX-Agent
+    fsGroup: 1001
+
+service: 
+  directoryName: sagent
+  cms:
+    containerPort: 8445 # The containerPort on which CMS can listen
+    port: 30445 # The externally exposed NodePort on which CMS can listen to external traffic
+  aas:
+    containerPort: 8444 # The containerPort on which AAS can listen
+    port: 30444 # The externally exposed NodePort on which AAS can listen to external traffic
+  scs:
+    containerPort: 9000 # The containerPort on which scs can listen
+    port: 30502   # The externally exposed NodePort on which scs can listen to external traffic
+  shvs:
+    containerPort: 13000 # The containerPort on which shvs can listen
+    port: 30500
+
+secret:
+  cccAdminUsername:  #ccc admin token username
+  cccAdminPassword:  #ccc admin token password
+
+proxy:
+  proxyEnabled: false # If proxy is enabled, then set to true
+  http_proxy:  # set HTTP Proxy value
+  https_proxy: # set HTTP Proxy value
+  no_proxy: # Append .svc,.svc.cluster.local, to no_proxy
+  all_proxy: # set all proxy value
+
+log:
+  loglevel: info

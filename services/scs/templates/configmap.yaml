@@ -1,0 +1,26 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  {{- if .Values.global }}
+  INTEL_PROVISIONING_SERVER: {{ .Values.global.config.intelProvisioningServer }}
+  {{- else }}
+  INTEL_PROVISIONING_SERVER: {{ .Values.config.intelProvisioningServer }}
+  {{- end }}
+  {{- if .Values.global }}
+  SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  SCS_DB_HOSTNAME: {{ include "factory.name" . }}db.{{ .Release.Namespace }}.svc.cluster.local
+  SCS_DB_NAME: {{ .Values.config.dbName }}
+  SCS_DB_SSLCERTSRC: {{ .Values.config.dbSSLCert }}
+  SCS_DB_PORT: {{ .Values.config.dbPort | quote }}
+  SCS_LOGLEVEL: {{ .Values.log.loglevel }}
+  SCS_ENABLE_CONSOLE_LOG: "y"

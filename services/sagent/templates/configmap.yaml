@@ -1,0 +1,17 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  AAS_BASE_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  SCS_BASE_URL: https://{{ .Values.dependentServices.scs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.scs.containerPort }}/scs/sgx
+  {{- if eq .Values.config.isShvsRequired "true" }}
+  SHVS_BASE_URL: https://{{ .Values.dependentServices.shvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.shvs.containerPort }}/sgx-hvs/v2
+  {{- end }}
+  VALIDITY_DAYS: {{ .Values.config.validityDays | quote }}
+  SGX_AGENT_ENABLE_CONSOLE_LOG: "y"
+  SGX_AGENT_LOGLEVEL: {{ .Values.log.loglevel }}

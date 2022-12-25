@@ -107,7 +107,9 @@ Backup job for services
       ls /{{ $dirName }}/ &&
       mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
       {{- if not (.Values.global.dbVersionUpgrade) }}
-      cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      if [ -d "/{{ $dirName }}/{{.Values.global.currentVersion}}/db" ]; then
+         cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db
+      fi &&
       {{- end }}
       cp -r /{{ $dirName }}/{{.Values.global.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
       if [ -d "/{{ $dirName }}/{{.Values.global.currentVersion}}/opt" ]; then
@@ -120,7 +122,9 @@ Backup job for services
       ls /{{ $dirName }}/ &&
       mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }} && mkdir -p /{{ $dirName }}/{{.Chart.AppVersion }}/logs &&
       {{- if not (.Values.dbVersionUpgrade) }}
-      cp -r /{{ $dirName }}/{{.Values.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db &&
+      if [ -d "/{{ $dirName }}/{{.Values.currentVersion}}/db" ]; then
+         cp -r /{{ $dirName }}/{{.Values.currentVersion}}/db /{{ $dirName }}/{{.Chart.AppVersion }}/db
+      fi &&
       {{- end }}
       cp -r /{{ $dirName }}/{{.Values.currentVersion}}/config /{{ $dirName }}/{{.Chart.AppVersion }}/config &&
       if [ -d "/{{ $dirName }}/{{.Values.currentVersion}}/opt" ]; then

@@ -1,0 +1,22 @@
+{{- include "factory.headers" . }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "factory.name" . }}
+  namespace: {{ .Release.Namespace }}
+data:
+  AAS_API_URL: https://{{ .Values.dependentServices.aas }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.aas.containerPort }}/aas/v1
+  CMS_BASE_URL: https://{{ .Values.dependentServices.cms }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.cms.containerPort }}/cms/v1
+  SCS_BASE_URL: https://{{ .Values.dependentServices.scs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.scs.containerPort }}/scs/sgx/certification/v1
+  {{- if .Values.global }}
+  SAN_LIST: {{ .Values.global.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- else }}
+  SAN_LIST: {{ .Values.controlPlaneHostname }},{{ include "factory.name" . }}.{{ .Release.Namespace }}.svc.cluster.local
+  {{- end }}
+  SGX_TRUSTED_ROOT_CA_PATH: {{ .Values.config.sgxTrustedRootCaPath }}
+  SIGN_QUOTE_RESPONSE: {{ .Values.config.signQuoteResponse | quote }}
+  RESPONSE_SIGNING_KEY_LENGTH: {{ .Values.config.responseSigningKeyLength | quote }}
+  SQVS_LOGLEVEL: {{ .Values.log.loglevel }}
+  SQVS_ENABLE_CONSOLE_LOG: {{ .Values.log.enableConsoleLog | quote }}
+  SQVS_INCLUDE_TOKEN: {{ .Values.config.includeToken | quote }}

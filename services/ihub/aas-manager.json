@@ -40,6 +40,20 @@
           "permissions": [
             "reports:search:*"
           ]
+        },
+        {
+          "service": "SHVS",
+          "name": "HostsListReader",
+          "permissions": [
+          "*:*:*"
+          ]
+        },
+        {
+          "service": "SHVS",
+          "name": "HostDataReader",
+          "permissions": [
+          "*:*:*"
+          ]
         }
        ]
      }

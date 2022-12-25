@@ -7,19 +7,21 @@ controlPlaneHostname: <user input> # K8s control plane IP/Hostname<br> (**REQUIR
 dependentServices: # The dependent Service Name for deploying  Key broker Service chart, default is the chart name and override is from nameOverride value.
   cms: cms
   aas: aas
+  sqvs: sqvs
 
 image:
   svc:
     name: <user input> # The image name with which KBS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for KBS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
   aasManager:
     name: <user input> # The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
+  skcChallengeType: "SGX"
   keyManager: kmip # The Key manager for KBS (Allowed values: `kmip`)
   kmip:       
     serverIp: <user input> # The KMIP server IP
@@ -30,14 +32,16 @@ config:
     rootCertPath: /etc/pykmip/certs/root_certificate.pem # The KMIP server root certificate absolute path
 
 aas:
-  url: # Please update the url section if kbs is exposed via ingress
+  url: <user input> # Please update the url section if kbs is exposed via ingress
   secret:
-    adminUsername: # Admin Username for AAS
-    adminPassword: # Admin Password for AAS
+    adminUsername:  # Admin Username for AAS
+    adminPassword:  # Admin Password for AAS
 
 secret:
-  installAdminUsername: # Install Admin Username for KBS
-  installAdminPassword: # Install Admin Password for KBS
+  installAdminUsername:  # Install Admin Username for KBS
+  installAdminPassword:  # Install Admin Password for KBS
+  serviceUsername:  # Service Username for KBS
+  servicePassword:  # Service Password for KBS
 
 storage:
   nfs:
@@ -76,6 +80,8 @@ service:
     containerPort: 8445 # The containerPort on which CMS can listen to traffic
   aas:
     containerPort: 8444 # The containerPort on which AAS can listen to traffic
+  sqvs:
+    containerPort: 12000 # The containerPort on which SQVS can listen to traffic    
   kbs: 
     containerPort: 9443 # The containerPort on which KBS can listen to traffic
     port: 30448 # The externally exposed NodePort on which KBS can listen to external traffic

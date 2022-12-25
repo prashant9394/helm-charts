@@ -6,13 +6,13 @@ EXPORT_DIRECTORY=${1}
 USER_ID=${2}
 CURR_DIR=`pwd`
 WORKER_NODE_SUBNET=${3}
-SERVICES="cms ihub kbs isecl-k8s-scheduler isecl-k8s-controller admission-controller"
-SERVICES_WITH_DB="wls hvs authservice"
+SERVICES="cms ihub kbs isecl-k8s-scheduler isecl-k8s-controller admission-controller sqvs"
+SERVICES_WITH_DB="wls hvs authservice scs shvs"
 BASE_PATH=$EXPORT_DIRECTORY/isecl
 LOG_PATH=logs
 CONFIG_PATH=config
 DB_PATH=db
-VERSION=${VERSION:-v5.0.0}
+VERSION=${VERSION:-v5.1.0}
 
 if [ -z "$EXPORT_DIRECTORY" ]; then
   echo "Error: missing export directory. Aborting..."

@@ -1,0 +1,125 @@
+{{- include "factory.headers" . }}
+---
+{{- include "factory.daemonSetCommonHeaderSpec" . }}
+metadata:
+  name: {{ include "factory.name" . }}
+{{- include "factory.daemonSetCommonSpec" . }}
+    spec:
+      {{- if .Values.global }}
+      {{- if .Values.global.image.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.global.image.imagePullSecret }}
+      {{- end }}
+      {{- else }}
+      {{- if .Values.image.svc.imagePullSecret }}
+      imagePullSecrets:
+      - name: {{ .Values.image.svc.imagePullSecret }}
+      {{- end }}
+      {{- end }}
+      affinity:
+        {{- include "factory.affinityAgents" . | nindent 8 }}
+                  values:
+                  - "{{ .Values.nodeLabel.sgxEnabled }}"
+      serviceAccountName: {{ include "factory.name" . }}
+      initContainers:
+        {{- if eq .Values.config.isShvsRequired "true" }}
+        - name: wait-for-shvs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+            {{- if .Values.global }}
+              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.shvs }}/sgx-hvs/v2/version
+            {{- else }}
+              value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.shvs.port }}/sgx-hvs/v2/version
+            {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.shvs }}
+            - name: COMPONENT
+              value: {{ .Values.dependentServices.shvs }}
+          {{- end }}
+        - name: wait-for-scs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            - name: URL
+            {{- if .Values.global }}
+              value: https://{{ .Values.global.controlPlaneHostname }}:{{ .Values.global.service.scs }}/scs/sgx/certification/v1/version
+            {{- else }}
+              value: https://{{ .Values.controlPlaneHostname }}:{{ .Values.service.scs.port }}/scs/sgx/certification/v1/version
+            {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.scs }}
+            - name: COMPONENT
+              value: {{ .Values.dependentServices.scs }}
+        {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
+      containers:
+        - name: {{ include "factory.name" . }}
+          {{- include "factory.imageContainer" . | indent 10 }}
+          securityContext:
+            privileged: true
+          envFrom:
+            - configMapRef:
+                name: {{ include "factory.name" . }}
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- else if .Values.proxy.proxyEnabled }}
+            - name: http_proxy
+              value: {{ .Values.proxy.http_proxy }}
+            - name: https_proxy
+              value: {{ .Values.proxy.https_proxy }}
+            - name: no_proxy
+              value: {{ .Values.proxy.no_proxy }}
+            - name: all_proxy
+              value: {{ .Values.proxy.all_proxy }}
+            {{- end }}
+            {{- include "factory.envBearerToken" . | nindent 12 }}
+            {{- include "factory.envCmsSha384" . | nindent 12 }}
+          volumeMounts:
+            - name: {{ include "factory.name" . }}-logs
+              mountPath: /var/log/sgx_agent
+            - name: {{ include "factory.name" . }}-config
+              mountPath: /etc/sgx_agent
+            - name: {{ include "factory.name" . }}-efi-volume
+              mountPath: /sys/firmware/efi/efivars
+            - name: {{ include "factory.name" . }}-hostname-path
+              mountPath: /etc/hostname
+            - name: {{ include "factory.name" . }}-sgx-device
+              mountPath: /dev/sgx/
+            - name: {{ include "factory.name" . }}-pck-data
+              mountPath: /opt/pckData
+            - name: {{ include "factory.name" . }}-secrets
+              mountPath: /etc/secrets/
+              readOnly: true
+      volumes:
+        - name: {{ include "factory.name" . }}-logs
+          hostPath:
+            path: /var/log/sgx_agent
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-config
+          hostPath:
+            path: /etc/sgx_agent
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-efi-volume
+          hostPath:
+            path: /sys/firmware/efi/efivars
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-hostname-path
+          hostPath:
+            path: /etc/hostname
+            type: File
+        - name: {{ include "factory.name" . }}-sgx-device
+          hostPath:
+            path: /dev/sgx/
+            type: DirectoryOrCreate
+        - name: {{ include "factory.name" . }}-pck-data
+          hostPath:
+            path: /opt/pckData
+            type: FileOrCreate
+        {{- include "factory.volumeProjectedSecrets" . | nindent 8 }}
+        {{- include "factory.volumeCredentials" . | nindent 12 }}

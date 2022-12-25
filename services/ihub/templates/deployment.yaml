@@ -39,6 +39,28 @@
             - name: COMPONENT
               value: {{ include "factory.name" . }}
         {{- end}}
+        {{- if .Values.dependentServices.shvs }}
+        - name: wait-for-shvs
+          {{- include "factory.imageInitContainer" . | indent 10 }}
+          env:
+            {{- if .Values.global }}
+              {{- if .Values.global.proxyEnabled }}
+              {{- include "factory.globalProxy" . | nindent 12 }}
+              {{- end }}
+            {{- end }}
+            - name: URL
+              {{- if .Values.global }}
+              value: {{ .Values.global.shvsUrl }}/version
+              {{- else }}
+              value: https://{{ .Values.dependentServices.shvs }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.shvs.containerPort }}/sgx-hvs/v2/version
+              {{- end }}
+            - name: VERSION
+              value: {{ .Chart.AppVersion }}         
+            - name: DEPEDENT_SERVICE_NAME
+              value: {{.Values.dependentServices.shvs }}
+            - name: COMPONENT
+              value: {{ include "factory.name" . }}
+        {{- end}}
         {{- include "factory.initWaitForCmsSha384BearerToken" . | nindent 8 }}
         {{- include "factory.initCommonSpecLinkServiceVolumes" . | nindent 8 }}
           securityContext:
