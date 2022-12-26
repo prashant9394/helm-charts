@@ -17,12 +17,12 @@ image:
   svc:
     name: <user input> # The image registry where sgx-agent image is pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for sgx-agent <br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> 
   aasManager:
     name: <user input> # The image name with which AAS manager image is pushed to registry
     pullPolicy: Always # The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   refreshInterval: <user input> #Refresh Interval

@@ -34,7 +34,7 @@ The following table lists the configurable parameters of the Shvs chart and thei
 | `secret.dbPassword` | DB Password for SHVS DB | `null` |
 | `secret.serviceUsername` | Service Username for SHVS | `null` |
 | `secret.servicePassword` | Service Username for SHVS | `null` |
-| `aas.url` | Please update the url section if shvs is exposed via ingress | `"<user input>"` |
+| `aas.url` | Please update the url section if shvs is exposed via ingress | `null` |
 | `aas.secret.adminUsername` | Admin Username for AAS | `null` |
 | `aas.secret.adminPassword` | Admin Password for AAS | `null` |
 | `image.db.registry` | The image registry where PostgreSQL image is pulled from | `"dockerhub.io"` |
@@ -42,11 +42,11 @@ The following table lists the configurable parameters of the Shvs chart and thei
 | `image.db.pullPolicy` | The pull policy for pulling from container registry for PostgreSQL image | `"Always"` |
 | `image.svc.name` | The image name with which SHVS image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for SHVS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `image.svc.initName` | The image name of init container | `"<user input>"` |
 | `image.aasManager.name` | The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**) | `"<user input>"` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `storage.nfs.server` | The NFS Server IP/Hostname<br> (**REQUIRED**) | `"<user input>"` |
 | `storage.nfs.reclaimPolicy` | The reclaim policy for NFS<br> (Allowed values: `Retain`/) | `"Retain"` |
 | `storage.nfs.accessModes` | The access modes for NFS<br> (Allowed values: `ReadWriteMany`) | `"ReadWriteMany"` |

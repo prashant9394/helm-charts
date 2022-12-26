@@ -20,11 +20,11 @@ The following table lists the configurable parameters of the Sagent chart and th
 | `dependentServices.shvs` |  | `"shvs"` |
 | `image.svc.name` | The image registry where sgx-agent image is pushed<br> (**REQUIRED**) | `"<user input>"` |
 | `image.svc.pullPolicy` | The pull policy for pulling from container registry for sgx-agent <br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
+| `image.svc.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `image.svc.initName` |  | `"<user input>"` |
 | `image.aasManager.name` | The image name with which AAS manager image is pushed to registry | `"<user input>"` |
 | `image.aasManager.pullPolicy` | The pull policy for pulling from container registry for AAS<br> (Allowed values: `Always`/`IfNotPresent`) | `"Always"` |
-| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `"<user input>"` |
+| `image.aasManager.imagePullSecret` | The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication | `null` |
 | `config.refreshInterval` | Refresh Interval | `"<user input>"` |
 | `config.retryCount` | Retry count | `5` |
 | `config.validityDays` | Validity Days (Note: Value needs to be provided in quotes) | `7` |
