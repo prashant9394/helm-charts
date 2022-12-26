@@ -13,12 +13,12 @@ image:
   svc:
     name: <user input> # The image name with which KBS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for KBS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> # The image name of init container
   aasManager:
     name: <user input> # The image name with which AAS-Manager image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS-Manager<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 config:
   skcChallengeType: "SGX"
@@ -32,7 +32,7 @@ config:
     rootCertPath: /etc/pykmip/certs/root_certificate.pem # The KMIP server root certificate absolute path
 
 aas:
-  url: <user input> # Please update the url section if kbs is exposed via ingress
+  url: # Please update the url section if kbs is exposed via ingress
   secret:
     adminUsername:  # Admin Username for AAS
     adminPassword:  # Admin Password for AAS

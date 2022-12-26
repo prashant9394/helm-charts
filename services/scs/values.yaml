@@ -29,7 +29,7 @@ config:
     
 aas:
 # Please update the url section if aas is exposed via ingress
-  url: <user input>
+  url: # Please update the url section if scs is exposed via ingress
   secret: 
     adminUsername:  # Admin Username for AAS
     adminPassword:  # Admin Password for AAS
@@ -51,12 +51,12 @@ image:
   svc:
     name: <user input> # The image name with which SCS image is pushed to registry<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for SCS<br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: <user input> 
   aasManager:
     name: <user input> # The image registry where AAS Manager image is pushed<br> (**REQUIRED**)
     pullPolicy: Always # The pull policy for pulling from container registry for AAS Manager <br> (Allowed values: `Always`/`IfNotPresent`)
-    imagePullSecret: <user input> # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
+    imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
   nfs:
