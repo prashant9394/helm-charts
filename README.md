@@ -1,7 +1,7 @@
 # Intel<sup>®</sup> Security Libraries for Data Center (Intel<sup>®</sup> SecL-DC) Helm Charts
 
 
-A collection of helm charts for ISecL-DC usecases
+A collection of helm charts for ISecL-DC usecases 
 
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
