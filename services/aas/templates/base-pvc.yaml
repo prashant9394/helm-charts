@@ -6,9 +6,9 @@ metadata:
   name: {{ include "factory.name" . }}-base
   namespace: {{ .Release.Namespace }}
 spec:
-  storageClassName: nfs
+  storageClassName: manual
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
+{{ toYaml  .Values.storage.hostPath.accessModes | indent 4 }}
   resources:
     requests:
-      storage: {{ .Values.storage.nfs.baseSize }}
+      storage: {{ .Values.storage.hostPath.baseSize }}

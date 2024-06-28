@@ -9,11 +9,11 @@ metadata:
   name: {{ include "factory.name" . }}-config
 spec:
   capacity:
-    storage: {{ .Values.storage.nfs.configSize }}
+    storage: {{ .Values.storage.hostPath.configSize }}
   volumeMode: Filesystem
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
-  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+    - {{ .Values.storage.hostPath.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.hostPath.reclaimPolicy }}
   claimRef:
     namespace: {{ .Release.Namespace }}
     name: {{ include "factory.name" . }}-config
@@ -30,11 +30,11 @@ metadata:
   name: {{ include "factory.name" . }}-logs
 spec:
   capacity:
-    storage: {{ .Values.storage.nfs.logsSize }}
+    storage: {{ .Values.storage.hostPath.logsSize }}
   volumeMode: Filesystem
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
-  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+    - {{ .Values.storage.hostPath.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.hostPath.reclaimPolicy }}
   claimRef:
     namespace: {{ .Release.Namespace }}
     name: {{ include "factory.name" . }}-logs
@@ -51,11 +51,11 @@ metadata:
   name: {{ include "factory.name" . }}db
 spec:
   capacity:
-    storage: {{ .Values.storage.nfs.dbSize }}
+    storage: {{ .Values.storage.hostPath.dbSize }}
   volumeMode: Filesystem
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
-  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+    - {{ .Values.storage.hostPath.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.hostPath.reclaimPolicy }}
   claimRef:
     namespace: {{ .Release.Namespace }}
     name: {{ include "factory.name" . }}db
@@ -71,11 +71,11 @@ metadata:
   name: {{ include "factory.name" . }}-base
 spec:
   capacity:
-    storage: {{ .Values.storage.nfs.baseSize }}
+    storage: {{ .Values.storage.hostPath.baseSize }}
   volumeMode: Filesystem
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
-  persistentVolumeReclaimPolicy: {{ .Values.storage.nfs.reclaimPolicy }}
+    - {{ .Values.storage.hostPath.accessModes }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.hostPath.reclaimPolicy }}
   claimRef:
     namespace: {{ .Release.Namespace }}
     name: {{ include "factory.name" . }}-base

@@ -44,10 +44,11 @@ image:
     imagePullSecret:  # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
     initName: # The image name of init container
 storage:
-  nfs:
+ hostPath:
     server: <user input> # The NFS Server IP/Hostname
     reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
-    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    accessModes:
+      - ReadWriteMany     
     path: /mnt/nfs_share/ # The path for storing persistent data on NFS
     dbSize: 1Gi # The DB size for storing DB data for AAS in NFS path
     configSize: 10Mi # The configuration size for storing config for AAS in NFS path

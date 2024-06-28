@@ -2,15 +2,17 @@
 {{- if .Values.global }}
 ---
 {{ include "factory.pvBaseCommonSpec" . }}
-  storageClassName: nfs
-  nfs:
-    path: {{ .Values.global.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/
-    server: {{ .Values.global.storage.nfs.server }}
+  storageClassName: manual
+  accessModes:
+    - {{ .Values.storage.hostPath.accessModes | join " " | quote }}
+  hostPath:
+    path: {{ .Values.global.storage.hostPath.path }}/isecl/{{ .Values.service.directoryName }}/
 {{- else }}
 ---
 {{ include "factory.pvBaseCommonSpec" . }}
-  storageClassName: nfs
-  nfs:
-    path: {{ .Values.storage.nfs.path }}/isecl/{{ .Values.service.directoryName }}/
-    server: {{ .Values.storage.nfs.server }}
+  storageClassName: manual
+  accessModes:
+    - {{ .Values.storage.hostPath.accessModes | join " " | quote }}
+  hostPath:
+    path: {{ .Values.storage.hostPath.path }}/isecl/{{ .Values.service.directoryName }}/
 {{- end }}

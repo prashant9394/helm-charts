@@ -16,10 +16,11 @@ image:
     imagePullSecret: # The image pull secret for authenticating with image registry, can be left empty if image registry does not require authentication
 
 storage:
-  nfs:
+  hostPath:
     server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
     reclaimPolicy: Retain # The reclaim policy for NFS<br> (Allowed values: `Retain`/)
-    accessModes: ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
+    accessModes: 
+      - ReadWriteMany # The access modes for NFS<br> (Allowed values: `ReadWriteMany`)
     path: /mnt/nfs_share # The path for storing persistent data on NFS
     configSize: 10Mi # The configuration size for storing config for CMS in NFS path
     logsSize: 1Gi # The logs size for storing logs for CMS in NFS path
