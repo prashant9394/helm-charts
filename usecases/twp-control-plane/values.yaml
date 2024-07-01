@@ -82,9 +82,11 @@ global:
       servers: # NATS Server IP/Hostname<br> (**REQUIRED IF ENABLED**) e.g nats://192.1.2.4:30222
 
   storage:
-    nfs:
+    hostPath :
       server: <user input> # The NFS Server IP/Hostname<br> (**REQUIRED**)
       path: /mnt/nfs_share # The path for storing persistent data on NFS
+      accessModes:
+        - ReadWriteMany
 
   service:
     cms: 30445 # The service port for Certificate Management Service

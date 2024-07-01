@@ -1,9 +1,9 @@
 {{- include "factory.headers" . }}
 ---
 {{- include "factory.pvcDbCommonSpec" . }}
-  storageClassName: nfs
+  storageClassName: manual
   accessModes:
-    - {{ .Values.storage.nfs.accessModes }}
+{{ toYaml .Values.storage.hostPath.accessModes | indent 4 }}
   resources:
     requests:
-      storage: {{ .Values.storage.nfs.dbSize }}
+      storage: {{ .Values.storage.hostPath.dbSize }}
