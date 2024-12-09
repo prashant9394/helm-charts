@@ -53,7 +53,7 @@ entries:
     name: Host-Attestation
     type: application
     urls:
-    - https://github.com/intel-secl/helm-charts/releases/download/v5.1.0/Host-Attestation-v5.1.0.tgz
+    - https://github.com/lsubash/helm-charts/releases/download/v5.1.0/Host-Attestation-v5.1.0.tgz
     version: v5.1.0
   - apiVersion: v2
     appVersion: v4.2.0
